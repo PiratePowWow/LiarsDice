@@ -1,5 +1,8 @@
 package com.theironyard.utils;
 
+import com.theironyard.dtos.Player;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -17,7 +20,6 @@ public class GameLogic {
             Random r = new Random();
             dice.add(r.nextInt(6) + 1);
         }
-        System.out.println(dice);
         return dice;
     }
 
@@ -49,13 +51,23 @@ public class GameLogic {
         return false;
     }
 
+    public static Player nextActivePlayer(Player previousPlayer, ArrayList<Player> allPlayersSortedBySeatNum) {
+        if (previousPlayer == null) {
+            return allPlayersSortedBySeatNum.get(0);
+        }
+        int nextIndex = allPlayersSortedBySeatNum.indexOf(previousPlayer);
+        return allPlayersSortedBySeatNum.get(nextIndex +1 >= allPlayersSortedBySeatNum.size() ? 0 : nextIndex + 1);
+    }
 
 
     public static void main(String[] args) {
-        ArrayList<Integer> stake = new ArrayList<Integer>();
-        stake.add(1);
-        stake.add(4);
-        System.out.println(isBluffing(stake, rollDice()));
+        ArrayList<Integer> oldStake = new ArrayList<Integer>();
+        oldStake.add(1);
+        oldStake.add(4);
+        ArrayList<Integer> newStake = new ArrayList<Integer>();
+        newStake.add(2);
+        newStake.add(6);
+        System.out.println(isValidRaise(oldStake, newStake));
 
     }
 }

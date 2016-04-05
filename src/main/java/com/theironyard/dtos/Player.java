@@ -8,6 +8,13 @@ import java.util.ArrayList;
 public class Player {
     private String name;
     private ArrayList<Integer> dice;
+    private int seatNum;
+
+    public Player(String name, ArrayList<Integer> dice, int seatNum) {
+        this.name = name;
+        this.dice = dice;
+        this.seatNum = seatNum;
+    }
 
     public Player(String name, ArrayList<Integer> dice) {
         this.name = name;
@@ -15,6 +22,14 @@ public class Player {
     }
 
     public Player() {
+    }
+
+    public int getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(int seatNum) {
+        this.seatNum = seatNum;
     }
 
     public String getName() {
