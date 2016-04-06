@@ -1,8 +1,21 @@
 package com.theironyard.utils;
 
+import com.theironyard.LiarsDiceApplication;
 import com.theironyard.dtos.PlayerDto;
+import com.theironyard.entities.GameState;
+import com.theironyard.entities.Player;
+import com.theironyard.services.GameStateRepository;
+import com.theironyard.services.PlayerRepository;
+import org.h2.command.ddl.TruncateTable;
+import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,7 +24,15 @@ import static org.junit.Assert.*;
 /**
  * Created by PiratePowWow on 4/5/16.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = LiarsDiceApplication.class)
+@WebAppConfiguration
 public class GameLogicTest {
+    @Autowired
+    GameStateRepository gameStates;
+    @Autowired
+    PlayerRepository players;
+
 
     @Test
     public void testRollDice() throws Exception {
@@ -82,5 +103,55 @@ public class GameLogicTest {
         assertTrue(GameLogic.determineLoser(player1, player2, stake1, allDice).getName().equals(player2.getName()));
         ArrayList<Integer> stake2 = new ArrayList<>(Arrays.asList(4, 3));
         assertTrue(GameLogic.determineLoser(player1, player2, stake2, allDice).getName().equals(player1.getName()));
+    }
+
+    @Test
+    public void testMakeRoomCode() throws Exception {
+        int i;
+        boolean uniqueCode = false;
+        for (i = 0; i < 1000; i++) {
+            String newRoomCode = GameLogic.makeRoomCode(gameStates);
+            assertTrue(newRoomCode.length() == 4);
+            if (gameStates.findOne(newRoomCode) != null){
+                uniqueCode = false;
+                break;
+            }else{
+                GameState newGame = new GameState(newRoomCode);
+                Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
+                Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, newGame);
+                newGame.setLastPlayer(bob);
+                newGame.setActivePlayer(tim);
+                gameStates.save(newGame);
+                players.save(bob);
+                players.save(tim);
+                uniqueCode = true;
+            }
+        }
+        assertTrue(uniqueCode);
+        players.deleteAll();
+        gameStates.deleteAll();
+    }
+
+    @Test
+    public void testResetGameState() throws Exception {
+        String roomCode = "XXXX";
+        GameState gameState = new GameState(roomCode);
+        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, gameState);
+        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, gameState);
+        gameState.setActivePlayer(bob);
+        gameState.setLastPlayer(tim);
+        players.save(bob);
+        players.save(tim);
+        gameStates.save(gameState);
+        ArrayList<Player> playerList = (ArrayList<Player>) players.findAll();
+        GameState oldGame = gameStates.findOne(roomCode);
+        assertTrue(oldGame.getRoomCode().equals(roomCode));
+        assertTrue(playerList.size() == 2);
+        GameLogic.resetGameState(gameStates, players, roomCode);
+        assertTrue(gameStates.findOne(roomCode).getActivePlayer() == null);
+        assertTrue(((ArrayList<Player>) players.findAll()).get(0).getDice() == null);
+        assertTrue(((ArrayList<Player>) players.findAll()).get(1).getStake() == null);
+        players.deleteAll();
+        gameStates.deleteAll();
     }
 }

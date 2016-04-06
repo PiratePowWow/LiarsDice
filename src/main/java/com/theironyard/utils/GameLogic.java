@@ -1,6 +1,10 @@
 package com.theironyard.utils;
 
 import com.theironyard.dtos.PlayerDto;
+import com.theironyard.entities.GameState;
+import com.theironyard.entities.Player;
+import com.theironyard.services.GameStateRepository;
+import com.theironyard.services.PlayerRepository;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -59,5 +63,36 @@ public class GameLogic {
     public static PlayerDto determineLoser(PlayerDto lastActivePlayer, PlayerDto playerCallingBluff, ArrayList<Integer> stake, ArrayList<Integer> allDice) {
         return (isBluffing(stake, allDice) ? lastActivePlayer : playerCallingBluff);
     }
+//credit stackoverflow user aquaraga
+    public static String makeRoomCode(GameStateRepository gameStates){
+        boolean isPreExistingCode = true;
+        String roomCode = "";
+        while (isPreExistingCode) {
+            String roomCodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder code = new StringBuilder();
+            Random rnd = new Random();
+            while (code.length() < 4) {
+                int index = (int) (rnd.nextFloat() * roomCodeChars.length());
+                code.append(roomCodeChars.charAt(index));
+            }
+            roomCode = code.toString();
+            if (gameStates.findOne(roomCode) == null) {
+                isPreExistingCode = false;
+            }
+        }
+        return roomCode;
+    }
 
+    public static void resetGameState(GameStateRepository gameStates, PlayerRepository players, String roomCode) {
+        GameState gameState = gameStates.findOne(roomCode);
+        gameState.setActivePlayer(null);
+        gameState.setLastPlayer(null);
+        gameStates.save(gameState);
+        ArrayList<Player> playersInGame = players.findByGameState(gameState);
+        for (Player player : playersInGame) {
+            player.setDice(null);
+            player.setStake(null);
+            players.save(player);
+        }
+    }
 }
