@@ -104,4 +104,12 @@ public class Player {
     public void setSeatNum(int seatNum) {
         this.seatNum = seatNum;
     }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 }

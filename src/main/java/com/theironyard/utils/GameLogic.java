@@ -1,5 +1,6 @@
 package com.theironyard.utils;
 
+import com.sun.tools.javac.util.ArrayUtils;
 import com.theironyard.dtos.PlayerDto;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
@@ -8,6 +9,7 @@ import com.theironyard.services.PlayerRepository;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by PiratePowWow on 4/5/16.
@@ -24,7 +26,14 @@ public class GameLogic {
         return dice;
     }
 
-    public static boolean isBluffing(ArrayList<Integer> stake, ArrayList<Integer> allDice) {
+    public static Player determineLoser(GameState gameState, PlayerRepository players) {
+        ArrayList<Integer> allDice = new ArrayList<>();
+        ArrayList<Player> playersInGame = players.findByGameState(gameState);
+        boolean isBluffing;
+        for (Player player: playersInGame) {
+            allDice.addAll(player.getDice());
+        }
+        ArrayList<Integer> stake = players.findOne(gameState.getLastPlayerId()).getStake();
         int count = 0;
         for (Integer die : allDice){
            if (die == stake.get(1)){
@@ -32,12 +41,14 @@ public class GameLogic {
            }
         }
         if (count < stake.get(0)){
-            return true;
+            isBluffing = true;
+            return players.findOne(gameState.getLastPlayerId());
         }
-        return false;
+        return players.findOne(gameState.getActivePlayerId());
     }
 
-    public static boolean isValidRaise(ArrayList<Integer> oldStake, ArrayList<Integer> newStake){
+    public static boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake, PlayerRepository players){
+        ArrayList<Integer> oldStake = players.findOne(gameState.getLastPlayerId()).getStake();
         if (newStake != null && newStake.get(0) > 0 && newStake.get(1) > 0 && newStake.get(1) < 7 && newStake.size() == 2 && newStake.getClass().getTypeName().equals("java.util.ArrayList")) {
             if (oldStake == null) {
                 return true;
@@ -52,17 +63,16 @@ public class GameLogic {
         return false;
     }
 
-    public static PlayerDto nextActivePlayer(PlayerDto previousPlayer, ArrayList<PlayerDto> allPlayersSortedBySeatNum) {
-        if (previousPlayer == null) {
-            return allPlayersSortedBySeatNum.get(0);
+    public static Player nextActivePlayer(UUID previousPlayerId, PlayerRepository players) {
+        Player previousPlayer = players.findOne(previousPlayerId);
+        GameState gameState = previousPlayer.getGameState();
+        if (gameState.getLastPlayerId() == null) {
+            return players.findByGameStateOrderBySeatNum(gameState).get(0);
         }
-        int nextIndex = allPlayersSortedBySeatNum.indexOf(previousPlayer);
-        return allPlayersSortedBySeatNum.get(nextIndex +1 >= allPlayersSortedBySeatNum.size() ? 0 : nextIndex + 1);
+        int nextIndex = players.findByGameStateOrderBySeatNum(gameState).indexOf(previousPlayer);
+        return players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1);
     }
 
-    public static PlayerDto determineLoser(PlayerDto lastActivePlayer, PlayerDto playerCallingBluff, ArrayList<Integer> stake, ArrayList<Integer> allDice) {
-        return (isBluffing(stake, allDice) ? lastActivePlayer : playerCallingBluff);
-    }
 //credit stackoverflow user aquaraga
     public static String makeRoomCode(GameStateRepository gameStates){
         boolean isPreExistingCode = true;

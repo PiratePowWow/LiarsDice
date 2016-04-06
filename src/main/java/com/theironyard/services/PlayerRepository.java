@@ -12,4 +12,5 @@ import java.util.UUID;
  */
 public interface PlayerRepository extends CrudRepository<Player, UUID> {
     ArrayList<Player> findByGameState(GameState gameState);
+    ArrayList<Player> findByGameStateOrderBySeatNum(GameState gameState);
 }
