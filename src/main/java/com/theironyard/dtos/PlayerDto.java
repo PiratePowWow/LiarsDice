@@ -5,23 +5,23 @@ import java.util.ArrayList;
 /**
  * Created by PiratePowWow on 4/5/16.
  */
-public class Player {
+public class PlayerDto {
     private String name;
     private ArrayList<Integer> dice;
     private int seatNum;
 
-    public Player(String name, ArrayList<Integer> dice, int seatNum) {
+    public PlayerDto(String name, ArrayList<Integer> dice, int seatNum) {
         this.name = name;
         this.dice = dice;
         this.seatNum = seatNum;
     }
 
-    public Player(String name, ArrayList<Integer> dice) {
+    public PlayerDto(String name, ArrayList<Integer> dice) {
         this.name = name;
         this.dice = dice;
     }
 
-    public Player() {
+    public PlayerDto() {
     }
 
     public int getSeatNum() {

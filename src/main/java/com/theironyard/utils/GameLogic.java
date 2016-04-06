@@ -1,12 +1,9 @@
 package com.theironyard.utils;
 
-import com.theironyard.dtos.Player;
+import com.theironyard.dtos.PlayerDto;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.function.Predicate;
 
 /**
  * Created by PiratePowWow on 4/5/16.
@@ -51,7 +48,7 @@ public class GameLogic {
         return false;
     }
 
-    public static Player nextActivePlayer(Player previousPlayer, ArrayList<Player> allPlayersSortedBySeatNum) {
+    public static PlayerDto nextActivePlayer(PlayerDto previousPlayer, ArrayList<PlayerDto> allPlayersSortedBySeatNum) {
         if (previousPlayer == null) {
             return allPlayersSortedBySeatNum.get(0);
         }
@@ -59,15 +56,8 @@ public class GameLogic {
         return allPlayersSortedBySeatNum.get(nextIndex +1 >= allPlayersSortedBySeatNum.size() ? 0 : nextIndex + 1);
     }
 
-
-    public static void main(String[] args) {
-        ArrayList<Integer> oldStake = new ArrayList<Integer>();
-        oldStake.add(1);
-        oldStake.add(4);
-        ArrayList<Integer> newStake = new ArrayList<Integer>();
-        newStake.add(2);
-        newStake.add(6);
-        System.out.println(isValidRaise(oldStake, newStake));
-
+    public static PlayerDto determineLoser(PlayerDto lastActivePlayer, PlayerDto playerCallingBluff, ArrayList<Integer> stake, ArrayList<Integer> allDice) {
+        return (isBluffing(stake, allDice) ? lastActivePlayer : playerCallingBluff);
     }
+
 }
