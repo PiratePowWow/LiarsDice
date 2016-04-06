@@ -85,8 +85,8 @@ public class GameLogic {
 
     public static void resetGameState(GameStateRepository gameStates, PlayerRepository players, String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
-        gameState.setActivePlayer(null);
-        gameState.setLastPlayer(null);
+        gameState.setActivePlayerId(null);
+        gameState.setLastPlayerId(null);
         gameStates.save(gameState);
         ArrayList<Player> playersInGame = players.findByGameState(gameState);
         for (Player player : playersInGame) {

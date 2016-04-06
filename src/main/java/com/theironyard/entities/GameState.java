@@ -15,17 +15,15 @@ import java.util.UUID;
 public class GameState {
     @Id
     private String roomCode;
-    @OneToOne(mappedBy = "gameState")
-    private Player activePlayer;
-    @OneToOne(mappedBy = "gameState")
-    private Player lastPlayer;
+    private UUID activePlayerId;
+    private UUID lastPlayerId;
     @OneToMany(mappedBy = "gameState")
     List<Player> players;
 
-    public GameState(String roomCode, Player activePlayer, Player lastPlayer) {
+    public GameState(String roomCode, UUID activePlayerId, UUID lastPlayerId) {
         this.roomCode = roomCode;
-        this.activePlayer = activePlayer;
-        this.lastPlayer = lastPlayer;
+        this.activePlayerId = activePlayerId;
+        this.lastPlayerId = lastPlayerId;
     }
 
     public GameState(String roomCode) {
@@ -43,19 +41,19 @@ public class GameState {
         this.roomCode = roomCode;
     }
 
-    public Player getActivePlayer() {
-        return activePlayer;
+    public UUID getActivePlayerId() {
+        return activePlayerId;
     }
 
-    public void setActivePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer;
+    public void setActivePlayerId(UUID activePlayerId) {
+        this.activePlayerId = activePlayerId;
     }
 
-    public Player getLastPlayer() {
-        return lastPlayer;
+    public UUID getLastPlayerId() {
+        return lastPlayerId;
     }
 
-    public void setLastPlayer(Player lastPlayer) {
-        this.lastPlayer = lastPlayer;
+    public void setLastPlayerId(UUID lastPlayerId) {
+        this.lastPlayerId = lastPlayerId;
     }
 }
