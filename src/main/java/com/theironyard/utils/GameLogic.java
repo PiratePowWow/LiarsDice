@@ -6,7 +6,9 @@ import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
@@ -15,6 +17,10 @@ import java.util.UUID;
  * Created by PiratePowWow on 4/5/16.
  */
 public class GameLogic {
+    @Autowired
+    GameStateRepository gameStates;
+    @Autowired
+    PlayerRepository players;
 
     public static ArrayList<Integer> rollDice(){
         ArrayList<Integer> dice = new ArrayList<Integer>();
@@ -63,16 +69,16 @@ public class GameLogic {
         return false;
     }
 
-    public static void setNextActivePlayer(UUID previousPlayerId, PlayerRepository players, GameStateRepository gameStates) {
-        Player previousPlayer = players.findOne(previousPlayerId);
-        GameState gameState = previousPlayer.getGameState();
+    public static void setNextActivePlayer(String roomCode, PlayerRepository players, GameStateRepository gameStates) {
+        GameState gameState = gameStates.findOne(roomCode);
+        UUID activePlayer = gameState.getActivePlayerId();
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
-        if (gameState.getLastPlayerId() == null) {
+        if (activePlayer == null) {
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
             gameStates.save(gameState);
-        }else if (gameState.getLastPlayerId() != null){
+        }else if (activePlayer != null){
             gameState.setLastPlayerId(gameState.getActivePlayerId());
-            int nextIndex = playersInGame.indexOf(previousPlayer);
+            int nextIndex = playersInGame.indexOf(players.findOne(gameState.getLastPlayerId()));
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1).getId());
             gameStates.save(gameState);
         }
@@ -109,5 +115,36 @@ public class GameLogic {
             player.setStake(null);
             players.save(player);
         }
+    }
+
+    public static void createNewGame(HttpSession session, String name, PlayerRepository players, GameStateRepository gameStates){
+        String roomCode = makeRoomCode(gameStates);
+        gameStates.save(new GameState(roomCode));
+        UUID firstPlayerId = java.util.UUID.randomUUID();
+        players.save(new Player(firstPlayerId, name, null, null, 0, 1, gameStates.findOne(roomCode)));
+    }
+
+    public static void addPlayer(HttpSession session, String name, String roomCode, PlayerRepository players, GameStateRepository gameStates) {
+        UUID playerId = java.util.UUID.randomUUID();
+        GameState gameState = gameStates.findOne(roomCode);
+        ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
+        players.save(new Player(playerId, name, null, null, 0, determineSeatNum(playersInGame), gameState));
+    }
+
+    public static int determineSeatNum(ArrayList<Player> playersInGame){
+        int seatNum = 0;
+        int i = 1;
+        for (Player player: playersInGame){
+            if (player.getSeatNum() != i){
+                seatNum = i;
+                break;
+            }
+            i++;
+        }
+        return seatNum;
+    }
+
+    public static void dropPlayer(){
+
     }
 }

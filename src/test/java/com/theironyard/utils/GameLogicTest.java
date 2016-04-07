@@ -5,6 +5,7 @@ import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class GameLogicTest {
     GameStateRepository gameStates;
     @Autowired
     PlayerRepository players;
+    @After
+    public void clearDatabase(){
+        players.deleteAll();
+        gameStates.deleteAll();
+    }
 
 
     @Test
@@ -59,31 +65,25 @@ public class GameLogicTest {
         }
         assertTrue(!GameLogic.isValidRaise(newGame, bob.getStake(), players));
         assertTrue(GameLogic.isValidRaise(newGame, tim.getStake(), players));
-        players.deleteAll();
-        gameStates.deleteAll();
     }
 
     @Test
     public void testSetNextActivePlayer() throws Exception {
         GameState newGame = new GameState(GameLogic.makeRoomCode(gameStates));
+        String roomCode = newGame.getRoomCode();
         Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
         Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
-        newGame.setLastPlayerId(bob.getId());
-        newGame.setActivePlayerId(tim.getId());
+//        newGame.setLastPlayerId(bob.getId());
+//        newGame.setActivePlayerId(tim.getId());
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        GameLogic.setNextActivePlayer(newGame.getActivePlayerId(), players, gameStates);
-        assertTrue(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId() == bob.getId());
-        Player previousPlayerId = players.findOne(gameStates.findOne(newGame.getRoomCode()).getLastPlayerId());
-        int i;
-        for(i = 0; i < 5; i++){
-            GameLogic.setNextActivePlayer(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId(), players, gameStates);
-        }
-        assertTrue(players.findOne(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId()).getName().equals("Tim"));
-        players.deleteAll();
-        gameStates.deleteAll();
-
+        GameLogic.setNextActivePlayer(roomCode, players, gameStates);
+        assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(bob.getId()));
+        GameLogic.setNextActivePlayer(roomCode, players, gameStates);
+        assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(tim.getId()));
+        GameLogic.setNextActivePlayer(roomCode, players, gameStates);
+        assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(bob.getId()));
     }
 
     @Test
@@ -96,9 +96,7 @@ public class GameLogicTest {
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        assertTrue(GameLogic.determineLoser(newGame, players).getName().equals("bob") );
-        players.deleteAll();
-        gameStates.deleteAll();
+        assertTrue(GameLogic.determineLoser(newGame, players).getName().equals("Bob") );
     }
 
     @Test
@@ -124,8 +122,6 @@ public class GameLogicTest {
             }
         }
         assertTrue(uniqueCode);
-        players.deleteAll();
-        gameStates.deleteAll();
     }
 
     @Test
@@ -147,7 +143,5 @@ public class GameLogicTest {
         assertTrue(gameStates.findOne(roomCode).getActivePlayerId() == null);
         assertTrue(((ArrayList<Player>) players.findAll()).get(0).getDice() == null);
         assertTrue(((ArrayList<Player>) players.findAll()).get(1).getStake() == null);
-        players.deleteAll();
-        gameStates.deleteAll();
     }
 }
