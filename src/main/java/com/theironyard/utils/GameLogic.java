@@ -63,14 +63,19 @@ public class GameLogic {
         return false;
     }
 
-    public static Player nextActivePlayer(UUID previousPlayerId, PlayerRepository players) {
+    public static void setNextActivePlayer(UUID previousPlayerId, PlayerRepository players, GameStateRepository gameStates) {
         Player previousPlayer = players.findOne(previousPlayerId);
         GameState gameState = previousPlayer.getGameState();
+        ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
         if (gameState.getLastPlayerId() == null) {
-            return players.findByGameStateOrderBySeatNum(gameState).get(0);
+            gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
+            gameStates.save(gameState);
+        }else if (gameState.getLastPlayerId() != null){
+            gameState.setLastPlayerId(gameState.getActivePlayerId());
+            int nextIndex = playersInGame.indexOf(previousPlayer);
+            gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1).getId());
+            gameStates.save(gameState);
         }
-        int nextIndex = players.findByGameStateOrderBySeatNum(gameState).indexOf(previousPlayer);
-        return players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1);
     }
 
 //credit stackoverflow user aquaraga

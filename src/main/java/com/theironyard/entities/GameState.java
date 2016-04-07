@@ -17,7 +17,7 @@ public class GameState {
     private String roomCode;
     private UUID activePlayerId;
     private UUID lastPlayerId;
-    @OneToMany(mappedBy = "gameState")
+    @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL)
     List<Player> players;
 
     public GameState(String roomCode, UUID activePlayerId, UUID lastPlayerId) {

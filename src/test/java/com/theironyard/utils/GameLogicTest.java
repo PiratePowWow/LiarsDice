@@ -1,13 +1,10 @@
 package com.theironyard.utils;
 
 import com.theironyard.LiarsDiceApplication;
-import com.theironyard.dtos.PlayerDto;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
-import org.h2.command.ddl.TruncateTable;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -61,12 +57,14 @@ public class GameLogicTest {
         for (Player player: playersInGame) {
             allDice.addAll(player.getDice());
         }
-        assertTrue(GameLogic.isValidRaise(newGame, bob.getStake(), players));
-        assertTrue(!GameLogic.isValidRaise(newGame, tim.getStake(), players));
+        assertTrue(!GameLogic.isValidRaise(newGame, bob.getStake(), players));
+        assertTrue(GameLogic.isValidRaise(newGame, tim.getStake(), players));
+        players.deleteAll();
+        gameStates.deleteAll();
     }
 
     @Test
-    public void testNextActivePlayer() throws Exception {
+    public void testSetNextActivePlayer() throws Exception {
         GameState newGame = new GameState(GameLogic.makeRoomCode(gameStates));
         Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
         Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
@@ -75,26 +73,32 @@ public class GameLogicTest {
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        assertTrue(GameLogic.nextActivePlayer(newGame.getLastPlayerId(), players).getName().equals("Bob"));
+        GameLogic.setNextActivePlayer(newGame.getActivePlayerId(), players, gameStates);
+        assertTrue(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId() == bob.getId());
+        Player previousPlayerId = players.findOne(gameStates.findOne(newGame.getRoomCode()).getLastPlayerId());
         int i;
         for(i = 0; i < 5; i++){
-            players.findOne(gameStates.findOne(newGame.getRoomCode()).getLastPlayerId()) = GameLogic.nextActivePlayer(gameStates.findOne(newGame.getRoomCode()).getLastPlayerId(), players);
+            GameLogic.setNextActivePlayer(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId(), players, gameStates);
         }
-        assertTrue(GameLogic.nextActivePlayer(previousPlayer, allPlayers).getName().equals("Tim"));
+        assertTrue(players.findOne(gameStates.findOne(newGame.getRoomCode()).getActivePlayerId()).getName().equals("Tim"));
+        players.deleteAll();
+        gameStates.deleteAll();
 
     }
 
     @Test
     public void testDetermineLoser() throws Exception {
         GameState newGame = new GameState(GameLogic.makeRoomCode(gameStates));
-        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
-        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
+        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", new ArrayList<Integer>(Arrays.asList(3, 4, 5, 2, 6)), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
+        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", new ArrayList<Integer>(Arrays.asList(3, 4, 5, 5, 5)), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
         newGame.setLastPlayerId(bob.getId());
         newGame.setActivePlayerId(tim.getId());
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        assertTrue(GameLogic.determineLoser(newGame, players).getName().equals("") );
+        assertTrue(GameLogic.determineLoser(newGame, players).getName().equals("bob") );
+        players.deleteAll();
+        gameStates.deleteAll();
     }
 
     @Test
