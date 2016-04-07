@@ -18,9 +18,9 @@ import java.util.UUID;
  */
 public class GameLogic {
     @Autowired
-    GameStateRepository gameStates;
+    static GameStateRepository gameStates;
     @Autowired
-    PlayerRepository players;
+    static PlayerRepository players;
 
     public static ArrayList<Integer> rollDice(){
         ArrayList<Integer> dice = new ArrayList<Integer>();
@@ -32,7 +32,7 @@ public class GameLogic {
         return dice;
     }
 
-    public static Player determineLoser(GameState gameState, PlayerRepository players) {
+    public static Player determineLoser(GameState gameState) {
         ArrayList<Integer> allDice = new ArrayList<>();
         ArrayList<Player> playersInGame = players.findByGameState(gameState);
         boolean isBluffing;
@@ -53,7 +53,7 @@ public class GameLogic {
         return players.findOne(gameState.getActivePlayerId());
     }
 
-    public static boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake, PlayerRepository players){
+    public static boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){
         ArrayList<Integer> oldStake = players.findOne(gameState.getLastPlayerId()).getStake();
         if (newStake != null && newStake.get(0) > 0 && newStake.get(1) > 0 && newStake.get(1) < 7 && newStake.size() == 2 && newStake.getClass().getTypeName().equals("java.util.ArrayList")) {
             if (oldStake == null) {
@@ -69,7 +69,7 @@ public class GameLogic {
         return false;
     }
 
-    public static void setNextActivePlayer(String roomCode, PlayerRepository players, GameStateRepository gameStates) {
+    public static void setNextActivePlayer(String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
         UUID activePlayer = gameState.getActivePlayerId();
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
@@ -85,7 +85,7 @@ public class GameLogic {
     }
 
 //credit stackoverflow user aquaraga
-    public static String makeRoomCode(GameStateRepository gameStates){
+    public static String makeRoomCode(){
         boolean isPreExistingCode = true;
         String roomCode = "";
         while (isPreExistingCode) {
@@ -104,7 +104,7 @@ public class GameLogic {
         return roomCode;
     }
 
-    public static void resetGameState(GameStateRepository gameStates, PlayerRepository players, String roomCode) {
+    public static void resetGameState(String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
         gameState.setActivePlayerId(null);
         gameState.setLastPlayerId(null);
@@ -117,14 +117,14 @@ public class GameLogic {
         }
     }
 
-    public static void createNewGame(HttpSession session, String name, PlayerRepository players, GameStateRepository gameStates){
-        String roomCode = makeRoomCode(gameStates);
+    public static void createNewGame(HttpSession session, String name){
+        String roomCode = makeRoomCode();
         gameStates.save(new GameState(roomCode));
         UUID firstPlayerId = java.util.UUID.randomUUID();
         players.save(new Player(firstPlayerId, name, null, null, 0, 1, gameStates.findOne(roomCode)));
     }
 
-    public static void addPlayer(HttpSession session, String name, String roomCode, PlayerRepository players, GameStateRepository gameStates) {
+    public static void addPlayer(HttpSession session, String name, String roomCode) {
         UUID playerId = java.util.UUID.randomUUID();
         GameState gameState = gameStates.findOne(roomCode);
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
