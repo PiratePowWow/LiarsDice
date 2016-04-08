@@ -7,6 +7,7 @@ import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ import java.util.UUID;
 /**
  * Created by PiratePowWow on 4/5/16.
  */
+@Component
 public class GameLogic {
     @Autowired
-    static GameStateRepository gameStates;
+    GameStateRepository gameStates;
     @Autowired
-    static PlayerRepository players;
+    PlayerRepository players;
 
-    public static ArrayList<Integer> rollDice(){
+    public ArrayList<Integer> rollDice(){
         ArrayList<Integer> dice = new ArrayList<Integer>();
         int i;
         for (i = 0 ; i < 5 ; i++){
@@ -32,7 +34,7 @@ public class GameLogic {
         return dice;
     }
 
-    public static Player determineLoser(GameState gameState) {
+    public Player determineLoser(GameState gameState) {
         ArrayList<Integer> allDice = new ArrayList<>();
         ArrayList<Player> playersInGame = players.findByGameState(gameState);
         boolean isBluffing;
@@ -53,7 +55,7 @@ public class GameLogic {
         return players.findOne(gameState.getActivePlayerId());
     }
 
-    public static boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){
+    public boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){
         ArrayList<Integer> oldStake = players.findOne(gameState.getLastPlayerId()).getStake();
         if (newStake != null && newStake.get(0) > 0 && newStake.get(1) > 0 && newStake.get(1) < 7 && newStake.size() == 2 && newStake.getClass().getTypeName().equals("java.util.ArrayList")) {
             if (oldStake == null) {
@@ -69,7 +71,7 @@ public class GameLogic {
         return false;
     }
 
-    public static void setNextActivePlayer(String roomCode) {
+    public void setNextActivePlayer(String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
         UUID activePlayer = gameState.getActivePlayerId();
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
@@ -85,7 +87,7 @@ public class GameLogic {
     }
 
 //credit stackoverflow user aquaraga
-    public static String makeRoomCode(){
+    public String makeRoomCode(){
         boolean isPreExistingCode = true;
         String roomCode = "";
         while (isPreExistingCode) {
@@ -104,7 +106,7 @@ public class GameLogic {
         return roomCode;
     }
 
-    public static void resetGameState(String roomCode) {
+    public void resetGameState(String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
         gameState.setActivePlayerId(null);
         gameState.setLastPlayerId(null);
@@ -117,21 +119,21 @@ public class GameLogic {
         }
     }
 
-    public static void createNewGame(HttpSession session, String name){
+    public void createNewGame(HttpSession session, String name){
         String roomCode = makeRoomCode();
         gameStates.save(new GameState(roomCode));
         UUID firstPlayerId = java.util.UUID.randomUUID();
         players.save(new Player(firstPlayerId, name, null, null, 0, 1, gameStates.findOne(roomCode)));
     }
 
-    public static void addPlayer(HttpSession session, String name, String roomCode) {
+    public void addPlayer(HttpSession session, String name, String roomCode) {
         UUID playerId = java.util.UUID.randomUUID();
         GameState gameState = gameStates.findOne(roomCode);
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
         players.save(new Player(playerId, name, null, null, 0, determineSeatNum(playersInGame), gameState));
     }
 
-    public static int determineSeatNum(ArrayList<Player> playersInGame){
+    public int determineSeatNum(ArrayList<Player> playersInGame){
         int seatNum = 0;
         int i = 1;
         for (Player player: playersInGame){
@@ -144,7 +146,7 @@ public class GameLogic {
         return seatNum;
     }
 
-    public static void dropPlayer(){
+    public void dropPlayer(){
 
     }
 }

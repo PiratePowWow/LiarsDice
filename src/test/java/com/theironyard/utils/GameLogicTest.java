@@ -29,6 +29,8 @@ public class GameLogicTest {
     GameStateRepository gameStates;
     @Autowired
     PlayerRepository players;
+    @Autowired
+    GameLogic gameLogic;
     @After
     public void clearDatabase(){
         players.deleteAll();
@@ -38,7 +40,7 @@ public class GameLogicTest {
 
     @Test
     public void testRollDice() throws Exception {
-        ArrayList<Integer> dice = GameLogic.rollDice();
+        ArrayList<Integer> dice = gameLogic.rollDice();
         int count = 0;
         for(Integer die : dice){
             if (die < 7 && die > 0){
@@ -50,9 +52,9 @@ public class GameLogicTest {
 
     @Test
     public void testIsValidRaise() throws Exception {
-        GameState newGame = new GameState(GameLogic.makeRoomCode());
-        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
-        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, newGame);
+        GameState newGame = new GameState(gameLogic.makeRoomCode());
+        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
+        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, newGame);
         newGame.setLastPlayerId(bob.getId());
         newGame.setActivePlayerId(tim.getId());
         gameStates.save(newGame);
@@ -63,32 +65,32 @@ public class GameLogicTest {
         for (Player player: playersInGame) {
             allDice.addAll(player.getDice());
         }
-        assertTrue(!GameLogic.isValidRaise(newGame, bob.getStake()));
-        assertTrue(GameLogic.isValidRaise(newGame, tim.getStake()));
+        assertTrue(!gameLogic.isValidRaise(newGame, bob.getStake()));
+        assertTrue(gameLogic.isValidRaise(newGame, tim.getStake()));
     }
 
     @Test
     public void testSetNextActivePlayer() throws Exception {
-        GameState newGame = new GameState(GameLogic.makeRoomCode());
+        GameState newGame = new GameState(gameLogic.makeRoomCode());
         String roomCode = newGame.getRoomCode();
-        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
-        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
+        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
+        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
 //        newGame.setLastPlayerId(bob.getId());
 //        newGame.setActivePlayerId(tim.getId());
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        GameLogic.setNextActivePlayer(roomCode);
+        gameLogic.setNextActivePlayer(roomCode);
         assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(bob.getId()));
-        GameLogic.setNextActivePlayer(roomCode);
+        gameLogic.setNextActivePlayer(roomCode);
         assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(tim.getId()));
-        GameLogic.setNextActivePlayer(roomCode);
+        gameLogic.setNextActivePlayer(roomCode);
         assertTrue(gameStates.findOne(roomCode).getActivePlayerId().equals(bob.getId()));
     }
 
     @Test
     public void testDetermineLoser() throws Exception {
-        GameState newGame = new GameState(GameLogic.makeRoomCode());
+        GameState newGame = new GameState(gameLogic.makeRoomCode());
         Player bob = new Player(java.util.UUID.randomUUID(), "Bob", new ArrayList<Integer>(Arrays.asList(3, 4, 5, 2, 6)), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
         Player tim = new Player(java.util.UUID.randomUUID(), "Tim", new ArrayList<Integer>(Arrays.asList(3, 4, 5, 5, 5)), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 3, newGame);
         newGame.setLastPlayerId(bob.getId());
@@ -96,7 +98,7 @@ public class GameLogicTest {
         gameStates.save(newGame);
         players.save(bob);
         players.save(tim);
-        assertTrue(GameLogic.determineLoser(newGame).getName().equals("Bob") );
+        assertTrue(gameLogic.determineLoser(newGame).getName().equals("Bob") );
     }
 
     @Test
@@ -104,15 +106,15 @@ public class GameLogicTest {
         int i;
         boolean uniqueCode = false;
         for (i = 0; i < 1000; i++) {
-            String newRoomCode = GameLogic.makeRoomCode();
+            String newRoomCode = gameLogic.makeRoomCode();
             assertTrue(newRoomCode.length() == 4);
             if (gameStates.findOne(newRoomCode) != null){
                 uniqueCode = false;
                 break;
             }else{
                 GameState newGame = new GameState(newRoomCode);
-                Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
-                Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, newGame);
+                Player bob = new Player(java.util.UUID.randomUUID(), "Bob", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, newGame);
+                Player tim = new Player(java.util.UUID.randomUUID(), "Tim", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, newGame);
                 newGame.setLastPlayerId(bob.getId());
                 newGame.setActivePlayerId(tim.getId());
                 gameStates.save(newGame);
@@ -128,8 +130,8 @@ public class GameLogicTest {
     public void testResetGameState() throws Exception {
         String roomCode = "XXXX";
         GameState gameState = new GameState(roomCode);
-        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, gameState);
-        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", GameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, gameState);
+        Player bob = new Player(java.util.UUID.randomUUID(), "Bob", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(3, 4)), 1, 2, gameState);
+        Player tim = new Player(java.util.UUID.randomUUID(), "Tim", gameLogic.rollDice(), new ArrayList<Integer>(Arrays.asList(5, 4)), 1, 2, gameState);
         gameState.setActivePlayerId(bob.getId());
         gameState.setLastPlayerId(tim.getId());
         gameStates.save(gameState);
@@ -139,7 +141,7 @@ public class GameLogicTest {
         GameState oldGame = gameStates.findOne(roomCode);
         assertTrue(oldGame.getRoomCode().equals(roomCode));
         assertTrue(playerList.size() == 2);
-        GameLogic.resetGameState(roomCode);
+        gameLogic.resetGameState(roomCode);
         assertTrue(gameStates.findOne(roomCode).getActivePlayerId() == null);
         assertTrue(((ArrayList<Player>) players.findAll()).get(0).getDice() == null);
         assertTrue(((ArrayList<Player>) players.findAll()).get(1).getStake() == null);
