@@ -5,7 +5,7 @@
 // dice one
 var faceOne=1;
 var queryParam = 6;
-var spinCount = 1;
+var spinCount = 0;
 var currentSpinCount = 0;
 var showOne = function() {
  $('#cube').attr('class', 'showOne'+faceOne);
@@ -68,7 +68,7 @@ var timer3=setInterval("showThree()", 500);
 
 var faceFour=1;
 var queryParam4 = 3;
-var spinCount4 = 2;
+var spinCount4 = 1;
 var currentSpinCount4 = 0;
 
 var showFour = function() {
@@ -127,5 +127,14 @@ $(window).keyup(function(e) {
 // cup that lifts and disapears
 $('.cup2').stop(true, true).delay(2100).animate({
      marginTop: -1000,
-
    }, 1400)
+
+
+
+
+
+
+  //  lobby
+
+
+ 
