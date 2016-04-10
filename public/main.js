@@ -129,35 +129,3 @@ $('.cup2').stop(true, true).delay(2100).animate({
      marginTop: -1000,
 
    }, 1400)
-
-
-// cup lifting
-// cup lifts to show dice and then drops
-// dice should be still when cup lifts
-
-// var cupHeight=1;
-// var queryParamCup = 1;
-// var liftCount = 2;
-// var currentLiftCount = 0;
-//
-// function showCup() {
-//   $('#cupLift').attr('class', 'showCup'+cupHeight);
-//   $('#cupLift').addClass('cup');
-//   if(cupHeight==2) {
-//     cupHeight=1;
-//   } else {
-//     cupHeight++;
-//   }
-//   if (currentLiftCount == liftCount){
-//   return cupHeight = queryParamCup;
-//   }
-//   currentLiftCount++;
-// };
-// var timerCup = setInterval(showCup, 1000);
-
-
-
-
-// function delay(){
-// setTime = window.setTimeout(showCup, 5000000000000);
-// };
