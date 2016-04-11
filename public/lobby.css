@@ -1,0 +1,24 @@
+.lobby{
+  display: block;
+  width:40%;
+  margin-left: 29%;
+  margin-top: 10%;
+}
+
+/*this magical box was made by following a tutorial found here... http://learn.shayhowe.com/advanced-html-css/transitions-animations/*/
+.box {
+    border: lightgrey solid 2px;
+    color:black;
+    width:10rem;
+    height:10rem;
+    margin-left: 10%;
+    background: orange;
+    border-radius: 50%;
+    transition-property: background, border-radius;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+  }
+  .box:hover {
+    background: purple;
+    border-radius: 0%;
+  }

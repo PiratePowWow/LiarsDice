@@ -7,9 +7,44 @@
     </title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="homePage.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="lobby.css" media="screen" title="no title" charset="utf-8">
 </head>
   <body>
-    <section class = "bigSection">
+    <!--  home page section -->
+      <section class="homePage" >
+        <div class="newGame">
+          <button type="button" class="new" name="button">Create New Game</button>
+          <form class="newG">
+            <input type="text" id="name" name="name" value="" placeholder="enter your name">
+            <button type="submit" name="submit">Submit</button>
+          </form>
+        </div>
+        <!-- <h2>OR</h2> -->
+        <div class="enterKey">
+          <button type="button" class="enter" name="button">Enter A Room Key</button>
+          <form class="enterK">
+            <input type="text" name="name" value="" placeholder="enter room key">
+            <input type="text" id="name" name="name" value="" placeholder="enter your name">
+            <button type="submit" name="submit">Submit</button>
+          </form>
+        </div>
+      </section>
+
+    <!-- end of home page -->
+
+    <!--  lobby section -->
+      <section class="lobby inactive" >
+        <ul class="nameContent">
+
+        </ul>
+
+          <button class="box" type="button" name="button">When ready, click to START game</button>
+      </section>
+    <!-- end of lobby -->
+
+
+    <section class = "bigSection inactive">
     <h1> Dice!!</h1>
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
@@ -86,19 +121,11 @@
 <!-- closing bigSection -->
   </section>
 
-<!--  lobby section -->
-  <section class="inactive">
-    <ul class="list">
-    </ul>
-    <form>
-      <input type="text" id="name" name="name" value="" placeholder="enter your name"></input>
-      <button type="button" name="button">When ready, START game</button>
-    </form>
-  </section>
-<!-- end of lobby -->
     <script src="bower_components/underscore/underscore.js" charset="utf-8"></script>
       <script src="bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
-<script src="main.js" charset="utf-8"></script>
+      <script src="homePage.js" charset="utf-8"></script>
+      <script src="main.js" charset="utf-8"></script>
+
 
   </body>
 </html>
