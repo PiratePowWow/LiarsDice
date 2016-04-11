@@ -119,14 +119,14 @@ public class GameLogic {
         }
     }
 
-    public void createNewGame(HttpSession session, String name){
+    public void createNewGame(String name){
         String roomCode = makeRoomCode();
         gameStates.save(new GameState(roomCode));
         UUID firstPlayerId = java.util.UUID.randomUUID();
         players.save(new Player(firstPlayerId, name, null, null, 0, 1, gameStates.findOne(roomCode)));
     }
 
-    public void addPlayer(HttpSession session, String name, String roomCode) {
+    public void addPlayer(String name, String roomCode) {
         UUID playerId = java.util.UUID.randomUUID();
         GameState gameState = gameStates.findOne(roomCode);
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
