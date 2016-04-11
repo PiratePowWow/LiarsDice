@@ -82,14 +82,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-test:4.2.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.objenesis:objenesis:2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.4" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-oxm:4.2.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:4.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:1.9.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:1.11.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.session:spring-session-data-redis:1.2.0.RC2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.commons:commons-pool2:2.4.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-redis:1.6.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.session:spring-session:1.0.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: redis.clients:jedis:2.7.3" level="project" />
   </component>
 </module>
