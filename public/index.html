@@ -12,21 +12,22 @@
 </head>
   <body>
     <!--  home page section -->
-      <section class="homePage" >
+      <section class="inactive" >
         <div class="newGame">
           <button type="button" class="new" name="button">Create New Game</button>
           <form class="newG">
             <input type="text" id="name" name="name" value="" placeholder="enter your name">
-            <button type="submit" name="submit">Submit</button>
+            <button id="newConnect"type="submit" name="submit" onclick="connectAndCreateNewGame();">Submit</button>
+            <!-- $('#newConnect').on('click',connectAndCreateNewGame) -->
           </form>
         </div>
         <!-- <h2>OR</h2> -->
         <div class="enterKey">
           <button type="button" class="enter" name="button">Enter A Room Key</button>
           <form class="enterK">
-            <input type="text" name="name" value="" placeholder="enter room key">
-            <input type="text" id="name" name="name" value="" placeholder="enter your name">
-            <button type="submit" name="submit">Submit</button>
+            <input type="text" id="roomCode" name="name" value="" placeholder="enter room key">
+            <input type="text" id="nameTwo" name="name" value="" placeholder="enter your name">
+            <button id="roomConnect" type="submit" name="submit" onclick="connectToExistingGame();">Submit</button>
           </form>
         </div>
       </section>
@@ -34,7 +35,7 @@
     <!-- end of home page -->
 
     <!--  lobby section -->
-      <section class="lobby inactive" >
+      <section class="lobby" >
         <ul class="nameContent">
 
         </ul>
@@ -120,11 +121,13 @@
 
 <!-- closing bigSection -->
   </section>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" charset="utf-8"></script>
     <script src="bower_components/underscore/underscore.js" charset="utf-8"></script>
-      <script src="bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
-      <script src="homePage.js" charset="utf-8"></script>
-      <script src="main.js" charset="utf-8"></script>
+    <script src="bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
+    <script src="homePage.js" charset="utf-8"></script>
+    <script src="main.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
 
 
   </body>

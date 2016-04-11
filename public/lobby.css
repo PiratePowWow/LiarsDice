@@ -17,6 +17,8 @@
     transition-property: background, border-radius;
     transition-duration: 1s;
     transition-timing-function: linear;
+    /*cool, but not for this*/
+    /*transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);*/
   }
   .box:hover {
     background: purple;

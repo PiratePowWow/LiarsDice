@@ -73,4 +73,3 @@
             }
             stompClient.send('/app/scoreboard/', {}, JSON.stringify(player));
         }
-
