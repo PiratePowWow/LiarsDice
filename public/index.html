@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+  Liars Dice
+    </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
+</head>
+  <body>
+    <section class = "bigSection">
+    <h1> Dice!!</h1>
+    <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
+    <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
+  <!--  score tracker    -->
+    <div class="score"><h3>Score</h3></div>
+    <div class="cup2"></div>
+
+    <div id = "cupDrop" class= "cup"></div>
+
+      <div class="diceContainer">
+    <!-- first dice -->
+
+          <div class = "containerA">
+            <div id = "cube" class= "bounce">
+              <div class = "top"></div>
+              <div class = "front"></div>
+              <div class = "left"></div>
+              <div class = "back"></div>
+              <div class = "right"></div>
+              <div class = "bottom"></div>
+            </div>
+          </div>
+      <!-- second dice -->
+        <div class = "containerB">
+          <div id = "cube2" class= "bounce">
+            <div class = "top"></div>
+            <div class = "front"></div>
+            <div class = "left"></div>
+            <div class = "back"></div>
+            <div class = "right"></div>
+            <div class = "bottom"></div>
+          </div>
+        </div>
+        <br/>
+      <!-- third dice   -->
+      <div class = "containerC">
+        <div id = "cube3" class= "bounce">
+          <div class = "top"></div>
+          <div class = "front"></div>
+          <div class = "left"></div>
+          <div class = "back"></div>
+          <div class = "right"></div>
+          <div class = "bottom"></div>
+        </div>
+      </div>
+
+      <!-- fourth dice -->
+      <div class = "containerD">
+        <div id = "cube4" class= "bounce">
+          <div class = "top"></div>
+          <div class = "front"></div>
+          <div class = "left"></div>
+          <div class = "back"></div>
+          <div class = "right"></div>
+          <div class = "bottom"></div>
+        </div>
+      </div>
+
+      <!-- fifth dice -->
+      <div class = "containerE">
+        <div id = "cube5" class= "bounce">
+          <div class = "top"></div>
+          <div class = "front"></div>
+          <div class = "left"></div>
+          <div class = "back"></div>
+          <div class = "right"></div>
+          <div class = "bottom"></div>
+        </div>
+      </div>
+
+<!-- all dice container close       -->
+    </div>
+
+<!-- closing bigSection -->
+  </section>
+
+<!--  lobby section -->
+  <section class="inactive">
+    <ul class="list">
+    </ul>
+    <form>
+      <input type="text" id="name" name="name" value="" placeholder="enter your name"></input>
+      <button type="button" name="button">When ready, START game</button>
+    </form>
+  </section>
+<!-- end of lobby -->
+    <script src="bower_components/underscore/underscore.js" charset="utf-8"></script>
+      <script src="bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
+<script src="main.js" charset="utf-8"></script>
+
+  </body>
+</html>
