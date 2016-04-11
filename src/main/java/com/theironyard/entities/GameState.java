@@ -1,11 +1,7 @@
 package com.theironyard.entities;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by PiratePowWow on 4/5/16.
@@ -15,12 +11,12 @@ import java.util.UUID;
 public class GameState {
     @Id
     private String roomCode;
-    private UUID activePlayerId;
-    private UUID lastPlayerId;
+    private String activePlayerId;
+    private String lastPlayerId;
     @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL)
     List<Player> players;
 
-    public GameState(String roomCode, UUID activePlayerId, UUID lastPlayerId) {
+    public GameState(String roomCode, String activePlayerId, String lastPlayerId) {
         this.roomCode = roomCode;
         this.activePlayerId = activePlayerId;
         this.lastPlayerId = lastPlayerId;
@@ -41,19 +37,19 @@ public class GameState {
         this.roomCode = roomCode;
     }
 
-    public UUID getActivePlayerId() {
+    public String getActivePlayerId() {
         return activePlayerId;
     }
 
-    public void setActivePlayerId(UUID activePlayerId) {
+    public void setActivePlayerId(String activePlayerId) {
         this.activePlayerId = activePlayerId;
     }
 
-    public UUID getLastPlayerId() {
+    public String getLastPlayerId() {
         return lastPlayerId;
     }
 
-    public void setLastPlayerId(UUID lastPlayerId) {
+    public void setLastPlayerId(String lastPlayerId) {
         this.lastPlayerId = lastPlayerId;
     }
 }

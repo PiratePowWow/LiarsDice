@@ -1,12 +1,10 @@
 package com.theironyard.entities;
 
 import org.hibernate.annotations.Type;
-import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by PiratePowWow on 4/5/16.
@@ -15,8 +13,7 @@ import java.util.UUID;
 @Table(name = "players")
 public class Player {
     @Id
-    @Type(type="uuid-char")
-    private UUID id;
+    private String id;
     @NotNull
     private String name;
     private ArrayList<Integer> dice;
@@ -27,7 +24,7 @@ public class Player {
     @ManyToOne
     GameState gameState;
 
-    public Player(UUID id, String name, ArrayList<Integer> dice, ArrayList<Integer> stake, int score, int seatNum, GameState gameState) {
+    public Player(String id, String name, ArrayList<Integer> dice, ArrayList<Integer> stake, int score, int seatNum, GameState gameState) {
         this.id = id;
         this.name = name;
         this.dice = dice;
@@ -37,7 +34,7 @@ public class Player {
         this.gameState = gameState;
     }
 
-    public Player(UUID id, String name, ArrayList<Integer> dice, ArrayList<Integer> stake, int score, int seatNum) {
+    public Player(String id, String name, ArrayList<Integer> dice, ArrayList<Integer> stake, int score, int seatNum) {
         this.id = id;
         this.name = name;
         this.dice = dice;
@@ -46,7 +43,7 @@ public class Player {
         this.seatNum = seatNum;
     }
 
-    public Player(UUID id, String name, int seatNum) {
+    public Player(String id, String name, int seatNum) {
         this.id = id;
         this.name = name;
         this.seatNum = seatNum;
@@ -71,11 +68,11 @@ public class Player {
         return id.hashCode();
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
