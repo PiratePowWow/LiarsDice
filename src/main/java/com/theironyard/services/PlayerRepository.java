@@ -10,7 +10,8 @@ import java.util.UUID;
 /**
  * Created by PiratePowWow on 4/5/16.
  */
-public interface PlayerRepository extends CrudRepository<Player, UUID> {
+public interface PlayerRepository extends CrudRepository<Player, String> {
     ArrayList<Player> findByGameState(GameState gameState);
     ArrayList<Player> findByGameStateOrderBySeatNum(GameState gameState);
+    ArrayList<ArrayList<Integer>> findDiceByGameState(GameState gameState);
 }

@@ -1,7 +1,5 @@
 package com.theironyard.utils;
 
-import com.sun.tools.javac.util.ArrayUtils;
-import com.theironyard.dtos.PlayerDto;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
@@ -9,10 +7,8 @@ import com.theironyard.services.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Created by PiratePowWow on 4/5/16.
@@ -73,7 +69,7 @@ public class GameLogic {
 
     public void setNextActivePlayer(String roomCode) {
         GameState gameState = gameStates.findOne(roomCode);
-        UUID activePlayer = gameState.getActivePlayerId();
+        String activePlayer = gameState.getActivePlayerId();
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
         if (activePlayer == null) {
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
@@ -119,18 +115,16 @@ public class GameLogic {
         }
     }
 
-    public void createNewGame(HttpSession session, String name){
+    public void createNewGame(String name, String id){
         String roomCode = makeRoomCode();
         gameStates.save(new GameState(roomCode));
-        UUID firstPlayerId = java.util.UUID.randomUUID();
-        players.save(new Player(firstPlayerId, name, null, null, 0, 1, gameStates.findOne(roomCode)));
+        players.save(new Player(id, name, null, null, 0, 1, gameStates.findOne(roomCode)));
     }
 
-    public void addPlayer(HttpSession session, String name, String roomCode) {
-        UUID playerId = java.util.UUID.randomUUID();
+    public void addPlayer(String name, String roomCode, String id) {
         GameState gameState = gameStates.findOne(roomCode);
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
-        players.save(new Player(playerId, name, null, null, 0, determineSeatNum(playersInGame), gameState));
+        players.save(new Player(id, name, null, null, 0, determineSeatNum(playersInGame), gameState));
     }
 
     public int determineSeatNum(ArrayList<Player> playersInGame){
@@ -138,15 +132,44 @@ public class GameLogic {
         int i = 1;
         for (Player player: playersInGame){
             if (player.getSeatNum() != i){
-                seatNum = i;
                 break;
             }
             i++;
         }
+        seatNum = i;
         return seatNum;
     }
 
-    public void dropPlayer(){
+    public void dropPlayer(String id){
+        GameState gameState = players.findOne(id).getGameState();
+        if(players.findByGameState(gameState).size() == 1){
+            gameStates.delete(gameState.getRoomCode());
+        }else{
+            players.delete(id);
+        }
+    }
 
+    public void setStake(String id, ArrayList<Integer> newStake) {
+        Player player = players.findOne(id);
+        player.setStake(newStake);
+        players.save(player);
+    }
+
+    public boolean isActivePlayer(String id){
+        return players.findOne(id).getGameState().getActivePlayerId().equals(id);
+    }
+
+    public boolean allDiceRolled(String roomCode){
+        GameState gameState = gameStates.findOne(roomCode);
+        if(players.findDiceByGameState(gameState).size() == players.findByGameState(gameState).size()){
+            return true;
+        }
+        return false;
+    }
+
+    public void setDice(String id){
+        Player player = players.findOne(id);
+        player.setDice(rollDice());
+        players.save(player);
     }
 }
