@@ -30,6 +30,13 @@ public class PlayerDto {
         this.seatNum = seatNum;
     }
 
+    public PlayerDto(String name, String roomCode, ArrayList<Integer> stake, int seatNum) {
+        this.name = name;
+        this.roomCode = roomCode;
+        this.stake = stake;
+        this.seatNum = seatNum;
+    }
+
     public String getId() {
         return id;
     }

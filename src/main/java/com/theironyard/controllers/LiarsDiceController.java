@@ -45,7 +45,7 @@ public class LiarsDiceController {
 
     @MessageMapping("/lobby/rollDice")
     @SendTo("/topic/playerList")
-    public ArrayList<Player> rollDice(String id) {
+    public ArrayList<PlayerDto> rollDice(String id) {
         Player playerRollingDice = players.findOne(id);
         GameState gameState = playerRollingDice.getGameState();
         if(playerRollingDice.getDice() == null){
@@ -55,8 +55,18 @@ public class LiarsDiceController {
         if (gameLogic.allDiceRolled(gameState.getRoomCode())){
             gameLogic.setNextActivePlayer(gameState.getRoomCode());
         }
-        return players.findByGameStateOrderBySeatNum(gameState);
+        ArrayList<PlayerDto> playerDtos = new ArrayList<>();
+        for (Player player: players.findByGameStateOrderBySeatNum(gameState)){
+            playerDtos.add(new PlayerDto(player.getName(), gameState.getRoomCode(), player.getStake(), player.getSeatNum()));
+        }
+        return playerDtos;
     }
+
+    @MessageMapping("/lobby/rollDice/{myPlayerId}")
+    public Player myDice(@DestinationVariable String id) {
+        return players.findOne(id);
+    }
+
 
     @MessageMapping("/lobby/setStake")
     @SendTo("/topic/playerList")
