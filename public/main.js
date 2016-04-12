@@ -36,7 +36,9 @@ var liarsDice = {
     // cup that lifts and disapears
     $('.cup2').stop(true, true).delay(2100).animate({
       marginTop: -1000,
-    }, 1400);
+    }, 1200);
+
+
     // query params= the number the dice lands on
     // spinCount=how many times the dice spins before it lands on the number
     // dice one

@@ -18,9 +18,9 @@ button::-moz-focus-inner{
   border  : 0;
 }
 body{
-  /*background-image: url("./shipPainting.jpg");
+  background-image: url("./shipblack.jpg");
   background-repeat:no-repeat;
-  background-size: 1400px 600px;*/
+  background-size: 1400px 600px;
 }
 .inactive{
   display:none;
@@ -30,19 +30,24 @@ body{
   height:200px;
   display: inline-block;
   border: 2px black solid;
-  margin-left: 60%;
+  margin-left: 50%;
   position:absolute;
 }
 
 .cup2{
   margin-top: -5%;
   margin-left: 62%;
-  width:650px;
-  height:650px;
+  width:450px;
+  height:450px;
   position:absolute;
   background-image: url("./cupbones6.png");
   background-repeat:no-repeat;
   z-index: 0;
+  -webkit-animation: grow 2600ms ease-out;
+}
+@-webkit-keyframes grow{
+0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
+100% {	-webkit-transform: scale(.99) rotateZ(1080deg); }
 }
 
 
@@ -87,11 +92,18 @@ body{
   margin-left: 60px;
   margin-right: 60px;
 /*rotates each dice*/
-  /*transform:rotate(45deg);*/
+  transform:rotate(45deg);
 
   /*padding-left: 55px;
   padding-right: 50px;*/
+-webkit-animation: rotate 4000ms linear;
 }
+
+@-webkit-keyframes rotate {
+  0% { -webkit-transform: rotate(0deg);}
+  100%{ -webkit-transform: rotate(0deg);}
+}
+
 
 .containerA{
   margin-left: 22%;
