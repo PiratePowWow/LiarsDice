@@ -35,21 +35,23 @@ body{
 }
 
 .cup2{
-  margin-top: -5%;
-  margin-left: 62%;
+  /*margin-top: -5%;*/
+  margin-left: 57%;
   width:450px;
   height:450px;
   position:absolute;
   background-image: url("./cupbones6.png");
   background-repeat:no-repeat;
   z-index: 0;
-  -webkit-animation: grow 2600ms ease-out;
+  -webkit-animation: grow 2200ms ease-out;
 }
 @-webkit-keyframes grow{
+/*0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
+100% {	-webkit-transform: scale(.99) rotateZ(720deg); }
+}*/
 0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
-100% {	-webkit-transform: scale(.99) rotateZ(1080deg); }
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg); }
 }
-
 
 .cup{
   margin-top: -15%;
@@ -96,7 +98,7 @@ body{
 
   /*padding-left: 55px;
   padding-right: 50px;*/
--webkit-animation: rotate 4000ms linear;
+-webkit-animation: rotate 4200ms linear;
 }
 
 @-webkit-keyframes rotate {
