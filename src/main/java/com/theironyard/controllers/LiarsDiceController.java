@@ -92,6 +92,14 @@ public class LiarsDiceController {
         Player playerSettingStake = players.findOne(id);
         GameState gameState = playerSettingStake.getGameState();
         String roomCode = gameState.getRoomCode();
+        if (playerSettingStake.getDice() == null){
+            gameLogic.setNextActivePlayer(roomCode);
+            PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+            HashMap playerListAndGameState = new HashMap();
+            playerListAndGameState.put("playerList", playerDtos);
+            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+            return playerListAndGameState;
+        }
         if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
             playerSettingStake.setStake(newStake);
             players.save(playerSettingStake);
