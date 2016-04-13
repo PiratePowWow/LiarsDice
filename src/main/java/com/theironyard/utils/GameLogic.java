@@ -79,11 +79,15 @@ public class GameLogic {
         if (activePlayer == null) {
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
             gameStates.save(gameState);
-        }else{
+        }
+        else{
             gameState.setLastPlayerId(gameState.getActivePlayerId());
             int nextIndex = playersInGame.indexOf(players.findOne(gameState.getLastPlayerId()));
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1).getId());
             gameStates.save(gameState);
+            if(players.findOne(gameState.getActivePlayerId()).getDice() == null){
+                setNextActivePlayer(roomCode);
+            }
         }
     }
 
