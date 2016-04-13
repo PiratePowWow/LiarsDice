@@ -6,15 +6,13 @@ var queryParam3;
 var queryParam4;
 var queryParam5;
 var isConnected = false;
+var socket = new Socket();
+
 $(document).ready(function() {
   liarsDice.init();
 });
 var liarsDice = {
 
-  url: {
-    lobby: "/lobbyOrWhatever",
-    gameroom: "/gameroomOrWhatever",
-  },
   init: function() {
     liarsDice.events();
     liarsDice.styling();
@@ -22,50 +20,30 @@ var liarsDice = {
   events: function () {
 
     $('.submit').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked submit");
+
       var name = $('input[name="name"]').val();
       var roomCode = $('input[roomCode="roomCode"]').val();
       // socket stuff
-          var connectSocket = function() {
-            var ws = new SockJS("/liarsDice")
-            socket = Stomp.over(ws)
-            socket.connect({name:name, roomCode:roomCode}, onSocketConnected)
-          };
-          var onSocketConnected = function() {
-            var url = socket.ws._transport.url.split("/");
-            playerId = url[url.length-2];
-            console.log('Connected to socket server')
-            isConnected = true
-
-
-      // PURPOSE - Connect to the server and join an existing game
-      // PURPOSE - Signal to the server the player wishes to roll their dice
-      // PURPOSE - Signal to the server the player wishes to set their stake(raise the stakes)
-      // PURPOSE - Signal to the server the player wants to reset the game(start a new game, but keep same roomCode and existing players)
-            socket.subscribe("/topic/playerList", onPlayerList);
-      // PURPOSE - player's dice)
-            socket.subscribe("/topic/lobby/" + playerId, onLobby);
-      // @return loserDto - this is the PlayerDto of the losing player
-            socket.subscribe("/topic/loser", onLoser);
-            socket.send("app/lobby/" + playerId, {}, "");
-          };
-      event.preventDefault();
-      connectSocket();
-      console.log("you clicked submit");
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
+      socket.connectSocket(name,roomCode);
+      // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
+      socket.playRollDie();
 
-      var onLobby = function(data){
-        queryParam = data.dice[0];
-        queryParam2 = data.dice[1];
-        queryParam3 = data.dice[2];
-        queryParam4 = data.dice[3];
-        queryParam5 = data.dice[4];
-      };
+      // var onLobby = function(data){
+      //   queryParam = data.dice[0];
+      //   queryParam2 = data.dice[1];
+      //   queryParam3 = data.dice[2];
+      //   queryParam4 = data.dice[3];
+      //   queryParam5 = data.dice[4];
+      // };
 
       event.preventDefault();
-      onLobby();
+      // onLobby();
       console.log("you clicked start");
       $('.bigSection').removeClass('inactive');
       $('.lobby').addClass('inactive');
@@ -75,23 +53,23 @@ var liarsDice = {
         marginTop: -1000
       }, 1200);
     });
-    var onPlayerList = function(playerList) {
-      _.each()
-      $('.nameContent').html("");
-    };
-    var onLobby = function(data){
-      queryParam = data.dice[0];
-      queryParam2 = data.dice[1];
-      queryParam3 = data.dice[2];
-      queryParam4 = data.dice[3];
-      queryParam5 = data.dice[4];
-    };
-    var onLoser = function(){
-      $('.bluff').on('click', function(event){
-      console.log("you clicked the bluff button");
-      socket.send("/topic/loser", {}, JSON.stringify({id: playerId}));
-      });
-    };
+    // var onPlayerList = function(playerList) {
+    //   _.each()
+    //   $('.nameContent').html("");
+    // };
+    // var onLobby = function(data){
+    //   queryParam = data.dice[0];
+    //   queryParam2 = data.dice[1];
+    //   queryParam3 = data.dice[2];
+    //   queryParam4 = data.dice[3];
+    //   queryParam5 = data.dice[4];
+    // };
+    // var onLoser = function(){
+    //   $('.bluff').on('click', function(event){
+    //   console.log("you clicked the bluff button");
+    //   socket.send("/topic/loser", {}, JSON.stringify({id: playerId}));
+    //   });
+    // };
 
     // press space bar to view dice
     $(window).keydown(function(e) {
@@ -201,10 +179,61 @@ var liarsDice = {
     };
     var timer5 = setInterval(showFive, 500);
   }
-  // createName: function() {
-  //   var name = $('input[name="name"]').val();
-  //   return {
-  //     name: name,
-  //   };
-  // },
+
+}
+
+
+
+
+function Socket() {
+  var playerId;
+  var _this = this;
+  var socketInternal;
+
+  _this.connectSocket = function(name) {
+    var ws = new SockJS("/liarsDice")
+    socketInternal = Stomp.over(ws)
+    socketInternal.connect({name:name}, function() {
+      _this.onSocketConnected()
+    })
+  };
+
+  _this.onSocketConnected = function() {
+    var url = socketInternal.ws._transport.url.split("/");
+    playerId = url[url.length-2];
+    console.log('I NEED THISConnected to socket server', playerId);
+    isConnected = true
+
+  // PURPOSE - Connect to the server and join an existing game
+  // PURPOSE - Signal to the server the player wishes to roll their dice
+  // PURPOSE - Signal to the server the player wishes to set their stake(raise the stakes)
+  // PURPOSE - Signal to the server the player wants to reset the game(start a new game, but keep same roomCode and existing players)
+
+
+      socketInternal.subscribe("/topic/playerList", getDiceBack);
+  // PURPOSE - player's dice)
+
+      // socketInternal.subscribe("/topic/lobby/" + sessionId, onLobby);
+
+
+  // @return loserDto - this is the PlayerDto of the losing player
+      // socketInternal.subscribe("/topic/loser", getDiceBack);
+      socketInternal.send("/app/lobby/" + playerId, {}, "");
+      _this.sendFirstConnection(playerId);
+
+    };
+
+
+    _this.playRollDie = function() {
+      console.log("THIS IS APLYER ID IN ROLLDIE", playerId);
+      socketInternal.send("/app/lobby/rollDice", {playerId: playerId});
+    }
+  // connectSocket();
+    _this.sendFirstConnection = function(thingId) {
+      socketInternal.send("/app/lobby/" + thingId, {}, "");
+    }
+
+    function getDiceBack(data) {
+      console.log("WE GOT STUFF BACK", data);
+    }
 }
