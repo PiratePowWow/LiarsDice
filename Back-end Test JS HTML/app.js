@@ -8,21 +8,17 @@
         }
 
         function connect() {
+            var name = document.getElementById('player').value;
+            var roomCode = document.getElementById('roomCode').value;
             var socket = new SockJS('/hello');
             stompClient = Stomp.over(socket);
-            stompClient.connect({name: "James", roomCode: ""}, function(frame) {
+            stompClient.connect({name: name, roomCode: roomCode}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/lobby/' + roomCode, function(playerList) {
                     showPlayerList(JSON.parse(playerList.body))
                 });
-                stompClient.send('app/lobby/' + roomCode, {}, "");
-                stompClient.subscribe('/topic/greetings', function(greeting) {
-                    showGreeting(JSON.parse(greeting.body).content);
-                });
-                stompClient.subscribe('/topic/scoreboard/', function(score) {
-                    showPlayerList(JSON.parse(score.body));
-                });
+                stompClient.send('app/lobby/' + roomCode, {}, roomCode);
             });
         }
 
@@ -50,26 +46,26 @@
                 ul.appendChild(li);
             }
         }
-
-        function sendName() {
-            var name = document.getElementById('name').value;
-            stompClient.send('/app/hello', {}, JSON.stringify({'name': name}));
-        }
-
-        function showGreeting(message) {
-            var response = document.getElementById('response');
-            var p = document.createElement('p');
-            p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
-            response.appendChild(p);
-        }
-
-        function sendPlayer() {
-            var name = document.getElementById('player').value;
-            var score = document.getElementById('score').value;
-            var player = {
-                name: name,
-                score: score
-            }
-            stompClient.send('/app/scoreboard/', {}, JSON.stringify(player));
-        }
+//
+//        function sendName() {
+//            var name = document.getElementById('name').value;
+//            stompClient.send('/app/hello', {}, JSON.stringify({'name': name}));
+//        }
+//
+//        function showGreeting(message) {
+//            var response = document.getElementById('response');
+//            var p = document.createElement('p');
+//            p.style.wordWrap = 'break-word';
+//            p.appendChild(document.createTextNode(message));
+//            response.appendChild(p);
+//        }
+//
+//        function sendPlayer() {
+//            var name = document.getElementById('player').value;
+//            var score = document.getElementById('score').value;
+//            var player = {
+//                name: name,
+//                score: score
+//            }
+//            stompClient.send('/app/scoreboard/', {}, JSON.stringify(player));
+//        }
