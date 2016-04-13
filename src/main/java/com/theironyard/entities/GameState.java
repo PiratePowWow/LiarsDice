@@ -24,6 +24,8 @@ public class GameState {
 
     public GameState(String roomCode) {
         this.roomCode = roomCode;
+        this.activePlayerId = null;
+        this.lastPlayerId = null;
     }
 
     public GameState() {
