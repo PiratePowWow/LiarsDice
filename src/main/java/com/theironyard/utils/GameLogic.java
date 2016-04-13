@@ -33,22 +33,27 @@ public class GameLogic {
     public Player determineLoser(GameState gameState) {
         ArrayList<Integer> allDice = new ArrayList<>();
         ArrayList<Player> playersInGame = players.findByGameState(gameState);
-        boolean isBluffing;
+        Player loser;
         for (Player player: playersInGame) {
             allDice.addAll(player.getDice());
         }
         ArrayList<Integer> stake = players.findOne(gameState.getLastPlayerId()).getStake();
         int count = 0;
         for (Integer die : allDice){
-           if (die == stake.get(1)){
+           if (die.equals(stake.get(1))){
                count += 1;
            }
         }
         if (count < stake.get(0)){
-            isBluffing = true;
-            return players.findOne(gameState.getLastPlayerId());
+            loser = players.findOne(gameState.getLastPlayerId());
+            loser.setScore(loser.getScore() + 1);
+            players.save(loser);
+            return loser;
         }
-        return players.findOne(gameState.getActivePlayerId());
+        loser = players.findOne(gameState.getActivePlayerId());
+        loser.setScore(loser.getScore() + 1);
+        players.save(loser);
+        return loser;
     }
 
     public boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){
@@ -58,7 +63,7 @@ public class GameLogic {
                 return true;
             } else if (newStake.get(0) > oldStake.get(0)) {
                 return true;
-            } else if (newStake.get(0) == oldStake.get(0) && newStake.get(1) > oldStake.get(1)) {
+            } else if (newStake.get(0).equals(oldStake.get(0))  && newStake.get(1) > oldStake.get(1)) {
                 return true;
             }else{
                 return false;
@@ -74,7 +79,7 @@ public class GameLogic {
         if (activePlayer == null) {
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
             gameStates.save(gameState);
-        }else if (activePlayer != null){
+        }else{
             gameState.setLastPlayerId(gameState.getActivePlayerId());
             int nextIndex = playersInGame.indexOf(players.findOne(gameState.getLastPlayerId()));
             gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex +1 >= players.findByGameStateOrderBySeatNum(gameState).size() ? 0 : nextIndex + 1).getId());
