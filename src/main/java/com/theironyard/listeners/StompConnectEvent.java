@@ -40,7 +40,6 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
         if(roomCode.isEmpty()){
             gameLogic.createNewGame(name, sessionId);
             GameState gameState = players.findOne(sessionId).getGameState();
-            roomCode = gameState.getRoomCode();
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
