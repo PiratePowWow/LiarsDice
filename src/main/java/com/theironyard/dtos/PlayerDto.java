@@ -7,28 +7,14 @@ import java.util.ArrayList;
  */
 public class PlayerDto {
     private String name;
-    private ArrayList<Integer> dice;
+    private String roomCode;
+    private ArrayList<Integer> stake;
     private int seatNum;
 
-    public PlayerDto(String name, ArrayList<Integer> dice, int seatNum) {
+    public PlayerDto(String name, String roomCode, ArrayList<Integer> stake, int seatNum) {
         this.name = name;
-        this.dice = dice;
-        this.seatNum = seatNum;
-    }
-
-    public PlayerDto(String name, ArrayList<Integer> dice) {
-        this.name = name;
-        this.dice = dice;
-    }
-
-    public PlayerDto() {
-    }
-
-    public int getSeatNum() {
-        return seatNum;
-    }
-
-    public void setSeatNum(int seatNum) {
+        this.roomCode = roomCode;
+        this.stake = stake;
         this.seatNum = seatNum;
     }
 
@@ -40,11 +26,27 @@ public class PlayerDto {
         this.name = name;
     }
 
-    public ArrayList<Integer> getDice() {
-        return dice;
+    public String getRoomCode() {
+        return roomCode;
     }
 
-    public void setDice(ArrayList<Integer> dice) {
-        this.dice = dice;
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
+    }
+
+    public ArrayList<Integer> getStake() {
+        return stake;
+    }
+
+    public void setStake(ArrayList<Integer> stake) {
+        this.stake = stake;
+    }
+
+    public int getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(int seatNum) {
+        this.seatNum = seatNum;
     }
 }
