@@ -10,12 +10,35 @@ public class PlayerDto {
     private String roomCode;
     private ArrayList<Integer> stake;
     private int seatNum;
+    private int score = 0;
+    private boolean isDiceRolled;
 
-    public PlayerDto(String name, String roomCode, ArrayList<Integer> stake, int seatNum) {
+    public PlayerDto(String name, String roomCode, ArrayList<Integer> stake, int seatNum, int score, boolean isDiceRolled) {
         this.name = name;
         this.roomCode = roomCode;
         this.stake = stake;
         this.seatNum = seatNum;
+        this.score = score;
+        this.isDiceRolled = isDiceRolled;
+    }
+
+    public PlayerDto() {
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isDiceRolled() {
+        return isDiceRolled;
+    }
+
+    public void setDiceRolled(boolean diceRolled) {
+        isDiceRolled = diceRolled;
     }
 
     public String getName() {

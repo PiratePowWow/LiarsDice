@@ -136,12 +136,13 @@ public class LiarsDiceController {
         Player playerCallingBluff = players.findOne(id);
         GameState gameState = playerCallingBluff.getGameState();
         String roomCode = gameState.getRoomCode();
+        PlayerDto loserDto;
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
-            PlayerDto loserDto = new PlayerDto(loser.getName(), roomCode, loser.getStake(), loser.getSeatNum());
+            loserDto = new PlayerDto(loser.getName(), roomCode, loser.getStake(), loser.getSeatNum(), loser.getScore(), loser.getDice() != null);
             return loserDto;
         }
-        PlayerDto loserDto = new PlayerDto(playerCallingBluff.getName(), roomCode, playerCallingBluff.getStake(), playerCallingBluff.getSeatNum());
+        loserDto = new PlayerDto(playerCallingBluff.getName(), roomCode, playerCallingBluff.getStake(), playerCallingBluff.getSeatNum(), playerCallingBluff.getScore(), playerCallingBluff.getDice() != null);
         return loserDto;
     }
 

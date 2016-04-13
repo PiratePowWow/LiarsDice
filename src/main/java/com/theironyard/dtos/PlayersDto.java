@@ -13,7 +13,7 @@ public class PlayersDto {
 
     public PlayersDto(ArrayList<Player> players) {
         this.playerDtos = players.parallelStream().map(player -> {
-                    return new PlayerDto(player.getName(), player.getGameState().getRoomCode(), player.getStake(), player.getSeatNum());
+                    return new PlayerDto(player.getName(), player.getGameState().getRoomCode(), player.getStake(), player.getSeatNum(), player.getScore(), player.getDice() != null);
         }).collect(Collectors.toCollection(ArrayList<PlayerDto>::new));
     }
 }
