@@ -9,22 +9,50 @@
   width:45%;
 }
 .homePage input , .homePage button{
-  height:40px;
-  margin-top: 4%;
+  margin-top: 11%;
   border-radius: 5px;
-  border: 2px green solid;
   padding-left: 6px;
   padding-right: 6px;
-  color: green;
+  color: maroon;
 }
-.homePage button{
-  background-color: lightgreen;
+#newConnect {
+  background-color: black;
+  height:65px;
+  width:90px;
+  box-shadow: 0 0 0 4px lightgrey inset;
+  border: 2px black solid;
+}
+.homePage input {
+    width:202px;
+    height:56px;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px black solid;
+    font-size: 1.5rem;
 }
 
 /*button{
   background-color: teal;
   color:white;
 }*/
+.homePage button{
+    font-size: 1.4rem;
+}
+.new{
+  height:125px;
+  width:125px;
+  box-shadow: 0 0 0 4px lightgrey inset;
+  border: 2px black solid;
+    background-color: black;
+  /*margin-top: -5%;*/
+  -webkit-animation: growSpin 2200ms ease-out;
+}
+/*  does the cannon ball thing  */
+@-webkit-keyframes growSpin{
+0% {-webkit-transform: scale(.5) translateX(700%) ; background-color: black; border-radius: 100%; border:none;}
+30%{ -webkit-transform: scale(.7) translateY(-250%) translateX(100%) ; background-color: black; border-radius: 100%; border:none;}
+60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg) ;}
+}
 
 .hidden>form {
     display:none;
@@ -37,6 +65,11 @@
 }
 .visible>button{
   z-index: 0;
+
+  background-image: url("./pirateflag.png");
+  background-repeat:no-repeat;
+  background-size: 100px 100px;
+  background-position: center center;
 }
 
 

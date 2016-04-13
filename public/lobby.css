@@ -1,3 +1,5 @@
+
+
 .lobby{
   display: block;
   width:40%;
@@ -7,20 +9,61 @@
 
 /*this magical box was made by following a tutorial found here... http://learn.shayhowe.com/advanced-html-css/transitions-animations/*/
 .box {
-    border: lightgrey solid 2px;
+    margin-top: -20%;
     color:black;
     width:10rem;
     height:10rem;
-    margin-left: 10%;
-    background: orange;
+    margin-left: 40%;
+    background-color:rgba(255,180,0,0.5);
+    /*opacity: .2;*/
     border-radius: 50%;
     transition-property: background, border-radius;
     transition-duration: 1s;
     transition-timing-function: linear;
+    -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
     /*cool, but not for this*/
     /*transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);*/
   }
-  .box:hover {
-    background: purple;
-    border-radius: 0%;
+/*.box{
+  background-image: url("./moon.jpg");
+  background-repeat:no-repeat;
+  background-size: 15rem 15rem;
+  background-position: center center;
+  opacity: 1;
+}*/
+  .layer{
+    width:11.5rem;
+    height:11.5rem;
+    margin-top: -12px;
+    margin-left: -12px;
+    opacity: .5;
+    border-radius: 50%;
+    transition-property: background, border-radius;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
   }
+
+  .layer:hover{
+    width:13.8rem;
+    height:13.8rem;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    margin-left: -14px;
+  }
+  .box:hover {
+    background: maroon;
+    /*opacity: .2;*/
+    border-radius: 50%;
+    width:12rem;
+    height:12rem;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    color:white;
+  }
+  /*.clickStart{
+    margin-top: 70px;
+    position: relative;
+  }*/
