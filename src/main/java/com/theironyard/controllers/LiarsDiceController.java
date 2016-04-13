@@ -1,6 +1,9 @@
 package com.theironyard.controllers;
 
+import com.theironyard.dtos.GameStateDto;
 import com.theironyard.dtos.PlayerDto;
+import com.theironyard.dtos.PlayerDtoSansGameState;
+import com.theironyard.dtos.PlayersDto;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
@@ -26,7 +29,6 @@ import java.util.HashMap;
 @Controller
 public class LiarsDiceController {
     public static SimpMessagingTemplate messenger;
-
     @Autowired
     public LiarsDiceController(SimpMessagingTemplate template) {
         messenger = template;
@@ -43,83 +45,104 @@ public class LiarsDiceController {
         Server.createWebServer().start();
     }
 
+    /**
+     *
+     * @param myPlayerId
+     * @return
+     */
     @MessageMapping("/lobby/{myPlayerId}")
-    public Player myPlayer(@DestinationVariable String myPlayerId) {
-        return players.findOne(myPlayerId);
+    public PlayerDtoSansGameState myPlayer(@DestinationVariable String myPlayerId) {
+        return new PlayerDtoSansGameState(players.findOne(myPlayerId));
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @MessageMapping("/lobby/rollDice")
     @SendTo("/topic/playerList")
     public HashMap rollDice(String id) {
         Player playerRollingDice = players.findOne(id);
         GameState gameState = playerRollingDice.getGameState();
+        String roomCode = gameState.getRoomCode();
         if(playerRollingDice.getDice() == null){
             playerRollingDice.setDice(gameLogic.rollDice());
             players.save(playerRollingDice);
         }
-        if (gameLogic.allDiceRolled(gameState.getRoomCode())){
-            gameLogic.setNextActivePlayer(gameState.getRoomCode());
+        if (gameLogic.allDiceRolled(roomCode)){
+            gameLogic.setNextActivePlayer(roomCode);
         }
-        ArrayList<PlayerDto> playerDtos = new ArrayList<>();
-        for (Player player: players.findByGameStateOrderBySeatNum(gameState)){
-            playerDtos.add(new PlayerDto(player.getName(), gameState.getRoomCode(), player.getStake(), player.getSeatNum()));
-        }
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", gameStates.findOne(gameState.getRoomCode()));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
         return playerListAndGameState;
     }
 
+    /**
+     *
+     * @param id
+     * @param newStake
+     * @return
+     */
     @MessageMapping("/lobby/setStake")
     @SendTo("/topic/playerList")
-    public HashMap setStake(String id, ArrayList<Integer> dice) {
+    public HashMap setStake(String id, ArrayList<Integer> newStake) {
         Player playerSettingStake = players.findOne(id);
         GameState gameState = playerSettingStake.getGameState();
-        if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, dice)){
-            playerSettingStake.setStake(dice);
+        String roomCode = gameState.getRoomCode();
+        if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
+            playerSettingStake.setStake(newStake);
             players.save(playerSettingStake);
-            gameLogic.setNextActivePlayer(gameState.getRoomCode());
+            gameLogic.setNextActivePlayer(roomCode);
         }
-        ArrayList<PlayerDto> playerDtos = new ArrayList<>();
-        for (Player player: players.findByGameStateOrderBySeatNum(gameState)){
-            playerDtos.add(new PlayerDto(player.getName(), gameState.getRoomCode(), player.getStake(), player.getSeatNum()));
-        }
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", gameStates.findOne(gameState.getRoomCode()));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
         return playerListAndGameState;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @MessageMapping("/lobby/resetGame")
     @SendTo("/topic/playerList")
     public HashMap resetGame(String id){
         Player playerRequestingReset = players.findOne(id);
         GameState gameState = playerRequestingReset.getGameState();
-        gameLogic.resetGameState(gameState.getRoomCode());
+        String roomCode = gameState.getRoomCode();
+        gameLogic.resetGameState(roomCode);
         GameState newGame = playerRequestingReset.getGameState();
-        gameLogic.setNextActivePlayer(newGame.getRoomCode());
-        ArrayList<PlayerDto> playerDtos = new ArrayList<>();
-        for (Player player: players.findByGameStateOrderBySeatNum(newGame)){
-            playerDtos.add(new PlayerDto(player.getName(), gameState.getRoomCode(), player.getStake(), player.getSeatNum()));
-        }
+        gameLogic.setNextActivePlayer(roomCode);
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(newGame));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", gameStates.findOne(gameState.getRoomCode()));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
         return playerListAndGameState;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @MessageMapping("/lobby/callBluff")
     @SendTo("/topic/loser")
     public PlayerDto callBluff(String id) {
         Player playerCallingBluff = players.findOne(id);
         GameState gameState = playerCallingBluff.getGameState();
+        String roomCode = gameState.getRoomCode();
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
-            PlayerDto loserDto = new PlayerDto(loser.getName(), gameState.getRoomCode(), loser.getStake(), loser.getSeatNum());
+            PlayerDto loserDto = new PlayerDto(loser.getName(), roomCode, loser.getStake(), loser.getSeatNum());
             return loserDto;
         }
-
-        return new PlayerDto(playerCallingBluff.getName(), gameState.getRoomCode(), playerCallingBluff.getStake(), playerCallingBluff.getSeatNum());
+        PlayerDto loserDto = new PlayerDto(playerCallingBluff.getName(), roomCode, playerCallingBluff.getStake(), playerCallingBluff.getSeatNum());
+        return loserDto;
     }
 
 //    @MessageMapping("/lobby/")
