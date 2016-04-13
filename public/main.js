@@ -13,7 +13,25 @@ var liarsDice = {
     liarsDice.events();
     liarsDice.styling();
   },
-  events: function() {
+  events: function () {
+    $('.submit').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked submit");
+      $('.lobby').removeClass('inactive');
+      $('.homePage').addClass('inactive');
+    });
+    $('.box').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked start");
+      $('.bigSection').removeClass('inactive');
+      $('.lobby').addClass('inactive');
+      $('.title').css('margin-top',"1%");
+      // cup that lifts and disapears
+      $('.cup2').stop(true, true).delay(2100).animate({
+        marginTop: -1000
+      }, 1200);
+    });
+
     // press space bar to view dice
     $(window).keydown(function(e) {
       if (e.which === 32) {
@@ -33,10 +51,7 @@ var liarsDice = {
     //  lobby
   },
   styling: function() {
-    // cup that lifts and disapears
-    $('.cup2').stop(true, true).delay(2100).animate({
-      marginTop: -1000,
-    }, 1200);
+
 
 
     // query params= the number the dice lands on
@@ -131,45 +146,11 @@ var liarsDice = {
       currentSpinCount5++;
     };
     var timer5 = setInterval(showFive, 500);
-  },
-  createName: function() {
-    var name = $('input[name="name"]').val();
-    return {
-      name: name,
-    };
-  },
-  addName: function(name) {
-    $.ajax({
-      method: 'POST',
-      url: liarsDice.url.whateverJamesNamesIt,
-      data: name,
-      success: function(newName) {
-        console.log("YOU DID IT", newName);
-      },
-      error: function(err) {
-        console.log("POST didn't work", err);
-      }
-    });
-  },
-  getName: function() {
-    $.ajax({
-      method: 'GET',
-      url: liarsDice.url.whateverJamesNamesIt,
-      success: function(nameData) {
-        console.log("RECEIVED NAMES", nameData);
-        // window.glob = beerData;
-        aleYeah.addNameToDom(JSON.parse(nameData));
-      },
-      error: function(err) {
-        console.log("GET didn't work", err);
-      }
-    });
-  },
-  addNameToDom: function(nameData) {
-    $('.nameContent').html("");
-    _.each(nameData, function(name) {
-      var tmpl = _.template(templates.name);
-      $('.nameContent').append(tmpl(name));
-    });
-  },
-};
+  }
+  // createName: function() {
+  //   var name = $('input[name="name"]').val();
+  //   return {
+  //     name: name,
+  //   };
+  // },
+}

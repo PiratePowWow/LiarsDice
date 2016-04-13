@@ -11,49 +11,56 @@
   <link rel="stylesheet" href="lobby.css" media="screen" title="no title" charset="utf-8">
 </head>
   <body>
+        <div class="title"><img src="title.png" alt="" /></div>
     <!--  home page section -->
-      <section class="inactive" >
+      <section class="homePage " >
         <div class="newGame">
-          <button type="button" class="new" name="button">Create New Game</button>
+          <button type="button" class="new" name="button">Let's Play!</button>
           <form class="newG">
-            <input type="text" id="name" name="name" value="" placeholder="enter your name">
-            <button id="newConnect"type="submit" name="submit">Submit</button>
+            <input type="text" id="name" name="name" value="" placeholder="enter your name, if you dare">
+            <button id="newConnect" class="submit" type="submit" name="submit">Submit</button>
             <!-- $('#newConnect').on('click',connectAndCreateNewGame) -->
           </form>
         </div>
         <!-- <h2>OR</h2> -->
-        <div class="enterKey">
+        <!-- <div class="enterKey">
           <button type="button" class="enter" name="button">Enter A Room Key</button>
           <form class="enterK">
             <input type="text" id="roomCode" name="name" value="" placeholder="enter room key">
             <input type="text" id="nameTwo" name="name" value="" placeholder="enter your name">
             <button id="roomConnect" type="submit" name="submit">Submit</button>
           </form>
-        </div>
+        </div> -->
       </section>
 
     <!-- end of home page -->
 
     <!--  lobby section -->
-      <section class="inactive" >
+      <section class="lobby inactive" >
         <ul class="nameContent">
 
         </ul>
 
-          <button class="box" type="button" name="button">When ready, click to START game</button>
+          <button class="box" type="button" name="button"><div class="clickStart">When ready, click to START game</div>
+            <img src="moonRed.png" class="layer" alt="" />
+          </button>
+
+
+          </div>
       </section>
     <!-- end of lobby -->
 
 
-    <section class = "bigSection">
-    <h1> Dice!!</h1>
+    <section class = "bigSection inactive">
+
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
   <!--  score tracker    -->
-    <div class="score"><h3>Score</h3></div>
-    <div class="cup2"></div>
+      <div class="score"><h3>Score</h3></div>
+      <button type="button" class="abandonShip" name="button">abandon ship</button>
+      <div class="cup2"></div>
 
-    <div id = "cupDrop" class= "cup"></div>
+      <div id = "cupDrop" class= "cup"></div>
 
       <div class="diceContainer">
     <!-- first dice -->
@@ -121,6 +128,7 @@
 
 <!-- closing bigSection -->
   </section>
+<!--   scripts    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" charset="utf-8"></script>
     <script src="bower_components/underscore/underscore.js" charset="utf-8"></script>

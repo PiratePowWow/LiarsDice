@@ -10,6 +10,27 @@ button , input{
   font-size   : 1em;
   cursor      : pointer;
 }
+/*adjusts placeholder text color*/
+::-webkit-input-placeholder {
+   color: #454545;
+   font-size: 1rem;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #454545;
+   font-size: 1rem;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:#454545;
+   font-size: 1rem;
+}
+
+:-ms-input-placeholder {
+   color: #454545;
+   font-size: 1rem;
+}
+
 body{
   font-family: Helvetica Neue, Arial;
 }
@@ -21,18 +42,26 @@ body{
   background-image: url("./shipblack.jpg");
   background-repeat:no-repeat;
   background-size: 1400px 600px;
+
 }
 .inactive{
-  display:none;
+  display:none !important;
 }
-.score{
+
+.title{
+  margin: 0 auto;
+  margin-top: -7%;
+  margin-left: 72%;
+  position:absolute;
+}
+/*.score{
   width:20%;
   height:200px;
   display: inline-block;
   border: 2px black solid;
   margin-left: 50%;
   position:absolute;
-}
+}*/
 
 .cup2{
   /*margin-top: -5%;*/
@@ -46,9 +75,6 @@ body{
   -webkit-animation: grow 2200ms ease-out;
 }
 @-webkit-keyframes grow{
-/*0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
-100% {	-webkit-transform: scale(.99) rotateZ(720deg); }
-}*/
 0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
 100% {	-webkit-transform: scale(.99) rotateZ(-360deg); }
 }
