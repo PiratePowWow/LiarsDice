@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
 
 
@@ -52,7 +53,7 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/{myPlayerId}")
     public PlayerDtoSansGameState myPlayer(@DestinationVariable String myPlayerId) {
-        return new PlayerDtoSansGameState(players.findOne(myPlayerId));
+        return  new PlayerDtoSansGameState(players.findOne(myPlayerId));
     }
 
     /**
@@ -76,7 +77,7 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
         return playerListAndGameState;
     }
 
@@ -97,7 +98,7 @@ public class LiarsDiceController {
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
             return playerListAndGameState;
         }
         if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
@@ -108,7 +109,7 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
         return playerListAndGameState;
     }
 
@@ -129,7 +130,7 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(newGame));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
         return playerListAndGameState;
     }
 

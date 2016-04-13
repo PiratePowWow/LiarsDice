@@ -2,22 +2,24 @@ package com.theironyard.dtos;
 
 import com.theironyard.entities.GameState;
 import com.theironyard.services.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by PiratePowWow on 4/5/16.
  */
 public class GameStateDto {
-    @Autowired
-    PlayerRepository players;
+    //    @Autowired
+//    PlayerRepository players;
     private String roomCode;
-    private int activePlayerSeatNum;
-    private int lastPlayerSeatNum;
+    private Integer activePlayerSeatNum;
+    private Integer lastPlayerSeatNum;
 
-    public GameStateDto(GameState gameState) {
+    public GameStateDto(GameState gameState, PlayerRepository players) {
         this.roomCode = gameState.getRoomCode();
-        this.activePlayerSeatNum = players.findOne(gameState.getActivePlayerId()).getSeatNum();
-        this.lastPlayerSeatNum = players.findOne(gameState.getLastPlayerId()).getSeatNum();
+        this.activePlayerSeatNum = gameState.getActivePlayerId() == null ? null : players.findOne(gameState.getActivePlayerId()).getSeatNum();
+        this.lastPlayerSeatNum = gameState.getLastPlayerId() == null ? null : players.findOne(gameState.getLastPlayerId()).getSeatNum();
+    }
+
+    public GameStateDto() {
     }
 
     public String getRoomCode() {
@@ -28,19 +30,19 @@ public class GameStateDto {
         this.roomCode = roomCode;
     }
 
-    public int getActivePlayerSeatNum() {
+    public Integer getActivePlayerSeatNum() {
         return activePlayerSeatNum;
     }
 
-    public void setActivePlayerSeatNum(int activePlayerSeatNum) {
+    public void setActivePlayerSeatNum(Integer activePlayerSeatNum) {
         this.activePlayerSeatNum = activePlayerSeatNum;
     }
 
-    public int getLastPlayerSeatNum() {
+    public Integer getLastPlayerSeatNum() {
         return lastPlayerSeatNum;
     }
 
-    public void setLastPlayerSeatNum(int lastPlayerSeatNum) {
+    public void setLastPlayerSeatNum(Integer lastPlayerSeatNum) {
         this.lastPlayerSeatNum = lastPlayerSeatNum;
     }
 }

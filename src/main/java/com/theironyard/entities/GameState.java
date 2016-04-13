@@ -13,7 +13,7 @@ public class GameState {
     private String roomCode;
     private String activePlayerId;
     private String lastPlayerId;
-    @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     List<Player> players;
 
     public GameState(String roomCode, String activePlayerId, String lastPlayerId) {

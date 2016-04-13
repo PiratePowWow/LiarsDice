@@ -37,13 +37,13 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
         String sessionId = sha.getSessionId();
         String roomCode = sha.getNativeHeader("roomCode").get(0);
         String  name = sha.getNativeHeader("name").get(0);
-        if(roomCode.isEmpty()){
+        if(roomCode.equals("undefined")){
             gameLogic.createNewGame(name, sessionId);
             GameState gameState = players.findOne(sessionId).getGameState();
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameState));
+            playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
             LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
         }else {
             gameLogic.addPlayer(name, roomCode, sessionId);
@@ -51,7 +51,7 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameState));
+            playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
             LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
         }
         System.out.println("Connect event [sessionId: " + sessionId +"; name: "+ name + " ]");
