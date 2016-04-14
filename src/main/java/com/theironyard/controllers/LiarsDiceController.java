@@ -57,6 +57,11 @@ public class LiarsDiceController {
         return  new PlayerDtoSansGameState(players.findOne(myPlayerId));
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @MessageMapping("/lobby/JoinGame")
     @SendTo("/topic/playerList")
     public HashMap joinGame(String id) {
