@@ -77,22 +77,23 @@ public class GameLogic {
         String activePlayer = gameState.getActivePlayerId();
         ArrayList<Player> playersInGame = players.findByGameStateOrderBySeatNum(gameState);
         if (activePlayer == null) {
-            gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(0).getId());
+            gameState.setActivePlayerId(playersInGame.get(0).getId());
             gameStates.save(gameState);
         }
         else{
             gameState.setLastPlayerId(gameState.getActivePlayerId());
             int nextIndex = playersInGame.indexOf(players.findOne(gameState.getLastPlayerId()));
-            if (nextIndex + 1 >= players.findByGameStateOrderBySeatNum(gameState).size()){
+            ArrayList<Player> playersInGameOrderedBySeatNum = players.findByGameStateOrderBySeatNum(gameState);
+            if (nextIndex + 1 >= playersInGameOrderedBySeatNum.size()){
                 nextIndex = -1;
             }
-            while(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex + 1).getDice() == null){
+            while(playersInGameOrderedBySeatNum.get(nextIndex + 1).getDice() == null){
                 nextIndex++;
-                if (nextIndex + 1 >= players.findByGameStateOrderBySeatNum(gameState).size()){
+                if (nextIndex + 1 >= playersInGameOrderedBySeatNum.size()){
                     nextIndex = 0;
                 }
             }
-            gameState.setActivePlayerId(players.findByGameStateOrderBySeatNum(gameState).get(nextIndex + 1).getId());
+            gameState.setActivePlayerId(playersInGameOrderedBySeatNum.get(nextIndex + 1).getId());
             gameStates.save(gameState);
         }
     }

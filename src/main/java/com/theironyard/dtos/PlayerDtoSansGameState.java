@@ -25,4 +25,63 @@ public class PlayerDtoSansGameState {
         this.score = player.getScore();
         this.seatNum = player.getSeatNum();
     }
+
+    public PlayerDtoSansGameState() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRoomCode() {
+        return roomCode;
+    }
+
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
+    }
+
+    public ArrayList<Integer> getDice() {
+        return dice;
+    }
+
+    public void setDice(ArrayList<Integer> dice) {
+        this.dice = dice;
+    }
+
+    public ArrayList<Integer> getStake() {
+        return stake;
+    }
+
+    public void setStake(ArrayList<Integer> stake) {
+        this.stake = stake;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(int seatNum) {
+        this.seatNum = seatNum;
+    }
 }

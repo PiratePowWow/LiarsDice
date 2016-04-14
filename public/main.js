@@ -193,7 +193,7 @@ function Socket() {
   _this.connectSocket = function(name) {
     var ws = new SockJS("/liarsDice")
     socketInternal = Stomp.over(ws)
-    socketInternal.connect({name:name}, function() {
+    socketInternal.connect({name:name, roomCode: "undefined"}, function() {
       _this.onSocketConnected()
     })
   };
@@ -209,8 +209,9 @@ function Socket() {
   // PURPOSE - Signal to the server the player wishes to set their stake(raise the stakes)
   // PURPOSE - Signal to the server the player wants to reset the game(start a new game, but keep same roomCode and existing players)
 
-
+      socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
       socketInternal.subscribe("/topic/playerList", getDiceBack);
+      socketInternal.subscribe("/topic/loser", getDiceBack)
   // PURPOSE - player's dice)
 
       // socketInternal.subscribe("/topic/lobby/" + sessionId, onLobby);
@@ -219,14 +220,25 @@ function Socket() {
   // @return loserDto - this is the PlayerDto of the losing player
       // socketInternal.subscribe("/topic/loser", getDiceBack);
       socketInternal.send("/app/lobby/" + playerId, {}, "");
-      _this.sendFirstConnection(playerId);
+      socketInternal.send("/app/lobby/JoinGame", {}, playerId);
+      socketInternal.send("/app/lobby/resetGame", {}, playerId);
+      var millisecondsToWait = 200;
+            setTimeout(function() {
+                socketInternal.send("/app/lobby/rollDice", {}, playerId);
+      }, millisecondsToWait);
+      var millisecondsToWait = 200;
+      setTimeout(function() {
+          socketInternal.send("/app/lobby/" + playerId, {}, "");
+      }, millisecondsToWait);
+      //socketInternal.send("/app/lobby/resetGame", {}, playerId);
+      //_this.sendFirstConnection(playerId);
 
     };
 
 
     _this.playRollDie = function() {
-      console.log("THIS IS APLYER ID IN ROLLDIE", playerId);
-      socketInternal.send("/app/lobby/rollDice", {playerId: playerId});
+      console.log("THIS IS A PLAYER ID IN ROLLDIE", playerId);
+      socketInternal.send("/app/lobby/rollDice", playerId);
     }
   // connectSocket();
     _this.sendFirstConnection = function(thingId) {

@@ -19,7 +19,7 @@ public class Player {
     private int score;
     @NotNull
     private int seatNum;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     GameState gameState;
 
     public Player(String id, String name, ArrayList<Integer> dice, ArrayList<Integer> stake, int score, int seatNum, GameState gameState) {

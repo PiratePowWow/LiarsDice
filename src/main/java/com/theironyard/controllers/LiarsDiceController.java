@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
 
 
@@ -52,8 +53,24 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/{myPlayerId}")
     public PlayerDtoSansGameState myPlayer(@DestinationVariable String myPlayerId) {
-        return new PlayerDtoSansGameState(players.findOne(myPlayerId));
+        System.out.println("Returning Player Object");
+        return  new PlayerDtoSansGameState(players.findOne(myPlayerId));
     }
+
+    @MessageMapping("/lobby/JoinGame")
+    @SendTo("/topic/playerList")
+    public HashMap joinGame(String id) {
+        Player playerJoiningGame = players.findOne(id);
+        GameState gameState = playerJoiningGame.getGameState();
+        String roomCode = gameState.getRoomCode();
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+        HashMap playerListAndGameState = new HashMap();
+        playerListAndGameState.put("playerList", playerDtos);
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        System.out.println("Joining Game");
+        return playerListAndGameState;
+    }
+
 
     /**
      *
@@ -76,7 +93,9 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerRollingDice));
+        System.out.println("Rolling Dice");
         return playerListAndGameState;
     }
 
@@ -97,7 +116,7 @@ public class LiarsDiceController {
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
             return playerListAndGameState;
         }
         if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
@@ -108,7 +127,9 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerSettingStake));
+        System.out.println("Setting Stake");
         return playerListAndGameState;
     }
 
@@ -129,7 +150,8 @@ public class LiarsDiceController {
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(newGame));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode)));
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        System.out.println("Resetting Game");
         return playerListAndGameState;
     }
 

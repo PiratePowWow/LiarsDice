@@ -1,5 +1,7 @@
 package com.theironyard.dtos;
 
+import com.theironyard.entities.Player;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +22,15 @@ public class PlayerDto {
         this.seatNum = seatNum;
         this.score = score;
         this.isDiceRolled = isDiceRolled;
+    }
+
+    public PlayerDto(Player player) {
+        this.name = player.getName();
+        this.roomCode = player.getGameState() == null? null : player.getGameState().getRoomCode();
+        this.stake = player.getStake();
+        this.seatNum = player.getSeatNum();
+        this.score = player.getScore();
+        this.isDiceRolled = player.getDice() != null;
     }
 
     public PlayerDto() {

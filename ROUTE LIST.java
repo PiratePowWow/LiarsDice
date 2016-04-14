@@ -26,7 +26,7 @@ ROUTE LIST
      * @param myPlayerId - this is the client websocket session id
      * @return PlayerDtoSansGameState - this will be the full Player object excluding the GameState
      */
-    PUBLISH ADDRESS("app/lobby/{myPlayerId}")
+    PUBLISH ADDRESS("/app/lobby/{myPlayerId}")
     SUBSCRIBE ADDRESS("/topic/lobby/{myPlayerId}")
 
 
@@ -35,7 +35,7 @@ ROUTE LIST
      * @param id - this is the client websocket session id
      * @return {"playerList": PlayerDtos, "gameState": GameStateDto} - PlayerDtos is a list of PlayerDto, GamestateDto is a single object
      */
-    PUBLISH ADDRESS("app/lobby/rollDice")
+    PUBLISH ADDRESS("/app/lobby/rollDice")
     SUBSCRIBE ADDRESS("/topic/playerList")
 
 
@@ -45,7 +45,7 @@ ROUTE LIST
      * @param newStake - an ArrayList of two Integers: [quantity, quality]
      * @return {"playerList": PlayerDtos, "gameState": GameStateDto} - PlayerDtos is a list of PlayerDto, GamestateDto is a single object
      */
-    PUBLISH ADDRESS("app/lobby/setStake")
+    PUBLISH ADDRESS("/app/lobby/setStake")
     SUBSCRIBE ADDRESS("/topic/playerList")
 
 
@@ -54,7 +54,7 @@ ROUTE LIST
      * @param id - this is the client websocket session id
      * @return {"playerList": PlayerDtos, "gameState": GameStateDto} - PlayerDtos is a list of PlayerDto, GamestateDto is a single object
      */
-    PUBLISH ADDRESS("app/lobby/resetGame")
+    PUBLISH ADDRESS("/app/lobby/resetGame")
     SUBSCRIBE ADDRESS("/topic/playerList")
 
 
@@ -63,7 +63,7 @@ ROUTE LIST
      * @param id - this is the client websocket session id
      * @return loserDto - this is the PlayerDto of the losing player
      */
-    @MessageMapping("app/lobby/callBluff")
+    @MessageMapping("/app/lobby/callBluff")
     @SendTo("/topic/loser")
 
 JAVA OBJECT DEFINITIONS
