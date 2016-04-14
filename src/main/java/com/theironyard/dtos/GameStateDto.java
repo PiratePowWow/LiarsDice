@@ -7,8 +7,6 @@ import com.theironyard.services.PlayerRepository;
  * Created by PiratePowWow on 4/5/16.
  */
 public class GameStateDto {
-    //    @Autowired
-//    PlayerRepository players;
     private String roomCode;
     private Integer activePlayerSeatNum;
     private Integer lastPlayerSeatNum;

@@ -12,10 +12,8 @@ public class PlayersDto {
     ArrayList<PlayerDto> playerDtos;
 
     public PlayersDto(ArrayList<Player> players) {
-        ArrayList<PlayerDto> playersToBroadcast = new ArrayList<>();
-        playersToBroadcast = players.parallelStream().map(player -> {
-            return new PlayerDto(player);
-        }).collect(Collectors.toCollection(ArrayList<PlayerDto>::new));
+        ArrayList<PlayerDto> playersToBroadcast;
+        playersToBroadcast = players.parallelStream().map(PlayerDto::new).collect(Collectors.toCollection(ArrayList<PlayerDto>::new));
         this.playerDtos = playersToBroadcast;
     }
 
