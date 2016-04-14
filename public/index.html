@@ -18,7 +18,7 @@
           <button type="button" class="new" name="button">Let's Play!</button>
           <form class="newG">
             <input type="text" id="name" name="name" value="" placeholder="enter your name, if you dare">
-            <input type="text" id="roomCode" name="name" value="" placeholder="enter room code OR submit">
+            <input type="text" id="roomCode" name="roomCode" value="" placeholder="enter room code OR submit">
             <button id="newConnect" class="submit" type="submit" name="submit">Submit</button>
             <!-- $('#newConnect').on('click',connectAndCreateNewGame) -->
           </form>
@@ -39,7 +39,7 @@
     <!--  lobby section -->
       <section class="lobby inactive" >
         <div class="nameContent">
-
+          hey
         </div>
 
           <button class="box" type="button" name="button">
@@ -54,16 +54,25 @@
 
     <section class = "bigSection inactive">
       <div class="nameContent">
-
+        names:
+      </div>
+      <div class="currentWager">
+        wager:
       </div>
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
   <!--  score tracker    -->
-      <div class="score"><h3>Score</h3></div>
-      <button type="button" class="abandonShip" name="button">abandon ship</button>
-      <button type="button" class="bluff" type="submit" name="submit">Bluff Button</button>
-      <input class="quantity" type="text" name="name" value="">
-      <input class="quality" type="text" name="name" value="">
+      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
+      <button type="button" class="nextRound" name="nextRound">next round</button>
+      <button type="button" class="bluff" type="submit" name="bluff">Bluff Button</button>
+
+      <form class="diceSubmit">
+        <input class="quantity" type="number" name="quantity" value="" placeholder="how many">
+        <input class="quality" type="number" name="quality" value="" placeholder="dice face">
+
+      </form>
+      <button class="submitDice" name="submitDice">Submit</button>
+
       <div class="cup2"></div>
 
       <div id = "cupDrop" class= "cup"></div>

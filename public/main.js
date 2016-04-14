@@ -7,6 +7,7 @@ var queryParam4;
 var queryParam5;
 var isConnected = false;
 var socket = new Socket();
+window.socket = socket;
 
 $(document).ready(function() {
   liarsDice.init();
@@ -15,7 +16,6 @@ var liarsDice = {
 
   init: function() {
     liarsDice.events();
-    liarsDice.styling();
   },
   events: function () {
 
@@ -24,24 +24,28 @@ var liarsDice = {
       console.log("you clicked submit");
 
       var name = $('input[name="name"]').val();
-      var roomCode
-      if ($('input[roomCode="roomCode"]').val() === "") {
+      var roomCode = $('input[name="roomCode"]').val();
+      if (roomCode === "") {
         roomCode = "undefined";
       } else {
-        roomCode = $('input[roomCode="roomCode"]').val()
+         roomCode = roomCode
       };
+      // var onPlayerList = function(playerList) {
+      //   _.each()
+      //   $('.nameContent').html("");
+      // };
 
-      // socket stuff
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
       socket.connectSocket(name,roomCode);
+      window.player = function() {
+        socket.getPlayerList();
+      }
       // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
       socket.playRollDie();
-      window.rollDie = function() {
-        socket.playRollDie();
-      }
+
       setTimeout(function() {
         rollDicePage(window.diceToDisplay)
       },2000);
@@ -57,11 +61,19 @@ var liarsDice = {
         marginTop: -1000
       }, 1200);
     });
-    // var onPlayerList = function(playerList) {
-    //   _.each()
-    //   $('.nameContent').html("");
-    // };
 
+// Submit a wager
+    $('.submitDice').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked dice submit");
+      socket.raiseStake();
+   });
+// submit bs
+   $('.bluff').on('click', function(event){
+     event.preventDefault();
+     console.log("you clicked Bull Shit");
+     socket.callBullShit();
+   });
     // var onLoser = function(){
     //   $('.bluff').on('click', function(event){
     //   console.log("you clicked the bluff button");
@@ -85,17 +97,11 @@ var liarsDice = {
         }, 10);
       }
     });
-    //  lobby
-  },
-  styling: function(diceObject) {
 
-//
-  }
+  },
+
 
 }
-
-
-
 
 function Socket() {
   var playerId;
@@ -116,35 +122,30 @@ function Socket() {
     console.log('I NEED THISConnected to socket server', playerId);
     isConnected = true
 
-  // PURPOSE - Connect to the server and join an existing game
-  // PURPOSE - Signal to the server the player wishes to roll their dice
-  // PURPOSE - Signal to the server the player wishes to set their stake(raise the stakes)
-  // PURPOSE - Signal to the server the player wants to reset the game(start a new game, but keep same roomCode and existing players)
 
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
-      socketInternal.subscribe("/topic/playerList", test2);
-      socketInternal.subscribe("/topic/loser", test3)
-  // PURPOSE - player's dice)
+      // socketInternal.subscribe("/topic/playerList", playerList);
+      socketInternal.subscribe("/topic/loser", getDiceBack)
 
-      // socketInternal.subscribe("/topic/lobby/" + sessionId, onLobby);
+      //
+      // function test1(data) {
+      //   console.log("SUBSCRIBE TOPIC LOBBY", data);
+      //
+      // }
+      // function test2(data) {
+      //   console.log("SUBSCRIBE TOPIC playerlist",data);
+      //
+      // }  function test3(data) {
+      //     console.log("SUBSCRIBE TOPIC LOSER",data);
+      // }
 
-      function test1(data) {
-        console.log("SUBSCRIBE TOPIC LOBBY", data);
 
-      }
-      function test2(data) {
-        console.log("SUBSCRIBE TOPIC playerlist",data);
-
-      }  function test3(data) {
-          console.log("SUBSCRIBE TOPIC LOSER",data);
-
-        }
-
-  // @return loserDto - this is the PlayerDto of the losing player
-      // socketInternal.subscribe("/topic/loser", getDiceBack);
       socketInternal.send("/app/lobby/" + playerId, {}, "");
-      socketInternal.send("/app/lobby/JoinGame", {}, playerId);
-      socketInternal.send("/app/lobby/resetGame", {}, playerId);
+      socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
+
+
+      // socketInternal.send("/app/lobby/resetGame", {}, playerId);
+
       // var millisecondsToWait = 200;
       //       setTimeout(function() {
       //           socketInternal.send("/app/lobby/rollDice", {}, playerId);
@@ -157,12 +158,35 @@ function Socket() {
       // _this.sendFirstConnection(playerId);
 
     };
+    _this.getPlayerList = function() {
+      console.log("this is the player list", playerId);
+      socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
+    }
+
 
 
     _this.playRollDie = function() {
       console.log("THIS IS A PLAYER ID IN ROLLDIE", playerId);
       socketInternal.send("/app/lobby/rollDice", {}, playerId);
     }
+
+    _this.callBullShit = function() {
+      console.log("BULL SHIT", playerId);
+      socketInternal.send("/app/lobby/callBluff", {}, playerId);
+    }
+
+    _this.raiseStake = function(){
+      var quantity = parseInt($('input[name="quantity"]').val());
+      var quality = parseInt($('input[name="quality"]').val());
+      var stake = {
+           "playerId": playerId,
+           "newStake": [quantity, quality]
+         }
+         $('input[name="quantity"]').val("");
+         $('input[name="quality"]').val("");
+     socketInternal.send("/app/lobby/setStake",{}, JSON.stringify(stake));
+    }
+
   // connectSocket();
     _this.sendFirstConnection = function(thingId) {
       socketInternal.send("/app/lobby/" + thingId, {}, "");
@@ -187,6 +211,19 @@ function Socket() {
           return diceRol
       }
     }
+
+    // function playerList(data) {
+    //   var parsed = JSON.parse(data.body);
+    //   var players = parsed.playerList.playerDtos
+    //   console.log("PLAYERLIST", players);
+    //   _.each(data, function onPlayerList(data) {
+    //     window.preStuff = data;
+    //     console.log(data);
+    //     data = JSON.parse(data.body.playerList.PlayerDtos.name);
+    //     window.glob = data;
+    //     $('.nameContent').html("");
+    //   });
+    // }
 }
 
 

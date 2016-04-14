@@ -54,6 +54,19 @@ body{
   margin-left: 72%;
   position:absolute;
 }
+
+.bigSection input{
+  border: pink 2px solid;
+}
+.nameContent{
+  margin:0 auto;
+  color:black;
+  border: 2px black solid;
+}
+.submitDice{
+  background-color: green;
+  border: black 2px solid;
+}
 /*.score{
   width:20%;
   height:200px;
