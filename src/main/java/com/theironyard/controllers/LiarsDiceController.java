@@ -53,8 +53,24 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/{myPlayerId}")
     public PlayerDtoSansGameState myPlayer(@DestinationVariable String myPlayerId) {
+        System.out.println("Returning Player Object");
         return  new PlayerDtoSansGameState(players.findOne(myPlayerId));
     }
+
+    @MessageMapping("/lobby/JoinGame")
+    @SendTo("/topic/playerList")
+    public HashMap joinGame(String id) {
+        Player playerJoiningGame = players.findOne(id);
+        GameState gameState = playerJoiningGame.getGameState();
+        String roomCode = gameState.getRoomCode();
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+        HashMap playerListAndGameState = new HashMap();
+        playerListAndGameState.put("playerList", playerDtos);
+        playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        System.out.println("Joining Game");
+        return playerListAndGameState;
+    }
+
 
     /**
      *
@@ -78,6 +94,8 @@ public class LiarsDiceController {
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
         playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerRollingDice));
+        System.out.println("Rolling Dice");
         return playerListAndGameState;
     }
 
@@ -110,6 +128,8 @@ public class LiarsDiceController {
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
         playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerSettingStake));
+        System.out.println("Setting Stake");
         return playerListAndGameState;
     }
 
@@ -131,6 +151,7 @@ public class LiarsDiceController {
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
         playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+        System.out.println("Resetting Game");
         return playerListAndGameState;
     }
 

@@ -27,16 +27,30 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
 
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-//        String sessionId = sha.getSessionId();
+        String sessionId = sha.getSessionId();
 //        GameState gameState = players.findOne(sessionId).getGameState();
 //        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
 //        HashMap playerListAndGameState = new HashMap();
 //        playerListAndGameState.put("playerList", playerDtos);
-//        playerListAndGameState.put("gameState", new GameStateDto(gameState));
+//        playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
 //        LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
 
         System.out.println("Connected Event [sessionId:" + sha.getSessionId() + "]");
         logger.debug("Connected event [sessionId: " + sha.getSessionId() + "]");
     }
+
+//    public void onApplicationEvent(SessionConnectedEvent event) {
+//        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = sha.getSessionId();
+//        GameState gameState = players.findOne(sessionId).getGameState();
+//        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+//        HashMap playerListAndGameState = new HashMap();
+//        playerListAndGameState.put("playerList", playerDtos);
+//        playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
+//        LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
+//
+//        System.out.println("Connected Event [sessionId:" + sha.getSessionId() + "]");
+//        logger.debug("Connected event [sessionId: " + sha.getSessionId() + "]");
+//    }
 }
 

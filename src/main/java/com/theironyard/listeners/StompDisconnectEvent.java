@@ -43,15 +43,18 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
         GameState gameState = players.findOne(sessionId).getGameState();
         String roomCode = gameState.getRoomCode();
         gameLogic.dropPlayer(sessionId);
-        if (gameState.getActivePlayerId().equals(sessionId)){
-            gameLogic.setNextActivePlayer(gameState.getRoomCode());
-            gameState = gameStates.findOne(roomCode);
+        if (gameStates.findOne(roomCode) != null) {
+            if (gameState.getActivePlayerId().equals(sessionId)) {
+                gameLogic.setNextActivePlayer(gameState.getRoomCode());
+                gameState = gameStates.findOne(roomCode);
+            }
+
+            PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+            HashMap playerListAndGameState = new HashMap();
+            playerListAndGameState.put("playerList", playerDtos);
+            playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
+            LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
         }
-        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
-        HashMap playerListAndGameState = new HashMap();
-        playerListAndGameState.put("playerList", playerDtos);
-        playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
-        LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
         System.out.println("Disconnect event [sessionId:" + sessionId + "]");
         logger.debug("Disconnect event [sessionId: " + sessionId + "]");
     }
