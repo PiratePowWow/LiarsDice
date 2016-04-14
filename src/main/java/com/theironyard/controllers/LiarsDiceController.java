@@ -1,9 +1,6 @@
 package com.theironyard.controllers;
 
-import com.theironyard.dtos.GameStateDto;
-import com.theironyard.dtos.PlayerDto;
-import com.theironyard.dtos.PlayerDtoSansGameState;
-import com.theironyard.dtos.PlayersDto;
+import com.theironyard.dtos.*;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
@@ -15,8 +12,8 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.annotation.PostConstruct;
@@ -76,7 +73,6 @@ public class LiarsDiceController {
         return playerListAndGameState;
     }
 
-
     /**
      *
      * @param id
@@ -103,7 +99,7 @@ public class LiarsDiceController {
         System.out.println("Rolling Dice");
         return playerListAndGameState;
     }
-
+//String id, ArrayList<Integer> newStake
     /**
      *
      * @param id
@@ -112,7 +108,9 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/setStake")
     @SendTo("/topic/playerList")
-    public HashMap setStake(String id, ArrayList<Integer> newStake) {
+    public HashMap setStake(HashMap stake) throws InterruptedException {
+        String id = (String) stake.get("playerId");
+        ArrayList<Integer> newStake = (ArrayList<Integer>) stake.get("newStake");
         Player playerSettingStake = players.findOne(id);
         GameState gameState = playerSettingStake.getGameState();
         String roomCode = gameState.getRoomCode();
@@ -122,6 +120,7 @@ public class LiarsDiceController {
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
             playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+            System.out.println("Setting Stake");
             return playerListAndGameState;
         }
         if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
@@ -174,31 +173,10 @@ public class LiarsDiceController {
         PlayerDto loserDto;
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
-            loserDto = new PlayerDto(loser.getName(), roomCode, loser.getStake(), loser.getSeatNum(), loser.getScore(), loser.getDice() != null);
+            loserDto = new PlayerDto(loser);
             return loserDto;
         }
-        loserDto = new PlayerDto(playerCallingBluff.getName(), roomCode, playerCallingBluff.getStake(), playerCallingBluff.getSeatNum(), playerCallingBluff.getScore(), playerCallingBluff.getDice() != null);
+        loserDto = new PlayerDto(playerCallingBluff);
         return loserDto;
     }
-
-//    @MessageMapping("/lobby/")
-//    public ArrayList<Player> scoreboard(@DestinationVariable String roomCode){
-//        return new ArrayList<Player>(players.findByGameStateOrderBySeatNum(gameStates.findOne(roomCode)));
-//    }
-
-
-
-//    @RequestMapping(path = "/newGame", method = RequestMethod.POST)
-//    public ResponseEntity<Object> newGame(String name){
-//        return new ResponseEntity<Object>(name, HttpStatus.OK);
-//    }
-
-
-
-
-//    @MessageMapping("/hello")
-//    @SendTo("/topic/greetings")
-//    public Greeting greeting(HelloMessage message){
-//        return new Greeting("Hello, " + message.getName() + "!");
-//    }
 }

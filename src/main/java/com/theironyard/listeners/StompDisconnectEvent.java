@@ -2,10 +2,8 @@ package com.theironyard.listeners;
 
 import com.theironyard.controllers.LiarsDiceController;
 import com.theironyard.dtos.GameStateDto;
-import com.theironyard.dtos.PlayerDto;
 import com.theironyard.dtos.PlayersDto;
 import com.theironyard.entities.GameState;
-import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
 import com.theironyard.utils.GameLogic;
@@ -13,13 +11,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,7 +43,6 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
                 gameLogic.setNextActivePlayer(gameState.getRoomCode());
                 gameState = gameStates.findOne(roomCode);
             }
-
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);

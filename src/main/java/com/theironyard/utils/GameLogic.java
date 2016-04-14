@@ -4,6 +4,7 @@ import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +58,9 @@ public class GameLogic {
     }
 
     public boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){
+        if (gameState.getLastPlayerId() == null){
+            return true;
+        }
         ArrayList<Integer> oldStake = players.findOne(gameState.getLastPlayerId()).getStake();
         if (newStake != null && newStake.get(0) > 0 && newStake.get(1) > 0 && newStake.get(1) < 7 && newStake.size() == 2 && newStake.getClass().getTypeName().equals("java.util.ArrayList")) {
             if (oldStake == null) {
@@ -116,6 +120,13 @@ public class GameLogic {
             }
         }
         return roomCode;
+//        String code = RandomStringUtils.randomAlphanumeric(4).toUpperCase();
+//        GameState game = gameStates.findOne(code);
+//        while(game != null) {
+//            code = RandomStringUtils.randomAlphanumeric(4).toUpperCase();
+//            game = gameStates.findOne(code);
+//        }
+//        return code;
     }
 
     public void resetGameState(String roomCode) {
@@ -177,10 +188,7 @@ public class GameLogic {
 
     public boolean allDiceRolled(String roomCode){
         GameState gameState = gameStates.findOne(roomCode);
-        if(players.findDiceByGameState(gameState).size() == players.findByGameState(gameState).size()){
-            return true;
-        }
-        return false;
+        return (players.findDiceByGameState(gameState).size() == players.findByGameState(gameState).size());
     }
 
     public void setDice(String id){
