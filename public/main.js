@@ -74,6 +74,13 @@ var liarsDice = {
      console.log("you clicked Bull Shit");
      socket.callBullShit();
    });
+// start next round and rerequest dice
+  $('.nextRound').on('click', function(event){
+    event.preventDefault();
+    console.log("you rerolled");
+    socket.getDiceBack();
+  });
+
     // var onLoser = function(){
     //   $('.bluff').on('click', function(event){
     //   console.log("you clicked the bluff button");
@@ -186,6 +193,12 @@ function Socket() {
          $('input[name="quality"]').val("");
      socketInternal.send("/app/lobby/setStake",{}, JSON.stringify(stake));
     }
+
+//   start next round and reroll dice
+  // _this.rollForNextRound = function(){
+  //
+  // }
+
 
   // connectSocket();
     _this.sendFirstConnection = function(thingId) {

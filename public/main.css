@@ -67,6 +67,10 @@ body{
   background-color: green;
   border: black 2px solid;
 }
+.nextRound{
+  background-color: green;
+  border: black 2px solid;
+}
 /*.score{
   width:20%;
   height:200px;
