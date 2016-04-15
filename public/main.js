@@ -74,11 +74,19 @@ var liarsDice = {
      console.log("you clicked Bull Shit");
      socket.callBullShit();
    });
+
 // start next round and rerequest dice
-  $('.nextRound').on('click', function(event){
+  $('.reroll').on('click', function(event){
     event.preventDefault();
+    $('.bigSection').removeClass('inactive');
+    $('.loser').addClass('inactive');
     console.log("you rerolled");
-    socket.getDiceBack();
+    // getDiceBack();
+    socket.playRollDie()
+
+    setTimeout(function() {
+      rollDicePage(window.diceToDisplay)
+    },4000);
   });
 
     // var onLoser = function(){
@@ -104,10 +112,7 @@ var liarsDice = {
         }, 10);
       }
     });
-
   },
-
-
 }
 
 function Socket() {
@@ -126,13 +131,14 @@ function Socket() {
   _this.onSocketConnected = function() {
     var url = socketInternal.ws._transport.url.split("/");
     playerId = url[url.length-2];
-    console.log('I NEED THISConnected to socket server', playerId);
+    // console.log('I NEED THISConnected to socket server', playerId);
     isConnected = true
 
 
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
-      // socketInternal.subscribe("/topic/playerList", playerList);
-      socketInternal.subscribe("/topic/loser", getDiceBack)
+      socketInternal.subscribe("/topic/playerList", playerList);
+      socketInternal.subscribe("/topic/loser", youLost)
+      socketInternal.subscribe("/app/lobby/callBluff", youLost);
 
       //
       // function test1(data) {
@@ -170,7 +176,10 @@ function Socket() {
       socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
     }
 
-
+    _this.resetGame = function(){
+      console.log("reset the game", playerId);
+      socketInternal.send("/app/lobby/resetGame", {}, playerId);
+    }
 
     _this.playRollDie = function() {
       console.log("THIS IS A PLAYER ID IN ROLLDIE", playerId);
@@ -205,43 +214,51 @@ function Socket() {
       socketInternal.send("/app/lobby/" + thingId, {}, "");
     }
 
-    function getDiceBack(data) {
-      window.preStuff = data;
-      console.log("WE GOT STUFF BACK", data);
-      data = JSON.parse(data.body);
-      window.glob = data;
-      // console.log("SHOW DATA DICE", data.dice);
-      if(data.dice) {
-        var diceRol = {
-            queryParam: data.dice[0],
-            queryParam2: data.dice[1],
-            queryParam3: data.dice[2],
-            queryParam4: data.dice[3],
-            queryParam5: data.dice[4],
-          };
-          console.log("HEEERERERERE", diceRol);
-          window.diceToDisplay = diceRol
-          return diceRol
-      }
+    function youLost(data){
+      _this.resetGame();
+      var parsed = JSON.parse(data.body);
+      var player;
+      console.log("LOSER", data)
+      $('.bigSection').addClass('inactive');
+      $('.loser').removeClass('inactive');
+      player = parsed.name;
+      $('.nameLoser').html(player);
+      // var players = parsed.playerList.playerDtos
+      // console.log("PLAYERLIST", players);
+      _.each(data, function onPlayerList(data) {
+      })
     }
 
-    // function playerList(data) {
-    //   var parsed = JSON.parse(data.body);
-    //   var players = parsed.playerList.playerDtos
-    //   console.log("PLAYERLIST", players);
-    //   _.each(data, function onPlayerList(data) {
-    //     window.preStuff = data;
-    //     console.log(data);
-    //     data = JSON.parse(data.body.playerList.PlayerDtos.name);
-    //     window.glob = data;
-    //     $('.nameContent').html("");
-    //   });
-    // }
+    function playerList(data) {
+      var parsed = JSON.parse(data.body);
+      var stake, score, player;
+      console.log("PLAYER LIST", parsed);
+      if(parsed.playerList.playerDtos.length > 0) {
+        stake = parsed.playerList.playerDtos[0].stake;
+        player = parsed.playerList.playerDtos[0].name;
+        score = parsed.playerList.playerDtos[0].score;
+      }
+      // console.log("STAKE STUFF", stake);
+      $('.currentWager').html(stake);
+      $('.nameContent').html(player, score);
+      var players = parsed.playerList.playerDtos
+      // console.log("PLAYERLIST", players);
+      _.each(data, function onPlayerList(data) {
+        // window.preStuff = data;
+        // console.log(data);
+        // data = JSON.parse(data.body.playerList.PlayerDtos.name);
+        // window.glob = data;
+        // $('.nameContent').html("");
+      });
+    }
 }
 
 
 
 function rollDicePage(diceObject) {
+  for (var i = 1; i < 99999; i++) {
+    window.clearInterval(i);
+  }
   // spinCount=how many times the dice spins before it lands on the number
   // dice one
       var faceOne = 1;
@@ -328,4 +345,24 @@ function rollDicePage(diceObject) {
         currentSpinCount5++;
       };
       var timer5 = setInterval(showFive, 500);
+}
+
+function getDiceBack(data) {
+  window.preStuff = data;
+  console.log("GET DICE BACK", data);
+  data = JSON.parse(data.body);
+  window.glob = data;
+  // console.log("SHOW DATA DICE", data.dice);
+  if(data.dice) {
+    var diceRol = {
+        queryParam: data.dice[0],
+        queryParam2: data.dice[1],
+        queryParam3: data.dice[2],
+        queryParam4: data.dice[3],
+        queryParam5: data.dice[4],
+      };
+      // console.log("HEEERERERERE", diceRol);
+      window.diceToDisplay = diceRol
+      return diceRol
+  }
 }

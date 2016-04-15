@@ -5,6 +5,8 @@
     <title>
   Liars Dice
     </title>
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" charset="utf-8"> -->
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="homePage.css" media="screen" title="no title" charset="utf-8">
@@ -59,6 +61,7 @@
       <div class="currentWager">
         wager:
       </div>
+
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
   <!--  score tracker    -->
@@ -142,6 +145,11 @@
     </div>
 
 <!-- closing bigSection -->
+  </section>
+<!--  someone lost area   -->
+  <section class="loser inactive">
+    <div class="nameLoser"></div> lost
+    <button class="reroll" type="button" name="reRoll">Start next round</button>
   </section>
 <!--   scripts    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js" charset="utf-8"></script>
