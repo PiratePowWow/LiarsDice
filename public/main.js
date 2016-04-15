@@ -232,23 +232,27 @@ function Socket() {
       var stake, score, player;
       console.log("PLAYER LIST", parsed);
 
-      var players = parsed.playerList.playerDtos
+      // var players = parsed.playerList.playerDtos
       // console.log("PLAYERLIST", players);
-      _.each(data, function onPlayerList(data) {
+      // _.each(data, function onPlayerList(data) {
+
         if(parsed.playerList.playerDtos.length > 0) {
-          stake = parsed.playerList.playerDtos[0].stake;
-          player = parsed.playerList.playerDtos[0].name;
-          score = parsed.playerList.playerDtos[0].score;
+          for(i = 0; i < parsed.playerList.playerDtos.length; i++) {
+          stake = parsed.playerList.playerDtos[i].stake;
+          player = parsed.playerList.playerDtos[i].name;
+          score = parsed.playerList.playerDtos[i].score;
         }
+      }
+
         // console.log("STAKE STUFF", stake);
         $('.currentWager').html(stake);
-        $('.nameContent').html(player, score);
+        $('.nameContent').append(player, score);
         // window.preStuff = data;
         // console.log(data);
         // data = JSON.parse(data.body.playerList.PlayerDtos.name);
         // window.glob = data;
         // $('.nameContent').html("");
-      });
+      // });
     }
 }
 
