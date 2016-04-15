@@ -15,6 +15,7 @@ public class GameState {
     private String lastPlayerId;
     @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     List<Player> players;
+    private String loserId;
 
     public GameState(String roomCode, String activePlayerId, String lastPlayerId) {
         this.roomCode = roomCode;
@@ -29,6 +30,22 @@ public class GameState {
     }
 
     public GameState() {
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public String getLoserId() {
+        return loserId;
+    }
+
+    public void setLoserId(String loserId) {
+        this.loserId = loserId;
     }
 
     public String getRoomCode() {
