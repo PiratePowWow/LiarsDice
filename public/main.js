@@ -61,7 +61,6 @@ var liarsDice = {
         marginTop: -1000
       }, 1200);
     });
-
 // Submit a wager
     $('.submitDice').on('click', function(event){
       event.preventDefault();
@@ -74,7 +73,6 @@ var liarsDice = {
      console.log("you clicked Bull Shit");
      socket.callBullShit();
    });
-
 // start next round and rerequest dice
   $('.reroll').on('click', function(event){
     event.preventDefault();
@@ -233,17 +231,18 @@ function Socket() {
       var parsed = JSON.parse(data.body);
       var stake, score, player;
       console.log("PLAYER LIST", parsed);
-      if(parsed.playerList.playerDtos.length > 0) {
-        stake = parsed.playerList.playerDtos[0].stake;
-        player = parsed.playerList.playerDtos[0].name;
-        score = parsed.playerList.playerDtos[0].score;
-      }
-      // console.log("STAKE STUFF", stake);
-      $('.currentWager').html(stake);
-      $('.nameContent').html(player, score);
+
       var players = parsed.playerList.playerDtos
       // console.log("PLAYERLIST", players);
       _.each(data, function onPlayerList(data) {
+        if(parsed.playerList.playerDtos.length > 0) {
+          stake = parsed.playerList.playerDtos[0].stake;
+          player = parsed.playerList.playerDtos[0].name;
+          score = parsed.playerList.playerDtos[0].score;
+        }
+        // console.log("STAKE STUFF", stake);
+        $('.currentWager').html(stake);
+        $('.nameContent').html(player, score);
         // window.preStuff = data;
         // console.log(data);
         // data = JSON.parse(data.body.playerList.PlayerDtos.name);

@@ -17,6 +17,12 @@ ROUTE LIST
      */
     CONNECT ADDRESS("/liarsDice")
 
+/**PURPOSE - Subscribe to this channel to receive Error Messages
+ *
+ * @param myPlayerId
+ */
+	SUBSCRIBE ADDRESS("/topic/lobby/error/{myPlayerId}")
+
 /**PURPOSE - Obtain the user's full Player object(currently the only way to view your player's dice)
      *
      * @param myPlayerId - this is the client websocket session id
