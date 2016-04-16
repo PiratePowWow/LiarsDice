@@ -66,7 +66,7 @@
 .visible>button{
   z-index: 0;
 
-  background-image: url("./pirateflag.png");
+  background-image: url("./images/pirateflag.png");
   background-repeat:no-repeat;
   background-size: 100px 100px;
   background-position: center center;

@@ -39,7 +39,7 @@ button::-moz-focus-inner{
   border  : 0;
 }
 body{
-  background-image: url("./shipblack.jpg");
+  background-image: url("./images/shipblack.jpg");
   background-repeat:no-repeat;
   background-size: 1400px 600px;
 
@@ -86,7 +86,7 @@ body{
   width:450px;
   height:450px;
   position:absolute;
-  background-image: url("./cupbones6.png");
+  background-image: url("./images/cupbones6.png");
   background-repeat:no-repeat;
   z-index: 0;
   -webkit-animation: grow 2200ms ease-out;
@@ -102,7 +102,7 @@ body{
   width:550px;
   height:650px;
   position:absolute;
-  background-image: url("./cupbones3.png");
+  background-image: url("./images/cupbones3.png");
   background-repeat:no-repeat;
   opacity:1;
 }
@@ -206,7 +206,7 @@ body{
   width:198px;
   height:198px;
   position:absolute;
-  background-image: url("./mainDice5.png");
+  background-image: url("./images/mainDice5.png");
   background-repeat:no-repeat;
   opacity:.75;
 }

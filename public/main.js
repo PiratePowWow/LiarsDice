@@ -189,7 +189,7 @@ function Socket() {
 
     _this.callBullShit = function() {
       console.log("BULL SHIT", playerId);
-      socketInternal.send("/topic/lobby/callBluff", {}, playerId);
+      socketInternal.send("/app/lobby/callBluff", {}, playerId);
     }
 
     _this.raiseStake = function(){
