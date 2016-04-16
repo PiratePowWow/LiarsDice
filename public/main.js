@@ -136,7 +136,7 @@ function Socket() {
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
       socketInternal.subscribe("/topic/playerList", playerList);
       socketInternal.subscribe("/topic/loser", youLost)
-      socketInternal.subscribe("/app/lobby/callBluff", youLost);
+      socketInternal.subscribe("/topic/lobby/callBluff", youLost);
       socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
 
 
