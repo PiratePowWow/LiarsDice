@@ -100,7 +100,7 @@ public class LiarsDiceController {
         }else{
             messenger.convertAndSend("/topic/lobby/error/" + id, "You already have dice. Please reset the game if you wish to get new dice");
         }
-        if (gameLogic.allDiceRolled(roomCode) && players.findOne(gameState.getLoserId()) == null){
+        if (gameLogic.allDiceRolled(roomCode) && gameState.getLoserId() == null){
             gameLogic.setNextActivePlayer(roomCode);
         }else if(gameLogic.allDiceRolled(roomCode)){
             gameState.setActivePlayerId(gameState.getLoserId());
