@@ -44,6 +44,7 @@ var liarsDice = {
       // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
+      var names = $('.nameContent').html();
       socket.playRollDie();
 
       setTimeout(function() {
@@ -54,6 +55,7 @@ var liarsDice = {
       // onLobby();
       console.log("you clicked start");
       $('.bigSection').removeClass('inactive');
+      $('.nameContent').html(names);
       $('.lobby').addClass('inactive');
       $('.title').css('margin-top',"1%");
       // cup that lifts and disapears
@@ -83,6 +85,9 @@ var liarsDice = {
     socket.playRollDie()
 
     setTimeout(function() {
+      for (var i = 1; i < 99999; i++) {
+        window.clearInterval(i);
+      }
       rollDicePage(window.diceToDisplay)
     },4000);
   });
@@ -233,23 +238,56 @@ function Socket() {
     function playerList(data) {
       var parsed = JSON.parse(data.body);
       var stake, score, player;
+      var content = '';
       console.log("PLAYER LIST", parsed);
 
       // var players = parsed.playerList.playerDtos
       // console.log("PLAYERLIST", players);
       // _.each(data, function onPlayerList(data) {
+      if($('.lobby').hasClass('inactive')){
+        if(parsed.playerList.playerDtos.length > 0){
+          parsed.playerList.playerDtos.forEach(function(el){
+            if(el.stake) {
+            console.log(el);
+            content += '<li>'
+                        + el.name
+                        + '<ul><li>score: '
+                        + el.score
+                        + '</li><li>Stake: '
+                        + el.stake[0]
+                        + ', '
+                        + el.stake[1]
+                        + "'s</li></ul>"
+                        + '</li>'
+            } else {
+              content += '<li>'
+                          + el.name
+                          + '</li>'
+            }
+          })
+          $('.nameContent > ul').html(content);
+        }
+      } else if($('.bigSection').hasClass('inactive')){
+        if(parsed.playerList.playerDtos.length > 0){
+          parsed.playerList.playerDtos.forEach(function(el){
+            console.log(el);
+            content += '<li>' + el.name + '</li>'
 
-        if(parsed.playerList.playerDtos.length > 0) {
-          for(i = 0; i < parsed.playerList.playerDtos.length; i++) {
-          stake = parsed.playerList.playerDtos[i].stake;
-          player = parsed.playerList.playerDtos[i].name;
-          score = parsed.playerList.playerDtos[i].score;
+          })
+          $('.nameContent > ul').html(content);
         }
       }
+      //   if(parsed.playerList.playerDtos.length > 0) {
+      //     for(i = 0; i < parsed.playerList.playerDtos.length; i++) {
+      //     stake = parsed.playerList.playerDtos[i].stake;
+      //     player = parsed.playerList.playerDtos[i].name;
+      //     score = parsed.playerList.playerDtos[i].score;
+      //   }
+      // }
 
-        // console.log("STAKE STUFF", stake);
-        $('.currentWager').html(stake);
-        $('.nameContent').append(player, score);
+        // // console.log("STAKE STUFF", stake);
+        // $('.currentWager').html(stake);
+        // $('.nameContent').append(player, score);
         // window.preStuff = data;
         // console.log(data);
         // data = JSON.parse(data.body.playerList.PlayerDtos.name);
@@ -262,9 +300,7 @@ function Socket() {
 
 
 function rollDicePage(diceObject) {
-  for (var i = 1; i < 99999; i++) {
-    window.clearInterval(i);
-  }
+
   // spinCount=how many times the dice spins before it lands on the number
   // dice one
       var faceOne = 1;

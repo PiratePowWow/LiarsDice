@@ -60,6 +60,7 @@ body{
 }
 .nameContent{
   margin:0 auto;
+  display: inline-block;
   color:black;
   border: 2px black solid;
 }
