@@ -137,6 +137,8 @@ function Socket() {
       socketInternal.subscribe("/topic/playerList", playerList);
       socketInternal.subscribe("/topic/loser", youLost)
       socketInternal.subscribe("/app/lobby/callBluff", youLost);
+      socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
+
 
       //
       // function test1(data) {
@@ -364,4 +366,9 @@ function getDiceBack(data) {
       window.diceToDisplay = diceRol
       return diceRol
   }
+
+}
+
+function errorFromServer(message) {
+    console.error(message);
 }
