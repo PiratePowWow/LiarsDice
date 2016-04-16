@@ -100,6 +100,7 @@ public class GameLogic {
             gameState.setActivePlayerId(playersInGameOrderedBySeatNum.get(nextIndex + 1).getId());
             gameStates.save(gameState);
         }
+        System.out.println("Setting Active Player");
     }
 
 //credit stackoverflow user aquaraga
@@ -188,7 +189,9 @@ public class GameLogic {
 
     public boolean allDiceRolled(String roomCode){
         GameState gameState = gameStates.findOne(roomCode);
-        return (players.findDiceByGameState(gameState).size() == players.findByGameState(gameState).size());
+        ArrayList<Player> playersInGame = players.findByGameState(gameState);
+        ArrayList<ArrayList<Integer>> allDice = players.findDiceByGameState(gameState.getRoomCode());
+        return (allDice.size() == playersInGame.size());
     }
 
     public void setDice(String id){
