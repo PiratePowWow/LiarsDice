@@ -136,7 +136,7 @@ function Socket() {
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
       socketInternal.subscribe("/topic/playerList", playerList);
       socketInternal.subscribe("/topic/loser", youLost)
-      socketInternal.subscribe("/app/lobby/callBluff", youLost);
+      socketInternal.subscribe("/topic/lobby/callBluff", youLost);
 
       //
       // function test1(data) {
@@ -186,7 +186,7 @@ function Socket() {
 
     _this.callBullShit = function() {
       console.log("BULL SHIT", playerId);
-      socketInternal.send("/app/lobby/callBluff", {}, playerId);
+      socketInternal.send("/topic/lobby/callBluff", {}, playerId);
     }
 
     _this.raiseStake = function(){
