@@ -63,15 +63,15 @@ public class LiarsDiceController {
      * @param id
      * @return
      */
-    @MessageMapping("/lobby/JoinGame")
-    @SendTo("/topic/playerList")
-    public HashMap joinGame(String id) {
+    @MessageMapping("/lobby/JoinGame/{roomCode}")
+    @SendTo("/topic/playerList/{roomCode}")
+    public HashMap joinGame(String id, @DestinationVariable String roomCode) {
         Player playerJoiningGame = players.findOne(id);
         if (playerJoiningGame == null){
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerJoiningGame.getGameState();
-        String roomCode = gameState.getRoomCode();
+        roomCode = gameState.getRoomCode();
         PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
@@ -85,15 +85,15 @@ public class LiarsDiceController {
      * @param id
      * @return
      */
-    @MessageMapping("/lobby/rollDice")
-    @SendTo("/topic/playerList")
-    public HashMap rollDice(String id) {
+    @MessageMapping("/lobby/rollDice/{roomCode}")
+    @SendTo("/topic/playerList/{roomCode}")
+    public HashMap rollDice(String id, @DestinationVariable String roomCode) {
         Player playerRollingDice = players.findOne(id);
         if (playerRollingDice == null){
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerRollingDice.getGameState();
-        String roomCode = gameState.getRoomCode();
+        roomCode = gameState.getRoomCode();
         if(playerRollingDice.getDice() == null){
             playerRollingDice.setDice(gameLogic.rollDice());
             players.save(playerRollingDice);
@@ -120,9 +120,9 @@ public class LiarsDiceController {
      * @param stake
      * @return
      */
-    @MessageMapping("/lobby/setStake")
-    @SendTo("/topic/playerList")
-    public HashMap setStake(HashMap<String, Object> stake) throws InterruptedException {
+    @MessageMapping("/lobby/setStake/{roomCode}")
+    @SendTo("/topic/playerList/{roomCode}")
+    public HashMap setStake(HashMap<String, Object> stake, @DestinationVariable String roomCode) throws InterruptedException {
         String id = (String) stake.get("playerId");
         ArrayList<Integer> newStake = (ArrayList<Integer>) stake.get("newStake");
         Player playerSettingStake = players.findOne(id);
@@ -130,7 +130,7 @@ public class LiarsDiceController {
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerSettingStake.getGameState();
-        String roomCode = gameState.getRoomCode();
+        roomCode = gameState.getRoomCode();
         if (playerSettingStake.getDice() == null){
             gameLogic.setNextActivePlayer(roomCode);
             PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
@@ -164,15 +164,15 @@ public class LiarsDiceController {
      * @param id
      * @return
      */
-    @MessageMapping("/lobby/resetGame")
-    @SendTo("/topic/playerList")
-    public HashMap resetGame(String id){
+    @MessageMapping("/lobby/resetGame/{roomCode}")
+    @SendTo("/topic/playerList/{roomCode}")
+    public HashMap resetGame(String id, @DestinationVariable String roomCode){
         Player playerRequestingReset = players.findOne(id);
         if (playerRequestingReset == null){
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerRequestingReset.getGameState();
-        String roomCode = gameState.getRoomCode();
+        roomCode = gameState.getRoomCode();
         gameLogic.resetGameState(roomCode);
         GameState newGame = playerRequestingReset.getGameState();
         //gameLogic.setNextActivePlayer(roomCode);
@@ -189,9 +189,9 @@ public class LiarsDiceController {
      * @param id
      * @return
      */
-    @MessageMapping("/lobby/callBluff")
-    @SendTo("/topic/loser")
-    public PlayerDto callBluff(String id) {
+    @MessageMapping("/lobby/callBluff/{roomCode}")
+    @SendTo("/topic/loser/{roomCode}")
+    public PlayerDto callBluff(String id, @DestinationVariable String roomCode) {
         Player playerCallingBluff = players.findOne(id);
         if (playerCallingBluff == null){
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
@@ -200,14 +200,19 @@ public class LiarsDiceController {
         PlayerDto loserDto;
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
+            gameState = gameStates.findOne(gameState.getRoomCode());
             gameState.setLoserId(loser.getId());
             gameStates.save(gameState);
             loserDto = new PlayerDto(loser);
+            gameLogic.resetGameState(roomCode);
+            System.out.println("Calling Bluff");
             return loserDto;
         }
         gameState.setLoserId(playerCallingBluff.getId());
         gameStates.save(gameState);
         loserDto = new PlayerDto(playerCallingBluff);
+        gameLogic.resetGameState(roomCode);
+        System.out.println("Calling Bluff");
         return loserDto;
     }
 }
