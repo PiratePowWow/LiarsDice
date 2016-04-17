@@ -30,10 +30,6 @@ var liarsDice = {
       } else {
          roomCode = roomCode
       };
-      // var onPlayerList = function(playerList) {
-      //   _.each()
-      //   $('.nameContent').html("");
-      // };
 
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
@@ -41,10 +37,10 @@ var liarsDice = {
       window.player = function() {
         socket.getPlayerList();
       }
-      // socket.sendFirstConnection();
+
     });
     $('.box').on('click', function(event){
-      var names = $('.nameContent').html();
+      // var names = $('.nameContent').html();
       socket.playRollDie();
 
       setTimeout(function() {
@@ -52,17 +48,19 @@ var liarsDice = {
       },2000);
 
       event.preventDefault();
-      // onLobby();
+
       console.log("you clicked start");
       $('.bigSection').removeClass('inactive');
-      $('.nameContent').html(names);
+      // $('.nameContent').html(names);
       $('.lobby').addClass('inactive');
       $('.title').css('margin-top',"1%");
-      // cup that lifts and disapears
+      socket.getPlayerList();
+// cup that lifts and disapears
       $('.cup2').stop(true, true).delay(2100).animate({
         marginTop: -1000
       }, 1200);
     });
+
 // Submit a wager
     $('.submitDice').on('click', function(event){
       event.preventDefault();
@@ -92,12 +90,7 @@ var liarsDice = {
     },4000);
   });
 
-    // var onLoser = function(){
-    //   $('.bluff').on('click', function(event){
-    //   console.log("you clicked the bluff button");
-    //   socket.send("/topic/loser", {}, JSON.stringify({id: playerId}));
-    //   });
-    // };
+
 
     // press space bar to view dice
     $(window).keydown(function(e) {
@@ -134,47 +127,21 @@ function Socket() {
   _this.onSocketConnected = function() {
     var url = socketInternal.ws._transport.url.split("/");
     playerId = url[url.length-2];
-    // console.log('I NEED THISConnected to socket server', playerId);
+
     isConnected = true
 
 
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
       socketInternal.subscribe("/topic/playerList", playerList);
+      // add activePlayer above
       socketInternal.subscribe("/topic/loser", youLost)
       socketInternal.subscribe("/topic/lobby/callBluff", youLost);
       socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
-
-
-
-      //
-      // function test1(data) {
-      //   console.log("SUBSCRIBE TOPIC LOBBY", data);
-      //
-      // }
-      // function test2(data) {
-      //   console.log("SUBSCRIBE TOPIC playerlist",data);
-      //
-      // }  function test3(data) {
-      //     console.log("SUBSCRIBE TOPIC LOSER",data);
-      // }
-
-
       socketInternal.send("/app/lobby/" + playerId, {}, "");
       socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
 
 
-      // socketInternal.send("/app/lobby/resetGame", {}, playerId);
 
-      // var millisecondsToWait = 200;
-      //       setTimeout(function() {
-      //           socketInternal.send("/app/lobby/rollDice", {}, playerId);
-      // }, millisecondsToWait);
-      // var millisecondsToWait = 200;
-      // setTimeout(function() {
-      //     socketInternal.send("/app/lobby/" + playerId, {}, "");
-      // }, millisecondsToWait);
-      // socketInternal.send("/app/lobby/resetGame", {}, playerId);
-      // _this.sendFirstConnection(playerId);
 
     };
     _this.getPlayerList = function() {
@@ -209,12 +176,6 @@ function Socket() {
      socketInternal.send("/app/lobby/setStake",{}, JSON.stringify(stake));
     }
 
-//   start next round and reroll dice
-  // _this.rollForNextRound = function(){
-  //
-  // }
-
-
   // connectSocket();
     _this.sendFirstConnection = function(thingId) {
       socketInternal.send("/app/lobby/" + thingId, {}, "");
@@ -229,8 +190,6 @@ function Socket() {
       $('.loser').removeClass('inactive');
       player = parsed.name;
       $('.nameLoser').html(player);
-      // var players = parsed.playerList.playerDtos
-      // console.log("PLAYERLIST", players);
       _.each(data, function onPlayerList(data) {
       })
     }
@@ -239,18 +198,25 @@ function Socket() {
       var parsed = JSON.parse(data.body);
       var stake, score, player;
       var content = '';
+      var code = '';
       console.log("PLAYER LIST", parsed);
+      code += "<p>Don't forget to send friends your Room Code: "
+            + parsed.playerList.playerDtos[0].roomCode
+            + '</p>'
+      $('.roomNumber').html(code);
 
-      // var players = parsed.playerList.playerDtos
-      // console.log("PLAYERLIST", players);
-      // _.each(data, function onPlayerList(data) {
+
       if($('.lobby').hasClass('inactive')){
         if(parsed.playerList.playerDtos.length > 0){
           parsed.playerList.playerDtos.forEach(function(el){
             if(el.stake) {
             console.log(el);
-            content += '<li>'
-                        + el.name
+            if(parsed.gameState.activePlayerSeatNum === el.seatNum){
+              content += '<li class="activePlayer">'
+            } else {
+              content += '<li>'
+            }
+            content +=  el.name
                         + '<ul><li>score: '
                         + el.score
                         + '</li><li>Stake: '
@@ -260,12 +226,17 @@ function Socket() {
                         + "'s</li></ul>"
                         + '</li>'
             } else {
-              content += '<li>'
-                          + el.name
+              if(parsed.gameState.activePlayerSeatNum === el.seatNum){
+                content += '<li class="activePlayer">'
+              } else {
+                content += '<li>'
+              }
+              content +=  el.name
                           + '</li>'
             }
           })
           $('.nameContent > ul').html(content);
+
         }
       } else if($('.bigSection').hasClass('inactive')){
         if(parsed.playerList.playerDtos.length > 0){
@@ -277,23 +248,8 @@ function Socket() {
           $('.nameContent > ul').html(content);
         }
       }
-      //   if(parsed.playerList.playerDtos.length > 0) {
-      //     for(i = 0; i < parsed.playerList.playerDtos.length; i++) {
-      //     stake = parsed.playerList.playerDtos[i].stake;
-      //     player = parsed.playerList.playerDtos[i].name;
-      //     score = parsed.playerList.playerDtos[i].score;
-      //   }
-      // }
 
-        // // console.log("STAKE STUFF", stake);
-        // $('.currentWager').html(stake);
-        // $('.nameContent').append(player, score);
-        // window.preStuff = data;
-        // console.log(data);
-        // data = JSON.parse(data.body.playerList.PlayerDtos.name);
-        // window.glob = data;
-        // $('.nameContent').html("");
-      // });
+
     }
 }
 
@@ -394,7 +350,6 @@ function getDiceBack(data) {
   console.log("GET DICE BACK", data);
   data = JSON.parse(data.body);
   window.glob = data;
-  // console.log("SHOW DATA DICE", data.dice);
   if(data.dice) {
     var diceRol = {
         queryParam: data.dice[0],
@@ -403,7 +358,6 @@ function getDiceBack(data) {
         queryParam4: data.dice[3],
         queryParam5: data.dice[4],
       };
-      // console.log("HEEERERERERE", diceRol);
       window.diceToDisplay = diceRol
       return diceRol
   }

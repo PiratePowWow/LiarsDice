@@ -14,6 +14,7 @@
 </head>
   <body>
         <div class="title"><img src="/images/title.png" alt="" /></div>
+
     <!--  home page section -->
       <section class="homePage " >
         <div class="newGame">
@@ -41,40 +42,34 @@
     <!--  lobby section -->
       <section class="lobby inactive" >
         <div class="nameContent">
+          <p>PLAYERS:</p>
           <ul></ul>
         </div>
+        <div class = "whenReady">
+          <h3>Wait here for your friends.</h3>
+          <div class="roomNumber"> </div> <br>
+          <h1>When ready click the moon!</h1>
+        </div>
+        <button class="box" type="button" name="button">
+          <img src="/images/moon.png" class="layer" alt="" />
+        </button>
 
-          <button class="box" type="button" name="button">
-            <img src="/images/moon.png" class="layer" alt="" />
-          </button>
 
 
-          </div>
       </section>
     <!-- end of lobby -->
 
 
     <section class = "bigSection inactive">
+      <div class="roomNumber"> </div>
       <div class="nameContent">
         <ul></ul>
       </div>
-      <div class="currentWager">
-        wager:
-      </div>
+
 
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
   <!--  score tracker    -->
-      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
-      <button type="button" class="nextRound" name="nextRound">next round</button>
-      <button type="button" class="bluff" type="submit" name="bluff">Bluff Button</button>
-
-      <form class="diceSubmit">
-        <input class="quantity" type="number" name="quantity" value="" placeholder="how many">
-        <input class="quality" type="number" name="quality" value="" placeholder="dice face">
-
-      </form>
-      <button type="submit" class="submitDice" name="submitDice">Submit</button>
 
       <div class="cup2"></div>
 
@@ -143,6 +138,17 @@
 
 <!-- all dice container close       -->
     </div>
+
+
+      <form class="diceSubmit">
+        <input class="quantity" type="number" name="quantity" value="" placeholder="  how many">
+        <input class="quality" type="number" name="quality" value="" placeholder="    dice face">
+      </form>
+      <button type="submit" class="submitDice" name="submitDice">Submit</button>
+      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
+      <button type="button" class="bluff" type="submit" name="bluff">Bluff Button</button>
+
+
 
 <!-- closing bigSection -->
   </section>

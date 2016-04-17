@@ -2,8 +2,8 @@
 
 .lobby{
   display: block;
-  width:40%;
-  margin-left: 29%;
+  width:50%;
+  margin-left: 24%;
   margin-top: 10%;
 }
 
@@ -67,3 +67,21 @@
     margin-top: 70px;
     position: relative;
   }*/
+/*.lobby h1{
+  margin-left: -35%;
+}*/
+.whenReady h3{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -35%;
+}
+.whenReady p{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -33%;
+}
+.whenReady h1{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -8%;
+}

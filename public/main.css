@@ -44,6 +44,16 @@ body{
   background-size: 1400px 600px;
 
 }
+.roomNumber{
+  float:left;
+  float: top;
+}
+h1{
+  width:100%;
+}
+.bigSection{
+    /*margin-top: 220px;*/
+}
 .inactive{
   display:none !important;
 }
@@ -55,34 +65,69 @@ body{
   position:absolute;
 }
 
-.bigSection input{
-  border: pink 2px solid;
-}
+
 .nameContent{
-  margin:0 auto;
-  display: inline-block;
+  /*margin:0 auto;*/
+  margin-top: 200px;
   color:black;
-  border: 2px black solid;
+  opacity: .7;
+  list-style-image: none;
+  z-index: 3;
+  position: absolute;
 }
+/*.nameContent li{
+    display: inline-block;
+}*/
+.activePlayer{
+  border: 3px yellow solid;
+  opacity: 1;
+  list-style-image: url('doublearrow.png');
+  z-index: -1;
+}
+.diceSubmit input{
+  display: block;
+  height:50px;
+  margin-left: 50%;
+  background-color: white;
+  width:100px;
+}
+.diceSubmit{
+  z-index: 2;
+  margin-top: -250px;
+  position: relative;
+}
+.diceSubmit input{
+  color:maroon;
+  box-shadow: 0 0 0 3px black inset;
+  border: 3px grey solid;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+/*.gameInput{
+  margin-left: 60%;
+  margin-top: -150px;
+  background-color: white;
+}*/
 .submitDice{
-  background-color: green;
-  border: black 2px solid;
+  position: relative;
+  z-index: 2;
+  background-color: black;
+  color:maroon;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 3px maroon solid;
+  margin-left: 49%;
+  margin-top: 0px;
+  width: 130px;
+  height:50px;
+  border-radius: 5px;
 }
 .nextRound{
   background-color: green;
   border: black 2px solid;
 }
-/*.score{
-  width:20%;
-  height:200px;
-  display: inline-block;
-  border: 2px black solid;
-  margin-left: 50%;
-  position:absolute;
-}*/
 
 .cup2{
-  /*margin-top: -5%;*/
+  margin-top: 150px;
   margin-left: 57%;
   width:450px;
   height:450px;
@@ -98,7 +143,7 @@ body{
 }
 
 .cup{
-  margin-top: -15%;
+  margin-top: -100px;
   margin-left: 23%;
   width:550px;
   height:650px;
