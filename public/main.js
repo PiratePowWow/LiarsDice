@@ -132,11 +132,13 @@ function Socket() {
     // console.log('I NEED THISConnected to socket server', playerId);
     isConnected = true
 
-
+      //returns your player info
       socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
-      socketInternal.subscribe("/topic/playerList", playerList);
-      socketInternal.subscribe("/topic/loser", youLost)
-      socketInternal.subscribe("/topic/lobby/callBluff", youLost);
+      //returns list of players and gamestate
+      socketInternal.subscribe("/topic/playerList/" +roomCode, playerList);
+      //returns player who lost on callBluff
+      socketInternal.subscribe("/topic/loser/" + roomCode, youLost)
+      //returns errors from server
       socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
 
 
@@ -155,7 +157,7 @@ function Socket() {
 
 
       socketInternal.send("/app/lobby/" + playerId, {}, "");
-      socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
+      socketInternal.send("/app/lobby/JoinGame/" + roomCode,{} ,playerId);
 
 
       // socketInternal.send("/app/lobby/resetGame", {}, playerId);
@@ -368,9 +370,16 @@ function getDiceBack(data) {
         queryParam5: data.dice[4],
       };
       // console.log("HEEERERERERE", diceRol);
-      window.diceToDisplay = diceRol
-      return diceRol
+      window.diceToDisplay = diceRol;
+      return diceRol;
   }
+  roomCode = data.roomCode;
+
+  if(roomCode){
+    socketInternal.subscribe("/topic/playerList/" +roomCode, playerList);
+    socketInternal.subscribe("/topic/loser/" + roomCode, youLost);
+  }
+
 
 }
 

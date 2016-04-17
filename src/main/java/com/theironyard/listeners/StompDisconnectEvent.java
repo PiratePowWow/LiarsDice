@@ -47,7 +47,7 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
             HashMap playerListAndGameState = new HashMap();
             playerListAndGameState.put("playerList", playerDtos);
             playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
-            LiarsDiceController.messenger.convertAndSend("/topic/playerList", playerListAndGameState);
+            LiarsDiceController.messenger.convertAndSend("/topic/playerList/" + roomCode, playerListAndGameState);
         }
         System.out.println("Disconnect event [sessionId:" + sessionId + "]");
         logger.debug("Disconnect event [sessionId: " + sessionId + "]");
