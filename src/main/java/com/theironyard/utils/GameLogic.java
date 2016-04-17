@@ -41,7 +41,7 @@ public class GameLogic {
         ArrayList<Integer> stake = players.findOne(gameState.getLastPlayerId()).getStake();
         int count = 0;
         for (Integer die : allDice){
-           if (die.equals(stake.get(1))){
+           if (die.equals(stake.get(1)) || die.equals(1)){
                count += 1;
            }
         }
