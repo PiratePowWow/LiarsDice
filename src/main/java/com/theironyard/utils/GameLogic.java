@@ -48,13 +48,11 @@ public class GameLogic {
         if (count < stake.get(0)){
             loser = players.findOne(gameState.getLastPlayerId());
             loser.setScore(loser.getScore() + 1);
-            players.save(loser);
-            return loser;
+            return players.save(loser);
         }
         loser = players.findOne(gameState.getActivePlayerId());
         loser.setScore(loser.getScore() + 1);
-        players.save(loser);
-        return loser;
+        return players.save(loser);
     }
 
     public boolean isValidRaise(GameState gameState, ArrayList<Integer> newStake){

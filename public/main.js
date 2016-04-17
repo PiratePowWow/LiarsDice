@@ -7,6 +7,8 @@ var queryParam4;
 var queryParam5;
 var isConnected = false;
 var socket = new Socket();
+var isSubscribed = false;
+var roomCode;
 window.socket = socket;
 
 $(document).ready(function() {
@@ -24,7 +26,7 @@ var liarsDice = {
       console.log("you clicked submit");
 
       var name = $('input[name="name"]').val();
-      var roomCode = $('input[name="roomCode"]').val();
+      roomCode = $('input[name="roomCode"]').val();
       if (roomCode === "") {
         roomCode = "undefined";
       } else {
@@ -38,9 +40,9 @@ var liarsDice = {
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
       socket.connectSocket(name,roomCode);
-      window.player = function() {
-        socket.getPlayerList();
-      }
+//      window.player = function() {
+//        socket.getPlayerList();
+//      }
       // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
@@ -120,26 +122,22 @@ function Socket() {
 
   _this.connectSocket = function(name,roomCode) {
     var ws = new SockJS("/liarsDice")
-    socketInternal = Stomp.over(ws)
-    socketInternal.connect({name:name, roomCode: roomCode}, function() {
+    _this.socketInternal = Stomp.over(ws)
+    _this.socketInternal.connect({name:name, roomCode: roomCode}, function() {
       _this.onSocketConnected()
     })
   };
 
   _this.onSocketConnected = function() {
-    var url = socketInternal.ws._transport.url.split("/");
+    var url = _this.socketInternal.ws._transport.url.split("/");
     playerId = url[url.length-2];
     // console.log('I NEED THISConnected to socket server', playerId);
     isConnected = true
 
       //returns your player info
-      socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
-      //returns list of players and gamestate
-      socketInternal.subscribe("/topic/playerList/" +roomCode, playerList);
-      //returns player who lost on callBluff
-      socketInternal.subscribe("/topic/loser/" + roomCode, youLost)
+      _this.socketInternal.subscribe("/topic/lobby/" + playerId, getDiceBack)
       //returns errors from server
-      socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
+      _this.socketInternal.subscribe("/topic/lobby/error/" + playerId, errorFromServer);
 
 
 
@@ -156,8 +154,8 @@ function Socket() {
       // }
 
 
-      socketInternal.send("/app/lobby/" + playerId, {}, "");
-      socketInternal.send("/app/lobby/JoinGame/" + roomCode,{} ,playerId);
+      _this.socketInternal.send("/app/lobby/" + playerId, {}, "");
+
 
 
       // socketInternal.send("/app/lobby/resetGame", {}, playerId);
@@ -176,22 +174,22 @@ function Socket() {
     };
     _this.getPlayerList = function() {
       console.log("this is the player list", playerId);
-      socketInternal.send("/app/lobby/JoinGame",{} ,playerId);
+      _this.socketInternal.send("/app/lobby/JoinGame/" + roomCode,{} ,playerId);
     }
 
-    _this.resetGame = function(){
+    _this.resetGame = function(roomCode){
       console.log("reset the game", playerId);
-      socketInternal.send("/app/lobby/resetGame", {}, playerId);
+      _this.socketInternal.send("/app/lobby/resetGame/" + roomCode, {}, playerId);
     }
 
     _this.playRollDie = function() {
       console.log("THIS IS A PLAYER ID IN ROLLDIE", playerId);
-      socketInternal.send("/app/lobby/rollDice", {}, playerId);
+      _this.socketInternal.send("/app/lobby/rollDice/" + roomCode, {}, playerId);
     }
 
     _this.callBullShit = function() {
       console.log("BULL SHIT", playerId);
-      socketInternal.send("/app/lobby/callBluff", {}, playerId);
+      _this.socketInternal.send("/app/lobby/callBluff/" + roomCode, {}, playerId);
     }
 
     _this.raiseStake = function(){
@@ -203,7 +201,7 @@ function Socket() {
          }
          $('input[name="quantity"]').val("");
          $('input[name="quality"]').val("");
-     socketInternal.send("/app/lobby/setStake",{}, JSON.stringify(stake));
+     _this.socketInternal.send("/app/lobby/setStake/" + roomCode,{}, JSON.stringify(stake));
     }
 
 //   start next round and reroll dice
@@ -214,13 +212,16 @@ function Socket() {
 
   // connectSocket();
     _this.sendFirstConnection = function(thingId) {
-      socketInternal.send("/app/lobby/" + thingId, {}, "");
+      _this.socketInternal.send("/app/lobby/" + thingId, {}, "");
     }
 
-    function youLost(data){
-      _this.resetGame();
+
+}
+
+function youLost(data){
       var parsed = JSON.parse(data.body);
       var player;
+      //socket.resetGame(parsed.roomCode);
       console.log("LOSER", data)
       $('.bigSection').addClass('inactive');
       $('.loser').removeClass('inactive');
@@ -259,9 +260,6 @@ function Socket() {
         // $('.nameContent').html("");
       // });
     }
-}
-
-
 
 function rollDicePage(diceObject) {
   for (var i = 1; i < 99999; i++) {
@@ -373,11 +371,14 @@ function getDiceBack(data) {
       window.diceToDisplay = diceRol;
       return diceRol;
   }
+  playerId = data.id;
   roomCode = data.roomCode;
 
-  if(roomCode){
-    socketInternal.subscribe("/topic/playerList/" +roomCode, playerList);
-    socketInternal.subscribe("/topic/loser/" + roomCode, youLost);
+  if(roomCode && !isSubscribed){
+    socket.socketInternal.subscribe("/topic/playerList/" +roomCode, playerList);
+    socket.socketInternal.subscribe("/topic/loser/" + roomCode, youLost);
+    socket.socketInternal.send("/app/lobby/JoinGame/" + roomCode,{} ,playerId);
+    isSubscribed = true;
   }
 
 

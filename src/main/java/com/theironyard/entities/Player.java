@@ -16,7 +16,7 @@ public class Player {
     private String name;
     private ArrayList<Integer> dice;
     private ArrayList<Integer> stake;
-    private int score;
+    private int score = 0;
     @NotNull
     private int seatNum;
     @ManyToOne(fetch=FetchType.EAGER)

@@ -200,15 +200,18 @@ public class LiarsDiceController {
         PlayerDto loserDto;
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
+            gameState = gameStates.findOne(gameState.getRoomCode());
             gameState.setLoserId(loser.getId());
             gameStates.save(gameState);
             loserDto = new PlayerDto(loser);
+            gameLogic.resetGameState(roomCode);
             System.out.println("Calling Bluff");
             return loserDto;
         }
         gameState.setLoserId(playerCallingBluff.getId());
         gameStates.save(gameState);
         loserDto = new PlayerDto(playerCallingBluff);
+        gameLogic.resetGameState(roomCode);
         System.out.println("Calling Bluff");
         return loserDto;
     }
