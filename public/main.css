@@ -42,11 +42,12 @@ body{
   background-image: url("./images/shipblack.jpg");
   background-repeat:no-repeat;
   background-size: 1400px 600px;
-
+  background-color: black;
 }
 .roomNumber{
   float:left;
   float: top;
+  position: relative;
 }
 h1{
   width:100%;
@@ -61,10 +62,21 @@ h1{
 .title{
   margin: 0 auto;
   margin-top: -7%;
-  margin-left: 72%;
+  margin-left: 52%;
   position:absolute;
 }
-
+.titleBig{
+  margin: 0 auto;
+  margin-top: 10%;
+  margin-left: 70%;
+  position: absolute;
+}
+.titleLoser{
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-left: 70%;
+  position: relative;
+}
 
 .nameContent{
   /*margin:0 auto;*/
@@ -78,13 +90,35 @@ h1{
 /*.nameContent li{
     display: inline-block;
 }*/
+
+#gameNames{
+  border: 2px green solid;
+}
+.activePlayer {
+    margin: 0.75em 0;
+    padding: 0 1em;
+    list-style: none;
+}
+.activePlayer:before {
+    content: "";
+    border-color: transparent #111;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 0.9em;
+    position: relative;
+}
 .activePlayer{
   border: 3px yellow solid;
+  background-color: yellow;
   opacity: 1;
-  list-style-image: url('doublearrow.png');
   z-index: -1;
 }
 .diceSubmit input{
+  text-align: center;
   display: block;
   height:50px;
   margin-left: 50%;
@@ -121,9 +155,46 @@ h1{
   height:50px;
   border-radius: 5px;
 }
-.nextRound{
-  background-color: green;
-  border: black 2px solid;
+.abandonShip{
+  color:maroon;
+  box-shadow: 0 0 0 3px black inset;
+  border: 3px grey solid;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  z-index: 2;
+}
+.bluff{
+  color:maroon;
+  box-shadow: 0 0 0 3px black inset;
+  border: 3px grey solid;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  z-index: 2;
+  position: relative;
+}
+.loserP{
+  text-align: center;
+}
+.loserP , .nameLoser{
+  font-size: 3rem;
+  width: 37%;
+  margin-left: 20%;
+  margin-top: 2%;
+  position: relative;
+}
+.reroll{
+  position: relative;
+  z-index: 2;
+  background-color: black;
+  color:maroon;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 3px maroon solid;
+  /*margin-left: 49%;
+  margin-top: 0px;*/
+  width: 130px;
+  height:50px;
+  border-radius: 5px;
+  margin-left: 33%;
 }
 
 .cup2{
@@ -137,6 +208,7 @@ h1{
   z-index: 0;
   -webkit-animation: grow 2200ms ease-out;
 }
+
 @-webkit-keyframes grow{
 0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
 100% {	-webkit-transform: scale(.99) rotateZ(-360deg); }

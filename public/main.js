@@ -18,6 +18,10 @@ var liarsDice = {
     liarsDice.events();
   },
   events: function () {
+    $('body').on('click','.abandonShip', function(event){
+      console.log("RELODA!")
+      window.location.reload();
+    });
 
     $('.submit').on('click', function(event){
       event.preventDefault();
@@ -108,6 +112,12 @@ var liarsDice = {
         }, 10);
       }
     });
+
+
+
+
+
+
   },
 }
 

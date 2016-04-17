@@ -13,10 +13,11 @@
   <link rel="stylesheet" href="/lobby.css" media="screen" title="no title" charset="utf-8">
 </head>
   <body>
-        <div class="title"><img src="/images/title.png" alt="" /></div>
+        <!-- <div class="title"><img src="/images/title.png" alt="" /></div> -->
 
     <!--  home page section -->
       <section class="homePage " >
+        <div class="title"><img src="/images/title.png" alt="" /></div>
         <div class="newGame">
           <button type="button" class="new" name="button">Let's Play!</button>
           <form class="newG">
@@ -41,8 +42,9 @@
 
     <!--  lobby section -->
       <section class="lobby inactive" >
-        <div class="nameContent">
-          <p>PLAYERS:</p>
+        <div class="titleLobby"><img src="/images/title.png" alt="" /></div>
+        <div class="nameContent" id="lobbyNames">
+          <p>Players:</p>
           <ul></ul>
         </div>
         <div class = "whenReady">
@@ -61,8 +63,9 @@
 
 
     <section class = "bigSection inactive">
-      <div class="roomNumber"> </div>
-      <div class="nameContent">
+      <div class="titleBig"><img src="/images/title.png" alt="" /></div>
+      <!-- <div class="roomNumber"> </div> -->
+      <div class="nameContent" id="gameNames">
         <ul></ul>
       </div>
 
@@ -145,16 +148,19 @@
         <input class="quality" type="number" name="quality" value="" placeholder="    dice face">
       </form>
       <button type="submit" class="submitDice" name="submitDice">Submit</button>
-      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
       <button type="button" class="bluff" type="submit" name="bluff">Bluff Button</button>
-
+      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
 
 
 <!-- closing bigSection -->
   </section>
 <!--  someone lost area   -->
   <section class="loser inactive">
-    <div class="nameLoser"></div> lost
+    <div class="titleLoser"><img src="/images/title.png" alt="" /></div>
+    <div class="loserP">
+      <div class="nameLoser">
+      </div> lost!
+    </div>
     <button class="reroll" type="button" name="reRoll">Start next round</button>
   </section>
 <!--   scripts    -->
