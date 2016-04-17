@@ -2,11 +2,16 @@
 
 .lobby{
   display: block;
-  width:40%;
-  margin-left: 29%;
+  width:50%;
+  margin-left: 24%;
   margin-top: 10%;
 }
-
+.titleLobby{
+  margin: 0 auto;
+  margin-top: -7%;
+  margin-left: 47%;
+  position:absolute;
+}
 /*this magical box was made by following a tutorial found here... http://learn.shayhowe.com/advanced-html-css/transitions-animations/*/
 .box {
     margin-top: -20%;
@@ -67,3 +72,32 @@
     margin-top: 70px;
     position: relative;
   }*/
+/*.lobby h1{
+  margin-left: -35%;
+}*/
+.whenReady h3{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -35%;
+}
+.whenReady p{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -33%;
+}
+.whenReady h1{
+  width:100%;
+  margin: 0 auto;
+  margin-left: -8%;
+}
+#lobbyNames li{
+  font-size: 2rem;
+  margin-top: -10%;
+}
+#lobbyNames{
+  color:maroon;
+}
+#lobbyNames{
+  font-size: 1.5rem;
+  margin-bottom: 0%;
+}
