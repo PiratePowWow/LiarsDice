@@ -279,7 +279,6 @@ function youLost(data){
 
 
     }
-}
 
 
 
