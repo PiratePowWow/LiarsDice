@@ -1,5 +1,7 @@
 package com.theironyard.listeners;
 
+import com.theironyard.controllers.LiarsDiceController;
+import com.theironyard.services.GameStateRepository;
 import com.theironyard.utils.GameLogic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +18,8 @@ import org.springframework.web.socket.messaging.SessionConnectEvent;
 public class StompConnectEvent implements ApplicationListener<SessionConnectEvent> {
     @Autowired
     GameLogic gameLogic;
+    @Autowired
+    GameStateRepository gameStates;
 
     private final Log logger = LogFactory.getLog(StompConnectEvent.class);
 
@@ -27,8 +31,10 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
         String  name = sha.getNativeHeader("name").get(0);
         if(roomCode.equals("undefined")){
             gameLogic.createNewGame(name, sessionId);
-        }else {
+        }else if (gameStates.findOne(roomCode) != null){
             gameLogic.addPlayer(name, roomCode, sessionId);
+        }else{
+            LiarsDiceController.messenger.convertAndSend("/topic/lobby/error/" + sessionId, "Invalid room code");
         }
         System.out.println("Connect event [sessionId: " + sessionId +"; name: "+ name + " ]");
         logger.debug("Connect event [sessionId: " + sessionId +"; name: "+ name + " ]");
