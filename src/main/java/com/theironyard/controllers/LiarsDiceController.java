@@ -197,7 +197,6 @@ public class LiarsDiceController {
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerCallingBluff.getGameState();
-        String roomCode = gameState.getRoomCode();
         PlayerDto loserDto;
         if(gameLogic.isActivePlayer(id)){
             Player loser = gameLogic.determineLoser(gameState);
