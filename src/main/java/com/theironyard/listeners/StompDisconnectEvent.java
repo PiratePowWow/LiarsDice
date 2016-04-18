@@ -4,6 +4,7 @@ import com.theironyard.controllers.LiarsDiceController;
 import com.theironyard.dtos.GameStateDto;
 import com.theironyard.dtos.PlayersDto;
 import com.theironyard.entities.GameState;
+import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
 import com.theironyard.services.PlayerRepository;
 import com.theironyard.utils.GameLogic;
@@ -35,19 +36,24 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
     public void onApplicationEvent(SessionDisconnectEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = sha.getSessionId();
-        GameState gameState = players.findOne(sessionId).getGameState();
-        String roomCode = gameState.getRoomCode();
-        gameLogic.dropPlayer(sessionId);
-        if (gameStates.findOne(roomCode) != null) {
-            if (gameState.getActivePlayerId().equals(sessionId)) {
-                gameLogic.setNextActivePlayer(gameState.getRoomCode());
-                gameState = gameStates.findOne(roomCode);
+        Player disconnectingPlayer = players.findOne(sessionId);
+        if (disconnectingPlayer != null) {
+            GameState gameState = disconnectingPlayer.getGameState();
+            String roomCode = gameState.getRoomCode();
+            gameLogic.dropPlayer(sessionId);
+            if (gameStates.findOne(roomCode) != null) {
+                if (gameState.getActivePlayerId() != null) {
+                    if (gameState.getActivePlayerId().equals(sessionId)) {
+                        gameLogic.setNextActivePlayer(gameState.getRoomCode());
+                        gameState = gameStates.findOne(roomCode);
+                    }
+                }
+                PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+                HashMap playerListAndGameState = new HashMap();
+                playerListAndGameState.put("playerList", playerDtos);
+                playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
+                LiarsDiceController.messenger.convertAndSend("/topic/playerList/" + roomCode, playerListAndGameState);
             }
-            PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
-            HashMap playerListAndGameState = new HashMap();
-            playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameState, players));
-            LiarsDiceController.messenger.convertAndSend("/topic/playerList/" + roomCode, playerListAndGameState);
         }
         System.out.println("Disconnect event [sessionId:" + sessionId + "]");
         logger.debug("Disconnect event [sessionId: " + sessionId + "]");
