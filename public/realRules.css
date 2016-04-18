@@ -1,3 +1,10 @@
+.realRules{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+
+}
+
 .rulersOne , .rulersTwo , .rulersThree , .rulersFour{
   opacity: .5;
     width:100%;
@@ -9,11 +16,12 @@
     background-color: maroon;
     height: 80px;
     width: 162px;
-    box-shadow: 0 0 0 4px lightgrey inset;
-    border: 2px black solid;
-    margin-left: 80%;
+    box-shadow: 0 0 0 4px black inset;
+    border: 2px grey solid;
+    margin-left: 61%;
     z-index: 2;
     position: absolute;
-    margin-top: -99px;
+    margin-top: -87px;
     font-size: 2rem;
+    border-radius: 5px;
 }

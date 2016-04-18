@@ -61,3 +61,30 @@
 60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
 100% {	-webkit-transform: scale(.99) rotateZ(-360deg) ;}
 }*/
+
+.realRulers{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+
+}
+.realRulers img{
+  width:100%;
+  margin-left: -60px
+}
+
+
+
+.gotItz {
+    background-color: maroon;
+    height: 80px;
+    width: 162px;
+    box-shadow: 0 0 0 4px black inset;
+    border: 2px grey solid;
+    margin-left: 2%;
+    z-index: 2;
+    position: absolute;
+    margin-top: 95px;
+    font-size: 2rem;
+    border-radius: 5px;
+}

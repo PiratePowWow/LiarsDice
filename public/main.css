@@ -152,8 +152,9 @@ h1{
   margin-left: 677px;
   margin-top: 0px;
   width: 130px;
-  height:50px;
+  height:69px;
   border-radius: 5px;
+  font-size: 2rem;
 }
 .abandonShip{
   color:maroon;
@@ -161,24 +162,35 @@ h1{
   border: 3px maroon solid;
   border-radius: 5px;
   margin-bottom: 3px;
-  margin-left: 52px;
+  margin-left: 46px;
   width: 130px;
   height:50px;
   z-index: 2;
 }
 .bluff {
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    margin-left: 50px;
+    margin-right: 43px;
+    margin-top: 16px;
+    width: 130px;
+    height: 50px;
+}
+.seeRulers{
+  position: relative;
+  z-index: 2;
+  background-color: black;
   color:maroon;
   box-shadow: 0 0 0 3px grey inset;
   border: 3px maroon solid;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  margin-left: 103px;
-  margin-right: 90px;
-  margin-top: 9px;
+  margin-top: 0px;
   width: 130px;
   height:50px;
+  border-radius: 5px;
 }
-
  .nameLoser{
   font-size: 3rem;
   width: 37%;

@@ -121,7 +121,18 @@ var liarsDice = {
     },4000);
   });
 
-  // $('.viewRules').on('click', function(event){
+  $('.seeRulers').on('click', function(event){
+    event.preventDefault();
+    $('.realRulers').removeClass('inactive');
+    $('.bigSection').addClass('inactive');
+    console.log("you want rules");
+  });
+  $('.gotItz').on('click', function(event){
+    event.preventDefault();
+    $('.bigSection').removeClass('inactive');
+    $('.realRulers').addClass('inactive');
+    console.log("back to game");
+  });
 
     // press space bar to view dice
     $(window).keydown(function(e) {
