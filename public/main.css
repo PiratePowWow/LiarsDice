@@ -1,5 +1,13 @@
 /*removes blue line after click*/
 *:focus {outline:none !important}
+/*makes buttons look pushed in on hover*/
+ button {
+  opacity: 1;
+}
+
+ button:hover {
+  opacity: 0.75;
+}
 /*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
 button , input{
   margin      : 0;
@@ -116,8 +124,9 @@ h1{
     position: relative;
 }
 .activePlayer{
-  border: 3px yellow solid;
-  background-color: yellow;
+  padding:2%;
+  background-color: rgba(255, 255, 0, .5);
+  border:rgba(100,0,0,0.7) 2px solid;
   opacity: 1;
   z-index: -1;
 }
@@ -131,7 +140,7 @@ h1{
 }
 .diceSubmit{
   z-index: 2;
-  margin-top: -250px;
+  margin-top: -360px;
   position: relative;
 }
 .diceSubmit input{
@@ -153,23 +162,24 @@ h1{
   color:maroon;
   box-shadow: 0 0 0 3px grey inset;
   border: 3px maroon solid;
-  margin-left: 677px;
+  margin-left: 673px;
   margin-top: 0px;
   width: 130px;
   height:69px;
   border-radius: 5px;
   font-size: 2rem;
 }
-.abandonShip{
-  color:maroon;
-  box-shadow: 0 0 0 3px grey inset;
-  border: 3px maroon solid;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  margin-left: 46px;
-  width: 130px;
-  height:50px;
-  z-index: 2;
+.abandonShip {
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-left: 351px;
+    margin-top: 90px;
+    width: 130px;
+    height: 50px;
+    z-index: 2;
+    position: absolute;
 }
 .bluff {
     color: maroon;
@@ -177,23 +187,25 @@ h1{
     border: 3px maroon solid;
     border-radius: 5px;
     margin-bottom: 3px;
-    margin-left: 50px;
+    margin-left: 65px;
     margin-right: 43px;
-    margin-top: 16px;
+    margin-top: 90px;
     width: 130px;
     height: 50px;
+    position: absolute;
 }
-.seeRulers{
-  position: relative;
-  z-index: 2;
-  background-color: black;
-  color:maroon;
-  box-shadow: 0 0 0 3px grey inset;
-  border: 3px maroon solid;
-  margin-top: 0px;
-  width: 130px;
-  height:50px;
-  border-radius: 5px;
+.seeRulers {
+    position: absolute;
+    z-index: 2;
+    background-color: black;
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    margin-top: 90px;
+    margin-left: 210px;
+    width: 130px;
+    height: 50px;
+    border-radius: 5px;
 }
  .nameLoser{
   font-size: 3rem;
@@ -231,7 +243,7 @@ h1{
   position:absolute;
   background-image: url("./images/cupbones6.png");
   background-repeat:no-repeat;
-  z-index: 0;
+  z-index: 3;
   -webkit-animation: grow 2200ms ease-out;
 }
 
