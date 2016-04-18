@@ -277,7 +277,7 @@ function youLost(data){
               content += '<li>'
             }
             content +=  el.name
-                        + '<ul><li>score: '
+                        + '<ul><li>Score: '
                         + el.score
                         + '</li><li>Stake: '
                         + el.stake[0]

@@ -92,7 +92,7 @@
 }
 #lobbyNames li{
   font-size: 2rem;
-  margin-top: -10%;
+  margin-top: -6%;
 }
 #lobbyNames{
   color:maroon;
@@ -100,4 +100,7 @@
 #lobbyNames{
   font-size: 1.5rem;
   margin-bottom: 0%;
+}
+.players{
+  margin-top: -81px;
 }
