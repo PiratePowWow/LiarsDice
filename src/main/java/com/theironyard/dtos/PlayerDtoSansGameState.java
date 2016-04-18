@@ -19,7 +19,7 @@ public class PlayerDtoSansGameState {
     public PlayerDtoSansGameState(Player player) {
         this.id = player.getId();
         this.name = player.getName();
-        this.roomCode = player.getGameState().getRoomCode();
+        this.roomCode = player.getGameState() != null ? player.getGameState().getRoomCode() : null;
         this.dice = player.getDice();
         this.stake = player.getStake();
         this.score = player.getScore();

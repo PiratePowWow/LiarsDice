@@ -172,6 +172,8 @@ public class GameLogic {
             gameStates.delete(gameState.getRoomCode());
         }else{
             players.delete(id);
+            gameState = gameStates.findOne(gameState.getRoomCode());
+            gameStates.save(gameState);
         }
     }
 

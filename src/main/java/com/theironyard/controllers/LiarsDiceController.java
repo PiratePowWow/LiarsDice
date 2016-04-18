@@ -50,12 +50,17 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/{myPlayerId}")
     public PlayerDtoSansGameState myPlayer(@DestinationVariable String myPlayerId) {
-        PlayerDtoSansGameState player = new PlayerDtoSansGameState(players.findOne(myPlayerId));
-        if (player == null){
-            messenger.convertAndSend("/topic/lobby/error/" + myPlayerId, "Your player Id could Not be found");
+        Player myPlayer = players.findOne(myPlayerId);
+        if(myPlayer != null) {
+            PlayerDtoSansGameState player = new PlayerDtoSansGameState(myPlayer);
+            if (player == null) {
+                messenger.convertAndSend("/topic/lobby/error/" + myPlayerId, "Your player Id could Not be found");
+            }
+            System.out.println("Returning Player Object");
+            return player;
         }
-        System.out.println("Returning Player Object");
-        return  player;
+        messenger.convertAndSend("/topic/lobby/error/" + myPlayerId, "Your Player Could Not Be Found - Likely Because You Did Not Enter A Valid Roomcode");
+        return null;
     }
 
     /**
@@ -126,37 +131,49 @@ public class LiarsDiceController {
         String id = (String) stake.get("playerId");
         ArrayList<Integer> newStake = (ArrayList<Integer>) stake.get("newStake");
         Player playerSettingStake = players.findOne(id);
-        if (playerSettingStake == null){
-            messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
+        if (newStake != null && newStake.size() == 2 && newStake.get(0) != null && newStake.get(1) != null) {
+            if (newStake.get(0) > 0 && newStake.get(1) > 0 && newStake.get(1) < 7 && newStake.size() == 2) {
+                if (playerSettingStake == null) {
+                    messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
+                }
+                GameState gameState = playerSettingStake.getGameState();
+                roomCode = gameState.getRoomCode();
+                if (playerSettingStake.getDice() == null) {
+                    gameLogic.setNextActivePlayer(roomCode);
+                    PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+                    HashMap playerListAndGameState = new HashMap();
+                    playerListAndGameState.put("playerList", playerDtos);
+                    playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+                    messenger.convertAndSend("/topic/lobby/error/" + id, "You must have Dice in order to raise the stake, your turn is being skipped");
+                    System.out.println("Setting Stake");
+                    return playerListAndGameState;
+                }
+                if (gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)) {
+                    playerSettingStake.setStake(newStake);
+                    players.save(playerSettingStake);
+                    gameLogic.setNextActivePlayer(roomCode);
+                } else if (gameLogic.isActivePlayer(id)) {
+                    messenger.convertAndSend("/topic/lobby/error/" + id, "You are the active player, but you did not submit a valid stake");
+                } else if (gameLogic.isValidRaise(gameState, newStake)) {
+                    messenger.convertAndSend("/topic/lobby/error/" + id, "The stake is valid, but you are not the active player");
+                }
+                PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+                HashMap playerListAndGameState = new HashMap();
+                playerListAndGameState.put("playerList", playerDtos);
+                playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
+                messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerSettingStake));
+                System.out.println("Setting Stake");
+                return playerListAndGameState;
+            }
         }
-        GameState gameState = playerSettingStake.getGameState();
-        roomCode = gameState.getRoomCode();
-        if (playerSettingStake.getDice() == null){
-            gameLogic.setNextActivePlayer(roomCode);
-            PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
-            HashMap playerListAndGameState = new HashMap();
-            playerListAndGameState.put("playerList", playerDtos);
-            playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
-            messenger.convertAndSend("/topic/lobby/error/" + id, "You must have Dice in order to raise the stake, your turn is being skipped");
-            System.out.println("Setting Stake");
-            return playerListAndGameState;
-        }
-        if(gameLogic.isActivePlayer(id) && gameLogic.isValidRaise(gameState, newStake)){
-            playerSettingStake.setStake(newStake);
-            players.save(playerSettingStake);
-            gameLogic.setNextActivePlayer(roomCode);
-        }else if (gameLogic.isActivePlayer(id)){
-            messenger.convertAndSend("/topic/lobby/error/" + id, "You are the active player, but you did not submit a valid stake");
-        }else if(gameLogic.isValidRaise(gameState, newStake)){
-            messenger.convertAndSend("/topic/lobby/error/" + id, "The stake is valid, but you are not the active player");
-        }
-        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
+        PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(playerSettingStake.getGameState()));
         HashMap playerListAndGameState = new HashMap();
         playerListAndGameState.put("playerList", playerDtos);
         playerListAndGameState.put("gameState", new GameStateDto(gameStates.findOne(roomCode), players));
-        messenger.convertAndSend("/topic/lobby/" + id, new PlayerDtoSansGameState(playerSettingStake));
+        messenger.convertAndSend("/topic/lobby/error/" + id, "Invalid Stake");
         System.out.println("Setting Stake");
         return playerListAndGameState;
+
     }
 
     /**
