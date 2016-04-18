@@ -20,6 +20,27 @@ var liarsDice = {
     liarsDice.events();
   },
   events: function () {
+    $('.learn').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked learn to play");
+      $('.realRules').removeClass('inactive');
+      $('.rulesPage').addClass('inactive');
+    });
+
+    $('.continue').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked continue");
+      $('.homePage').removeClass('inactive');
+      $('.rulesPage').addClass('inactive');
+    });
+
+    $('.gotIt').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked got it");
+      $('.homePage').removeClass('inactive');
+      $('.realRules').addClass('inactive');
+    });
+
     $('body').on('click','.abandonShip', function(event){
       console.log("RELODA!")
       window.location.reload();
@@ -44,9 +65,9 @@ var liarsDice = {
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
       socket.connectSocket(name,roomCode);
-//      window.player = function() {
-//        socket.getPlayerList();
-//      }
+    //  window.player = function() {
+    //    socket.getPlayerList();
+    //  }
       // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
@@ -213,7 +234,7 @@ function youLost(data){
       console.log("LOSER", data)
       $('.bigSection').addClass('inactive');
       $('.loser').removeClass('inactive');
-      player = parsed.name;
+      player = parsed.name + ' lost!';
       $('.nameLoser').html(player);
       _.each(data, function onPlayerList(data) {
       })
