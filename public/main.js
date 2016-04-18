@@ -121,7 +121,7 @@ var liarsDice = {
     },4000);
   });
 
-
+  // $('.viewRules').on('click', function(event){
 
     // press space bar to view dice
     $(window).keydown(function(e) {
@@ -424,5 +424,6 @@ function getDiceBack(data) {
 }
 
 function errorFromServer(message) {
-    console.error(message);
+    console.log(message);
+    alert("That was not a valid play\nor it's not your turn.\nPlease try again.")
 }

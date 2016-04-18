@@ -135,7 +135,7 @@ h1{
   box-shadow: 0 0 0 3px black inset;
   border: 3px grey solid;
   border-radius: 5px;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }
 /*.gameInput{
   margin-left: 60%;
@@ -149,7 +149,7 @@ h1{
   color:maroon;
   box-shadow: 0 0 0 3px grey inset;
   border: 3px maroon solid;
-  margin-left: 49%;
+  margin-left: 677px;
   margin-top: 0px;
   width: 130px;
   height:50px;
@@ -157,21 +157,28 @@ h1{
 }
 .abandonShip{
   color:maroon;
-  box-shadow: 0 0 0 3px black inset;
-  border: 3px grey solid;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 3px maroon solid;
   border-radius: 5px;
   margin-bottom: 3px;
+  margin-left: 52px;
+  width: 130px;
+  height:50px;
   z-index: 2;
 }
-.bluff{
+.bluff {
   color:maroon;
-  box-shadow: 0 0 0 3px black inset;
-  border: 3px grey solid;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 3px maroon solid;
   border-radius: 5px;
   margin-bottom: 3px;
-  z-index: 2;
-  position: relative;
+  margin-left: 103px;
+  margin-right: 90px;
+  margin-top: 9px;
+  width: 130px;
+  height:50px;
 }
+
  .nameLoser{
   font-size: 3rem;
   width: 37%;
@@ -193,6 +200,11 @@ h1{
   height:50px;
   border-radius: 5px;
   margin-left: 33%;
+}
+.rulersOne , .rulersTwo , .rulersThree , .rulersFour{
+  opacity: .5;
+    width:100%;
+    margin-top: -3px;
 }
 
 .cup2{
