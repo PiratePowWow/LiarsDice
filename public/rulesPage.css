@@ -2,6 +2,7 @@
   display: block;
   width:60%;
   margin-left: 19%;
+  margin-top: 2%;
 
 }
 .rulesPage img{
@@ -29,7 +30,7 @@
     margin: 5%;
     display: inline-block;
     width:25%;
-    margin-top: 10%;
+    margin-top: 6%;
 }
 .learn{
   height:155px;
@@ -77,14 +78,14 @@
 
 .gotItz {
     background-color: maroon;
-    height: 80px;
+    height: 70px;
     width: 162px;
     box-shadow: 0 0 0 4px black inset;
     border: 2px grey solid;
     margin-left: 2%;
     z-index: 2;
     position: absolute;
-    margin-top: 95px;
+    margin-top: -1063px;
     font-size: 2rem;
     border-radius: 5px;
 }

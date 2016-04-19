@@ -6,7 +6,7 @@
 }
 
  button:hover {
-  opacity: 0.75;
+  opacity: 0.85;
 }
 /*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
 button , input{

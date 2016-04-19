@@ -21,7 +21,12 @@
     margin-left: 61%;
     z-index: 2;
     position: absolute;
-    margin-top: -87px;
+    margin-top: -1255px;
     font-size: 2rem;
     border-radius: 5px;
+}
+.rulesArea{
+  height: 400px;
+  margin-top: 100px;
+  overflow: scroll;
 }

@@ -436,5 +436,5 @@ function getDiceBack(data) {
 
 function errorFromServer(message) {
     console.log(message);
-    alert("That was not a valid play\nor it's not your turn.\nPlease try again.")
+    alert("That was not a valid play\nor it's not your turn.\nPlease try again.");
 }
