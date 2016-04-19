@@ -4,9 +4,12 @@
  button {
   opacity: 1;
 }
-
+*{
+  font-family: 'IM Fell English SC', serif;
+}
  button:hover {
-  opacity: 0.85;
+  /*opacity: 0.85;*/
+  box-shadow: 3px 3px 3px grey;
 }
 /*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
 button , input{
@@ -21,7 +24,8 @@ button , input{
 /*adjusts placeholder text color*/
 ::-webkit-input-placeholder {
    color: #454545;
-   font-size: 1rem;
+   font-size: 1.3rem;
+   text-align: center;
 }
 
 :-moz-placeholder { /* Firefox 18- */
@@ -85,7 +89,9 @@ h1{
   margin-left: 70%;
   position: relative;
 }
-
+ul , li{
+  list-style-type: none;
+}
 .nameContent{
   /*margin:0 auto;*/
   margin-top: 200px;
@@ -94,17 +100,33 @@ h1{
   list-style-image: none;
   z-index: 3;
   position: absolute;
+  font-size: 1.2rem;
 }
 /*.nameContent li{
     display: inline-block;
 }*/
 
-#gameNames{
-  border: 2px maroon solid;
-  background-color: lightgrey;
-  box-shadow: 0 0 0 4px black inset;
-  padding:1%;
-  margin-left: 2%;
+#gameNames {
+    padding: 1%;
+    margin-left: 2%;
+    width: 210px;
+    margin-top: 137px;
+    border: 6px rgba(0, 0, 0, .85) solid;
+    border-radius: 4px;
+}
+#gameNames::after{
+  background-image: url("./images/paper2.jpg");
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+  content: "";
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 .activePlayer {
     margin: 0.75em 0;
@@ -122,21 +144,29 @@ h1{
     left: -1em;
     top: 0.9em;
     position: relative;
+    list-style: none;
 }
 .activePlayer{
   padding:2%;
-  background-color: rgba(255, 255, 0, .5);
-  border:rgba(100,0,0,0.7) 2px solid;
+  background-color: rgba(185,172,50,.5);
+  border: rgba(100,0,0,0.7) 2px dotted;
   opacity: 1;
   z-index: -1;
+  list-style: none;
 }
+
 .diceSubmit input{
   text-align: center;
   display: block;
   height:50px;
   margin-left: 50%;
   background-color: white;
-  width:100px;
+  width:102px;
+  padding:1px;
+  font-size: 1.9rem;
+}
+input.placeholder {
+    text-align: center;
 }
 .diceSubmit{
   z-index: 2;
@@ -180,6 +210,7 @@ h1{
     height: 50px;
     z-index: 2;
     position: absolute;
+    font-size: 1.2rem;
 }
 .bluff {
     color: maroon;
@@ -193,6 +224,7 @@ h1{
     width: 130px;
     height: 50px;
     position: absolute;
+    font-size: 1.2rem;
 }
 .seeRulers {
     position: absolute;
@@ -206,6 +238,7 @@ h1{
     width: 130px;
     height: 50px;
     border-radius: 5px;
+    font-size: 1.2rem;
 }
  .nameLoser{
   font-size: 3rem;
@@ -229,6 +262,7 @@ h1{
     margin-top: 20px;
     margin-left: 427px;
 }
+
 .rulersOne , .rulersTwo , .rulersThree , .rulersFour{
   opacity: .5;
     width:100%;

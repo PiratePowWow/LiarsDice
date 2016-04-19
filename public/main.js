@@ -20,6 +20,9 @@ var liarsDice = {
     liarsDice.events();
   },
   events: function () {
+    $('form').on('submit',function(event) {
+      event.preventDefault();
+    })
     $('.learn').on('click', function(event){
       event.preventDefault();
       console.log("you clicked learn to play");
@@ -39,6 +42,12 @@ var liarsDice = {
       console.log("you clicked got it");
       $('.homePage').removeClass('inactive');
       $('.realRules').addClass('inactive');
+    });
+    $('#questionMark').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked question");
+      $('h4').removeClass('hide');
+      $('#questionMark').addClass('hide');
     });
 
     $('body').on('click','.abandonShip', function(event){
@@ -70,6 +79,8 @@ var liarsDice = {
     //  }
       // socket.sendFirstConnection();
     });
+
+
     $('.box').on('click', function(event){
       // var names = $('.nameContent').html();
       socket.playRollDie();
@@ -94,6 +105,7 @@ var liarsDice = {
 
 // Submit a wager
     $('.submitDice').on('click', function(event){
+      $(this).trigger( "blur" );
       event.preventDefault();
       console.log("you clicked dice submit");
       socket.raiseStake();
@@ -127,6 +139,7 @@ var liarsDice = {
     $('.bigSection').addClass('inactive');
     console.log("you want rules");
   });
+
   $('.gotItz').on('click', function(event){
     event.preventDefault();
     $('.bigSection').removeClass('inactive');
@@ -257,7 +270,7 @@ function youLost(data){
       var content = '';
       var code = '';
       console.log("PLAYER LIST", parsed);
-      code += "<p>Don't forget to send friends your Room Code: "
+      code += "<p>Send friends your Room Code: "
             + parsed.playerList.playerDtos[0].roomCode
             + '</p>'
       $('.roomNumber').html(code);
@@ -293,6 +306,9 @@ function youLost(data){
               }
               content +=  el.name
                           + '</li>'
+                          + '<ul><li>Score: '
+                          + el.score
+                          + '</li></ul>'
             }
           })
           $('.nameContent > ul').html(content);

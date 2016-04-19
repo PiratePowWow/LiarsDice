@@ -8,7 +8,7 @@
 .rulersOne , .rulersTwo , .rulersThree , .rulersFour{
   opacity: .5;
     width:100%;
-    margin-top: -3px;
+    margin-top: -6px;
 }
 
 
@@ -21,7 +21,7 @@
     margin-left: 61%;
     z-index: 2;
     position: absolute;
-    margin-top: -1255px;
+    margin-top: -1262px;
     font-size: 2rem;
     border-radius: 5px;
 }

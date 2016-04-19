@@ -6,8 +6,7 @@
   Liars Dice
     </title>
     <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" charset="utf-8"> -->
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen" title="no title" charset="utf-8">
+<link href='https://fonts.googleapis.com/css?family=IM+Fell+English+SC' rel='stylesheet' type='text/css'>  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/main.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/homePage.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/lobby.css" media="screen" title="no title" charset="utf-8">
@@ -19,8 +18,9 @@
   <!-- rules homepage display -->
       <section class= "rulesPage">
             <img src="./images/title3.png" alt="" />
-            <button class="learn" type="button" name="learn">Learn to play!!</button>
             <button class="continue" type="button" name="continue">Start playing!!</button>
+            <button class="learn" type="button" name="learn">Learn to play!!</button>
+
 
       </section>
 
@@ -41,11 +41,15 @@
         <div class="newGame">
           <button type="button" class="new" name="button">Let's Play!</button>
           <form class="newG">
-            <input type="text" id="name" name="name" value="" placeholder="enter your name, if you dare">
-            <input type="text" id="roomCode" name="roomCode" value="" placeholder="enter room code OR submit">
+            <input type="text" id="name" name="name" value="" placeholder="your name">
+            <input type="text" id="roomCode" name="roomCode" value="" placeholder="room code OR submit">
             <button id="newConnect" class="submit" type="submit" name="submit">Submit</button>
             <!-- $('#newConnect').on('click',connectAndCreateNewGame) -->
           </form>
+        </div>
+        <div class="question">
+          <button id="questionMark" type="button" name="button">???</button>
+          <h4 class="hide">Hit Let's Play.<br> To start a new game, just enter your name.<br> To join an existing name, enter your name and the room code<br>(get the room code from your friend IRL).</h4>
         </div>
         <!-- <h2>OR</h2> -->
         <!-- <div class="enterKey">
@@ -64,7 +68,7 @@
       <section class="lobby inactive" >
         <div class="titleLobby"><img src="/images/title.png" alt="" /></div>
         <div class="nameContent" id="lobbyNames">
-          <h2 class="players">Players:</h2>
+          <h2 class="players">...all hands on deck?</h2>
           <ul></ul>
         </div>
         <div class = "whenReady">
@@ -88,7 +92,6 @@
       <div class="nameContent" id="gameNames">
         <ul></ul>
       </div>
-
 
     <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
     <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
@@ -164,8 +167,8 @@
 
 
       <form class="diceSubmit">
-        <input class="quantity" type="number" name="quantity" value="" placeholder="  how many">
-        <input class="quality" type="number" name="quality" value="" placeholder="    dice face">
+        <input class="quantity" type="text" name="quantity" value="" placeholder="how many">
+        <input class="quality" type="text" name="quality" value="" placeholder="dice face">
         <button type="submit" class="submitDice" name="submitDice">Submit</button>
         <button type="button" class="bluff" type="submit" name="bluff">Call Bluff</button>
         <button type="button" class="seeRulers" name="seeRulers">View Rules</button>
