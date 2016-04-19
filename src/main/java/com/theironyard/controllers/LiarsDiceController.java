@@ -105,9 +105,9 @@ public class LiarsDiceController {
         }else{
             messenger.convertAndSend("/topic/lobby/error/" + id, "You already have dice. Please reset the game if you wish to get new dice");
         }
-        if (gameLogic.allDiceRolled(roomCode) && gameState.getLoserId() == null){
+        if (gameLogic.allDiceRolled(roomCode) && gameState.getLoserId() == null && gameState.getActivePlayerId() == null){
             gameLogic.setNextActivePlayer(roomCode);
-        }else if(gameLogic.allDiceRolled(roomCode)){
+        }else if(gameLogic.allDiceRolled(roomCode)&& gameState.getActivePlayerId() == null){
             gameState.setActivePlayerId(gameState.getLoserId());
             gameStates.save(gameState);
         }
@@ -138,6 +138,9 @@ public class LiarsDiceController {
                 }
                 GameState gameState = playerSettingStake.getGameState();
                 roomCode = gameState.getRoomCode();
+                if (gameState.getActivePlayerId() == null){
+                    LiarsDiceController.messenger.convertAndSend("/topic/lobby/error/" + id, "No active player has been set because all players have not yet rolled their dice");
+                }
                 if (playerSettingStake.getDice() == null) {
                     gameLogic.setNextActivePlayer(roomCode);
                     PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
@@ -208,28 +211,33 @@ public class LiarsDiceController {
      */
     @MessageMapping("/lobby/callBluff/{roomCode}")
     @SendTo("/topic/loser/{roomCode}")
-    public PlayerDto callBluff(String id, @DestinationVariable String roomCode) {
+    public PlayerDto callBluff(String id, @DestinationVariable String roomCode) throws Exception {
         Player playerCallingBluff = players.findOne(id);
         if (playerCallingBluff == null){
             messenger.convertAndSend("/topic/lobby/error/" + id, "Your player Id could Not be found");
         }
         GameState gameState = playerCallingBluff.getGameState();
-        PlayerDto loserDto;
-        if(gameLogic.isActivePlayer(id)){
-            Player loser = gameLogic.determineLoser(gameState);
-            gameState = gameStates.findOne(gameState.getRoomCode());
-            gameState.setLoserId(loser.getId());
+        if (gameState.getActivePlayerId() != null) {
+            PlayerDto loserDto;
+            if (gameLogic.isActivePlayer(id)) {
+                Player loser = gameLogic.determineLoser(gameState);
+                gameState = gameStates.findOne(gameState.getRoomCode());
+                gameState.setLoserId(loser.getId());
+                gameStates.save(gameState);
+                loserDto = new PlayerDto(loser);
+                gameLogic.resetGameState(roomCode);
+                System.out.println("Calling Bluff");
+                return loserDto;
+            }
+            gameState.setLoserId(playerCallingBluff.getId());
             gameStates.save(gameState);
-            loserDto = new PlayerDto(loser);
+            loserDto = new PlayerDto(playerCallingBluff);
             gameLogic.resetGameState(roomCode);
             System.out.println("Calling Bluff");
             return loserDto;
+        }else{
+            messenger.convertAndSend("/topic/lobby/error/" + id, "Waiting for players to roll dice");
+            throw new Exception("Waiting for players to roll dice");
         }
-        gameState.setLoserId(playerCallingBluff.getId());
-        gameStates.save(gameState);
-        loserDto = new PlayerDto(playerCallingBluff);
-        gameLogic.resetGameState(roomCode);
-        System.out.println("Calling Bluff");
-        return loserDto;
     }
 }

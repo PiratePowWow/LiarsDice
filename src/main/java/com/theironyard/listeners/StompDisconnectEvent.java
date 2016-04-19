@@ -2,6 +2,8 @@ package com.theironyard.listeners;
 
 import com.theironyard.controllers.LiarsDiceController;
 import com.theironyard.dtos.GameStateDto;
+import com.theironyard.dtos.PlayerDto;
+import com.theironyard.dtos.PlayerDtoSansGameState;
 import com.theironyard.dtos.PlayersDto;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
@@ -42,12 +44,16 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
             String roomCode = gameState.getRoomCode();
             gameLogic.dropPlayer(sessionId);
             if (gameStates.findOne(roomCode) != null) {
-                if (gameState.getActivePlayerId() != null) {
-                    if (gameState.getActivePlayerId().equals(sessionId)) {
-                        gameLogic.setNextActivePlayer(gameState.getRoomCode());
-                        gameState = gameStates.findOne(roomCode);
-                    }
-                }
+//                if (gameState.getActivePlayerId() != null) {
+//                    if (gameState.getActivePlayerId().equals(sessionId)) {
+//                        gameLogic.setNextActivePlayer(gameState.getRoomCode());
+//                        gameState = gameStates.findOne(roomCode);
+//                    }
+//                }
+                PlayerDto disconnectingLoser = new PlayerDto(disconnectingPlayer);
+                LiarsDiceController.messenger.convertAndSend("/topic/loser/" + roomCode, disconnectingLoser);
+                gameLogic.resetGameState(roomCode);
+                gameState = gameStates.findOne(roomCode);
                 PlayersDto playerDtos = new PlayersDto(players.findByGameStateOrderBySeatNum(gameState));
                 HashMap playerListAndGameState = new HashMap();
                 playerListAndGameState.put("playerList", playerDtos);
