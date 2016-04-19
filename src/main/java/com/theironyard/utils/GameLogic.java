@@ -1,5 +1,6 @@
 package com.theironyard.utils;
 
+import com.theironyard.controllers.LiarsDiceController;
 import com.theironyard.entities.GameState;
 import com.theironyard.entities.Player;
 import com.theironyard.services.GameStateRepository;
@@ -184,7 +185,13 @@ public class GameLogic {
     }
 
     public boolean isActivePlayer(String id){
-        return players.findOne(id).getGameState().getActivePlayerId().equals(id);
+        Player player = players.findOne(id);
+        GameState gameState = player.getGameState();
+        String activePlayer = gameState.getActivePlayerId();
+        if (activePlayer == null){
+            return false;
+        }
+        return id.equals(activePlayer);
     }
 
     public boolean allDiceRolled(String roomCode){
