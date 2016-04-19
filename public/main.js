@@ -20,6 +20,27 @@ var liarsDice = {
     liarsDice.events();
   },
   events: function () {
+    $('.learn').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked learn to play");
+      $('.realRules').removeClass('inactive');
+      $('.rulesPage').addClass('inactive');
+    });
+
+    $('.continue').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked continue");
+      $('.homePage').removeClass('inactive');
+      $('.rulesPage').addClass('inactive');
+    });
+
+    $('.gotIt').on('click', function(event){
+      event.preventDefault();
+      console.log("you clicked got it");
+      $('.homePage').removeClass('inactive');
+      $('.realRules').addClass('inactive');
+    });
+
     $('body').on('click','.abandonShip', function(event){
       console.log("RELODA!")
       window.location.reload();
@@ -44,9 +65,9 @@ var liarsDice = {
       $('.lobby').removeClass('inactive');
       $('.homePage').addClass('inactive');
       socket.connectSocket(name,roomCode);
-//      window.player = function() {
-//        socket.getPlayerList();
-//      }
+    //  window.player = function() {
+    //    socket.getPlayerList();
+    //  }
       // socket.sendFirstConnection();
     });
     $('.box').on('click', function(event){
@@ -100,7 +121,18 @@ var liarsDice = {
     },4000);
   });
 
-
+  $('.seeRulers').on('click', function(event){
+    event.preventDefault();
+    $('.realRulers').removeClass('inactive');
+    $('.bigSection').addClass('inactive');
+    console.log("you want rules");
+  });
+  $('.gotItz').on('click', function(event){
+    event.preventDefault();
+    $('.bigSection').removeClass('inactive');
+    $('.realRulers').addClass('inactive');
+    console.log("back to game");
+  });
 
     // press space bar to view dice
     $(window).keydown(function(e) {
@@ -213,7 +245,7 @@ function youLost(data){
       console.log("LOSER", data)
       $('.bigSection').addClass('inactive');
       $('.loser').removeClass('inactive');
-      player = parsed.name;
+      player = parsed.name + ' lost!';
       $('.nameLoser').html(player);
       _.each(data, function onPlayerList(data) {
       })
@@ -245,7 +277,7 @@ function youLost(data){
               content += '<li>'
             }
             content +=  el.name
-                        + '<ul><li>score: '
+                        + '<ul><li>Score: '
                         + el.score
                         + '</li><li>Stake: '
                         + el.stake[0]
@@ -403,5 +435,6 @@ function getDiceBack(data) {
 }
 
 function errorFromServer(message) {
-    console.error(message);
+    console.log(message);
+    alert("That was not a valid play\nor it's not your turn.\nPlease try again.");
 }

@@ -1,5 +1,13 @@
 /*removes blue line after click*/
 *:focus {outline:none !important}
+/*makes buttons look pushed in on hover*/
+ button {
+  opacity: 1;
+}
+
+ button:hover {
+  opacity: 0.85;
+}
 /*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
 button , input{
   margin      : 0;
@@ -82,7 +90,7 @@ h1{
   /*margin:0 auto;*/
   margin-top: 200px;
   color:black;
-  opacity: .7;
+  opacity: 1;
   list-style-image: none;
   z-index: 3;
   position: absolute;
@@ -92,7 +100,11 @@ h1{
 }*/
 
 #gameNames{
-  border: 2px green solid;
+  border: 2px maroon solid;
+  background-color: lightgrey;
+  box-shadow: 0 0 0 4px black inset;
+  padding:1%;
+  margin-left: 2%;
 }
 .activePlayer {
     margin: 0.75em 0;
@@ -112,8 +124,9 @@ h1{
     position: relative;
 }
 .activePlayer{
-  border: 3px yellow solid;
-  background-color: yellow;
+  padding:2%;
+  background-color: rgba(255, 255, 0, .5);
+  border:rgba(100,0,0,0.7) 2px solid;
   opacity: 1;
   z-index: -1;
 }
@@ -127,7 +140,7 @@ h1{
 }
 .diceSubmit{
   z-index: 2;
-  margin-top: -250px;
+  margin-top: -360px;
   position: relative;
 }
 .diceSubmit input{
@@ -135,7 +148,7 @@ h1{
   box-shadow: 0 0 0 3px black inset;
   border: 3px grey solid;
   border-radius: 5px;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }
 /*.gameInput{
   margin-left: 60%;
@@ -149,52 +162,77 @@ h1{
   color:maroon;
   box-shadow: 0 0 0 3px grey inset;
   border: 3px maroon solid;
-  margin-left: 49%;
+  margin-left: 673px;
   margin-top: 0px;
   width: 130px;
-  height:50px;
+  height:69px;
   border-radius: 5px;
+  font-size: 2rem;
 }
-.abandonShip{
-  color:maroon;
-  box-shadow: 0 0 0 3px black inset;
-  border: 3px grey solid;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  z-index: 2;
+.abandonShip {
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-left: 351px;
+    margin-top: 90px;
+    width: 130px;
+    height: 50px;
+    z-index: 2;
+    position: absolute;
 }
-.bluff{
-  color:maroon;
-  box-shadow: 0 0 0 3px black inset;
-  border: 3px grey solid;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  z-index: 2;
-  position: relative;
+.bluff {
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    margin-left: 65px;
+    margin-right: 43px;
+    margin-top: 90px;
+    width: 130px;
+    height: 50px;
+    position: absolute;
 }
-.loserP{
-  text-align: center;
+.seeRulers {
+    position: absolute;
+    z-index: 2;
+    background-color: black;
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    margin-top: 90px;
+    margin-left: 210px;
+    width: 130px;
+    height: 50px;
+    border-radius: 5px;
 }
-.loserP , .nameLoser{
+ .nameLoser{
   font-size: 3rem;
   width: 37%;
   margin-left: 20%;
   margin-top: 2%;
   position: relative;
+  text-align: center;
 }
-.reroll{
-  position: relative;
-  z-index: 2;
-  background-color: black;
-  color:maroon;
-  box-shadow: 0 0 0 3px grey inset;
-  border: 3px maroon solid;
-  /*margin-left: 49%;
-  margin-top: 0px;*/
-  width: 130px;
-  height:50px;
-  border-radius: 5px;
-  margin-left: 33%;
+.reroll {
+    position: relative;
+    z-index: 2;
+    background-color: black;
+    color: maroon;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    width: 196px;
+    height: 103px;
+    font-size: 2rem;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 427px;
+}
+.rulersOne , .rulersTwo , .rulersThree , .rulersFour{
+  opacity: .5;
+    width:100%;
+    margin-top: -3px;
 }
 
 .cup2{
@@ -205,7 +243,7 @@ h1{
   position:absolute;
   background-image: url("./images/cupbones6.png");
   background-repeat:no-repeat;
-  z-index: 0;
+  z-index: 3;
   -webkit-animation: grow 2200ms ease-out;
 }
 

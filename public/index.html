@@ -11,13 +11,33 @@
   <link rel="stylesheet" href="/main.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/homePage.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/lobby.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/rulesPage.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/realRules.css" media="screen" title="no title" charset="utf-8">
 </head>
   <body>
         <!-- <div class="title"><img src="/images/title.png" alt="" /></div> -->
+  <!-- rules homepage display -->
+      <section class= "rulesPage">
+            <img src="./images/title3.png" alt="" />
+            <button class="learn" type="button" name="learn">Learn to play!!</button>
+            <button class="continue" type="button" name="continue">Start playing!!</button>
 
+      </section>
+
+<!--  RULES -->
+      <section class="realRules inactive">
+        <div class="rulesArea">
+          <img class="rulersOne" src="./images/rules1.png" alt="" />
+          <img class="rulersTwo" src="./images/rules2.png" alt="" />
+          <img class="rulersThree" src="./images/rules3.png" alt="" />
+          <img class="rulersFour" src="./images/rules4.png" alt="" />
+          <button class="gotIt" type="button" name="gotIt">got it!</button>
+        </div>
+      </section>
     <!--  home page section -->
-      <section class="homePage " >
+      <section class="homePage inactive" >
         <div class="title"><img src="/images/title.png" alt="" /></div>
+
         <div class="newGame">
           <button type="button" class="new" name="button">Let's Play!</button>
           <form class="newG">
@@ -44,7 +64,7 @@
       <section class="lobby inactive" >
         <div class="titleLobby"><img src="/images/title.png" alt="" /></div>
         <div class="nameContent" id="lobbyNames">
-          <p>Players:</p>
+          <h2 class="players">Players:</h2>
           <ul></ul>
         </div>
         <div class = "whenReady">
@@ -146,20 +166,29 @@
       <form class="diceSubmit">
         <input class="quantity" type="number" name="quantity" value="" placeholder="  how many">
         <input class="quality" type="number" name="quality" value="" placeholder="    dice face">
+        <button type="submit" class="submitDice" name="submitDice">Submit</button>
+        <button type="button" class="bluff" type="submit" name="bluff">Call Bluff</button>
+        <button type="button" class="seeRulers" name="seeRulers">View Rules</button>
+        <button type="button" class="abandonShip" name="abandonShip">Abandon Ship</button>
       </form>
-      <button type="submit" class="submitDice" name="submitDice">Submit</button>
-      <button type="button" class="bluff" type="submit" name="bluff">Bluff Button</button>
-      <button type="button" class="abandonShip" name="abandonShip">abandon ship</button>
-
 
 <!-- closing bigSection -->
   </section>
+<!-- see rules from gameroom  -->
+<section class="realRulers inactive">
+  <div class="rulesArea">
+    <img class="rulersOne" src="./images/rules1.png" alt="" />
+    <img class="rulersTwo" src="./images/rules2.png" alt="" />
+    <img class="rulersThree" src="./images/rules3.png" alt="" />
+    <img class="rulersFour" src="./images/rules4.png" alt="" />
+    <button class="gotItz" type="button" name="gotItz">got it!</button>
+  </div>
+</section>
 <!--  someone lost area   -->
   <section class="loser inactive">
     <div class="titleLoser"><img src="/images/title.png" alt="" /></div>
     <div class="loserP">
-      <div class="nameLoser">
-      </div> lost!
+      <div class="nameLoser"></div>
     </div>
     <button class="reroll" type="button" name="reRoll">Start next round</button>
   </section>
