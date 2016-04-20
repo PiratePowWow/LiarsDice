@@ -12,7 +12,18 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+war {
+	baseName = 'LiarsDice'
+	version =  '0.0.1'
+	webAppDirName = 'public'
+}
+
+bootRun {
+	addResources = true
+}
 
 jar {
 	baseName = 'LiarsDice'
@@ -35,8 +46,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile('com.h2database:h2')
-	runtime('org.postgresql:postgresql')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	//runtime('org.postgresql:postgresql')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	providedRuntime ('org.springframework.boot:spring-boot-starter-tomcat')
 }
 
 
