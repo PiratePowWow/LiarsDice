@@ -99,39 +99,53 @@
     margin-top: 23px;
 }
 #lobbyNames li {
-    font-size: 1.5rem;
+    font-size: 2rem;
     margin-top: -6%;
     list-style: none;
     opacity: .8;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: -80px;
     border-radius: 5px;
     padding: 10px;
     background-image: url("./images/woodwood.jpg");
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center center;
-    width: 120px;
+    width: 194px;
     text-align: center;
-    transform:rotate(-20deg);
+    transform: rotate(-40deg);
 }
-/*#lobbyNames li::after{
-  background-image: url("./images/paper2.jpg");
-  background-repeat:no-repeat;
-  background-size: 100% 100%;
-  background-position: center center;
-  content: "";
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-}*/
+#lobbyNames li:nth-child(1){
+  -webkit-animation: bob 5200ms ease-out infinite;
+}
+#lobbyNames li:nth-child(2){
+  -webkit-animation: bob 5700ms ease-out infinite;
+}
+#lobbyNames li:nth-child(3){
+  -webkit-animation: bob 5400ms ease-out infinite;
+}
+#lobbyNames li:nth-child(4){
+  -webkit-animation: bob 5200ms ease-out infinite;
+}
+#lobbyNames li:nth-child(5){
+  -webkit-animation: bob 5600ms ease-out infinite;
+}
+#lobbyNames li:nth-child(6){
+  -webkit-animation: bob 5400ms ease-out infinite;
+}
+#lobbyNames li:nth-child(7){
+  -webkit-animation: bob 5200ms ease-out infinite;
+}
+@-webkit-keyframes bob{
+0% {	-webkit-transform: rotate(-40deg) translateX(-2px); }
+50%{	-webkit-transform: rotate(-40deg) translateX(20px);}
+100% {	-webkit-transform: rotate(-40deg) translateX(-2px) ; }
+}
+
 #lobbyNames{
   color:black;
   display: inline-block;
+  margin-top: 102px;
 }
 #lobbyNames{
   font-size: 1.5rem;
@@ -139,8 +153,9 @@
 }
 
 .players {
-    margin-top: 91px;
-    margin-left: -153px;
-    color:  #A88D78;
-    font-size: 1.75rem;
+  margin-top: 176px;
+  margin-left: -181px;
+  font-size: 1.75rem;
+  margin-bottom: -59px;
+  color: grey;
 }

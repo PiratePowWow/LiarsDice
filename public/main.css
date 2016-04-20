@@ -154,7 +154,9 @@ ul , li{
   z-index: -1;
   list-style: none;
 }
-
+.namesBig{
+  font-size: 2rem;
+}
 .diceSubmit input{
   text-align: center;
   display: block;
@@ -170,7 +172,7 @@ input.placeholder {
 }
 .diceSubmit{
   z-index: 2;
-  margin-top: -360px;
+  margin-top: -261px;
   position: relative;
 }
 .diceSubmit input{
@@ -178,7 +180,7 @@ input.placeholder {
   box-shadow: 0 0 0 3px black inset;
   border: 3px grey solid;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 /*.gameInput{
   margin-left: 60%;
@@ -192,9 +194,9 @@ input.placeholder {
   color:maroon;
   box-shadow: 0 0 0 3px grey inset;
   border: 3px maroon solid;
-  margin-left: 673px;
-  margin-top: 0px;
-  width: 130px;
+  margin-left: 661px;
+  margin-top: 7px;
+  width: 156px;
   height:69px;
   border-radius: 5px;
   font-size: 2rem;
@@ -204,23 +206,25 @@ input.placeholder {
     box-shadow: 0 0 0 3px grey inset;
     border: 3px maroon solid;
     border-radius: 5px;
-    margin-left: 351px;
-    margin-top: 90px;
+    margin-left: 357px;
+    margin-top: 23px;
     width: 130px;
     height: 50px;
     z-index: 2;
     position: absolute;
     font-size: 1.2rem;
+    background-color: black;
 }
 .bluff {
     color: maroon;
     box-shadow: 0 0 0 3px grey inset;
+    background-color: black;
     border: 3px maroon solid;
     border-radius: 5px;
     margin-bottom: 3px;
-    margin-left: 65px;
+    margin-left: 63px;
     margin-right: 43px;
-    margin-top: 90px;
+    margin-top: 23px;
     width: 130px;
     height: 50px;
     position: absolute;
@@ -233,7 +237,7 @@ input.placeholder {
     color: maroon;
     box-shadow: 0 0 0 3px grey inset;
     border: 3px maroon solid;
-    margin-top: 90px;
+    margin-top: 23px;
     margin-left: 210px;
     width: 130px;
     height: 50px;
