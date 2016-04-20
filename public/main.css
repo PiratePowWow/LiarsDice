@@ -111,8 +111,9 @@ ul , li{
     margin-left: 2%;
     width: 210px;
     margin-top: 137px;
-    border: 6px rgba(0, 0, 0, .85) solid;
+    border: 2px rgba(0, 0, 0, .85) solid;
     border-radius: 4px;
+    box-shadow: 3px 3px 3px grey;
 }
 #gameNames::after{
   background-image: url("./images/paper2.jpg");
