@@ -10,6 +10,7 @@
  button:hover {
   /*opacity: 0.85;*/
   box-shadow: 3px 3px 3px grey;
+  /*color:maroon;*/
 }
 /*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
 button , input{
@@ -121,7 +122,7 @@ ul , li{
   background-size: 100% 100%;
   background-position: center center;
   content: "";
-  opacity: 0.5;
+  opacity: 0.7;
   top: 0;
   left: 0;
   bottom: 0;
@@ -190,22 +191,22 @@ input.placeholder {
   margin-top: -150px;
   background-color: white;
 }*/
-.submitDice{
-  position: relative;
-  z-index: 2;
-  background-color: black;
-  color:maroon;
-  box-shadow: 0 0 0 3px grey inset;
-  border: 3px maroon solid;
-  margin-left: 661px;
-  margin-top: 7px;
-  width: 156px;
-  height:69px;
-  border-radius: 5px;
-  font-size: 2rem;
+.submitDice {
+    position: relative;
+    z-index: 2;
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    margin-left: 661px;
+    margin-top: 7px;
+    width: 156px;
+    height: 69px;
+    border-radius: 5px;
+    font-size: 2rem;
 }
 .abandonShip {
-    color: maroon;
+    color: white;
     box-shadow: 0 0 0 3px grey inset;
     border: 3px maroon solid;
     border-radius: 5px;
@@ -219,7 +220,7 @@ input.placeholder {
     background-color: black;
 }
 .bluff {
-    color: maroon;
+    color: white;
     box-shadow: 0 0 0 3px grey inset;
     background-color: black;
     border: 3px maroon solid;
@@ -237,7 +238,7 @@ input.placeholder {
     position: absolute;
     z-index: 2;
     background-color: black;
-    color: maroon;
+    color: white;
     box-shadow: 0 0 0 3px grey inset;
     border: 3px maroon solid;
     margin-top: 23px;
@@ -256,18 +257,18 @@ input.placeholder {
   text-align: center;
 }
 .reroll {
-    position: relative;
-    z-index: 2;
-    background-color: black;
-    color: maroon;
-    box-shadow: 0 0 0 3px grey inset;
-    border: 3px maroon solid;
-    width: 196px;
-    height: 103px;
-    font-size: 2rem;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-left: 427px;
+  position: relative;
+  z-index: 2;
+  background-color: black;
+  color: white;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 4px maroon solid;
+  width: 196px;
+  height: 103px;
+  font-size: 2rem;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 427px;
 }
 
 .rulersOne , .rulersTwo , .rulersThree , .rulersFour{
@@ -275,7 +276,41 @@ input.placeholder {
     width:100%;
     margin-top: -3px;
 }
-
+.yes {
+    width: 31%;
+    height: 55%;
+    position: absolute;
+    z-index: 3;
+    margin-top: 115px;
+    opacity: .9;
+    margin-left: 330px;
+    font-size: 3rem;
+    background-color: maroon;
+    border: black 5px solid;
+    padding: 7%;
+    padding-top: 86px;
+    padding-left: 166px;
+    padding-right: 166px;
+    text-align: center;
+    box-shadow: 6px 6px 6px grey;
+}
+.spaceBar {
+    color: grey;
+    margin-left: 299px;
+    margin-top: 14px;
+    font-size: 1.6rem;
+    -webkit-animation: heyGrow 3500ms ease-out;
+}
+@-webkit-keyframes heyGrow{
+0% {-webkit-transform: scale(0); }
+100% {	-webkit-transform: scale(.99);}
+}
+.no{
+  display: none;
+}
+.error:hover {
+  cursor:pointer;
+}
 .cup2{
   margin-top: 150px;
   margin-left: 57%;

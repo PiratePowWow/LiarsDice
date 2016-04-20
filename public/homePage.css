@@ -4,24 +4,34 @@
   margin-left: 19%;
   margin-top: 10%;
 }
-
+.newG{
+  margin-top: 10px;
+  position relative;
+}
 .newGame div, .enterKey div{
   display: inline-block;
   width:45%;
 }
-.homePage input , .homePage button{
+.homePage input {
   margin-top: 11%;
   border-radius: 5px;
   padding-left: 6px;
   padding-right: 6px;
   color: maroon;
 }
-#newConnect {
-  background-color: black;
-  height:65px;
-  width:90px;
-  box-shadow: 0 0 0 4px lightgrey inset;
-  border: 2px black solid;
+ .homePage button{
+   margin-top: 11%;
+   border-radius: 5px;
+   padding-left: 6px;
+   padding-right: 6px;
+   color: white;
+ }
+ #newConnect {
+     background-color: black;
+     height: 65px;
+     width: 90px;
+     box-shadow: 0 0 0 4px lightgrey inset;
+     border: 3px maroon solid;
 }
 .homePage input {
     width:202px;
@@ -38,38 +48,46 @@
 /*.homePage button{
     font-size: 1.4rem;
 }*/
-.new , #newConnect{
+#newConnect{
   font-size: 1.4rem;
 }
+#newConnect:hover{
+  box-shadow: 3px 3px 3px grey;
+}
+
 .new{
   height:125px;
   width:125px;
   box-shadow: 0 0 0 4px lightgrey inset;
-  border: 2px black solid;
-    background-color: black;
+  border: 3px maroon solid;
+  padding:2px;
+  background-color: black;
+  font-size: 2rem;
   /*margin-top: -5%;*/
   -webkit-animation: growSpin 2200ms ease-out;
 }
 /*  does the cannon ball thing  */
 @-webkit-keyframes growSpin{
-0% {-webkit-transform: scale(.5) translateX(700%) ; background-color: black; border-radius: 100%; border:none;}
-30%{ -webkit-transform: scale(.7) translateY(-250%) translateX(100%) ; background-color: black; border-radius: 100%; border:none;}
+0% {-webkit-transform: scale(.5) translateX(700%) ; background-color: black; border-radius: 100%; border:none; color:black;}
+30%{ -webkit-transform: scale(.7) translateY(-250%) translateX(100%) ; background-color: black; border-radius: 100%; border:none; color:black;}
 60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
-100% {	-webkit-transform: scale(.99) rotateZ(-360deg) ;}
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg); color:grey;}
 }
 
 .hidden>form {
     display:none;
     width:45%;
+    transform: translateY(12%);
 }
 
 .visible>form {
     display:inline-block;
+    transform: translateY(12%);
     -webkit-animation: left 350ms ease-out;
 }
 .visible>button{
   z-index: 0;
-
+  color: rgba(0, 0, 0, 0);
   background-image: url("./images/pirateflag.png");
   background-repeat:no-repeat;
   background-size: 100px 100px;
@@ -78,9 +96,9 @@
 
 
 @-webkit-keyframes left{
-0% {	-webkit-transform:translateZ(-500%); opacity: .2}
-90%{-webkit-transform:translateX(50%);opacity: .5}
-100% {	-webkit-transform:translateX(0%); opacity: 1}
+0% {	-webkit-transform:translateZ(-500%) (-50%); opacity: .2}
+90%{-webkit-transform:translateX(50%) ;opacity: .5}
+100% {	-webkit-transform:translateX(0%) (-50%); opacity: 1}
 }
 
 .hide{
@@ -97,7 +115,7 @@ h4{
   margin-left: -5%;
   width: 100%;
   margin-top: 7%;
-  color: grey;
+  color: lightgrey;
   font-size: 1.5rem;
   text-align: center;
   -webkit-animation: heyGrow 350ms ease-out;
@@ -128,4 +146,5 @@ h4{
 
 #questionMark:hover{
   box-shadow: none;
+  color:maroon;
 }
