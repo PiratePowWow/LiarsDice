@@ -62,7 +62,7 @@
   border: 3px maroon solid;
   padding:2px;
   background-color: black;
-  font-size: 2rem;
+  font-size: 1.4rem;
   /*margin-top: -5%;*/
   -webkit-animation: growSpin 2200ms ease-out;
 }
@@ -77,12 +77,10 @@
 .hidden>form {
     display:none;
     width:45%;
-    transform: translateY(12%);
 }
 
 .visible>form {
     display:inline-block;
-    transform: translateY(12%);
     -webkit-animation: left 350ms ease-out;
 }
 .visible>button{

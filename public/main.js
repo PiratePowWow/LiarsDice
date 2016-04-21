@@ -461,5 +461,5 @@ function errorFromServer(message) {
     // alert("That was not a valid play\nor it's not your turn.\nPlease try again.");
     $('.error').addClass('yes');
     $('.error').removeClass('no');
-    $('.error').html('That was not a valid play or it may not be your turn. Please try again or revisit the rules.');
+    // $('.error').html('That was not a valid play or it may not be your turn. Please try again or revisit the rules.');
 }
