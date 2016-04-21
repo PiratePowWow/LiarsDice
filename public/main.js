@@ -147,6 +147,12 @@ var liarsDice = {
     console.log("back to game");
   });
 
+  $('body').on('click', '.error', function(event){
+    event.preventDefault();
+    $('.error').removeClass('yes');
+    $('.error').addClass('no');
+  });
+
     // press space bar to view dice
     $(window).keydown(function(e) {
       if (e.which === 32) {
@@ -452,5 +458,8 @@ function getDiceBack(data) {
 
 function errorFromServer(message) {
     console.log(message);
-    alert("That was not a valid play\nor it's not your turn.\nPlease try again.");
+    // alert("That was not a valid play\nor it's not your turn.\nPlease try again.");
+    $('.error').addClass('yes');
+    $('.error').removeClass('no');
+    // $('.error').html('That was not a valid play or it may not be your turn. Please try again or revisit the rules.');
 }

@@ -15,14 +15,14 @@
   border-radius: 5px;
   padding-left: 6px;
   padding-right: 6px;
-  color: maroon;
+  color: white;
 }
 .continue{
 
   border-radius: 5px;
   padding-left: 6px;
   padding-right: 6px;
-  color: maroon;
+  color: white;
 }
 
 .rulesPage button{
@@ -36,7 +36,7 @@
   height:155px;
   width:155px;
   box-shadow: 0 0 0 4px lightgrey inset;
-  border: 2px black solid;
+  border: 6px maroon solid;
     background-color: black;
   -webkit-animation: growSpins 2200ms ease-out;
 }
@@ -52,7 +52,7 @@
   height:155px;
   width:155px;
   box-shadow: 0 0 0 4px lightgrey inset;
-  border: 2px black solid;
+  border: 6px maroon solid;
     background-color: black;
   -webkit-animation: growSpinss 2900ms ease-out;
 }
@@ -88,4 +88,5 @@
     margin-top: -1063px;
     font-size: 2rem;
     border-radius: 5px;
+    color:white;
 }
