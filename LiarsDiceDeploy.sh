@@ -8,18 +8,18 @@ sudo service liars-dice stop
 echo '***************************************************'
 echo '**** pulling changes from git... ****'
 echo '***************************************************'
-cd /Users/PiratePowWow/IdeaProjects/Liars-Dice
-git pull origin master
+cd /usr/home/LiarsDice
+sudo git pull origin master
 echo '***************************************************'
 echo '**** deleting old Liars-Dice war... ****'
 echo '***************************************************'
-cd /Users/PiratePowWow/IdeaProjects/Liars-Dice/build/libs
-rm *.war
+cd /usr/home/LiarsDice/build/libs
+sudo rm *.war
 echo '***************************************************'
 echo '**** building Liars-Dice war... ****'
 echo '***************************************************'
-cd /Users/PiratePowWow/IdeaProjects/Liars-Dice
-gradle build
+cd /usr/home/LiarsDice
+sudo gradle build
 echo '***************************************************'
 echo '**** starting Liars-Dice application... ****'
 echo '***************************************************'

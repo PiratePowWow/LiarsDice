@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.theironyard.utils.GameLogicTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2016-06-15T16:33:45" hostname="Jamess-MacBook-Air.local" time="6.251">
+  <properties/>
+  <testcase name="testDetermineLoser" classname="com.theironyard.utils.GameLogicTest" time="0.404"/>
+  <testcase name="testIsValidRaise" classname="com.theironyard.utils.GameLogicTest" time="0.056"/>
+  <testcase name="testMakeRoomCode" classname="com.theironyard.utils.GameLogicTest" time="5.707"/>
+  <testcase name="testResetGameState" classname="com.theironyard.utils.GameLogicTest" time="0.031"/>
+  <testcase name="testRollDice" classname="com.theironyard.utils.GameLogicTest" time="0.004"/>
+  <testcase name="testSetNextActivePlayer" classname="com.theironyard.utils.GameLogicTest" time="0.04"/>
+  <system-out><![CDATA[2016-06-15 11:33:45.385  INFO 23214 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.theironyard.utils.GameLogicTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2016-06-15 11:33:45.389  INFO 23214 --- [    Test worker] o.s.t.c.web.WebTestContextBootstrapper   : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2016-06-15 11:33:45.390  INFO 23214 --- [    Test worker] o.s.t.c.web.WebTestContextBootstrapper   : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@4eddbee1, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5e36949d, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4053e6c9, org.springframework.test.context.support.DirtiesContextTestExecutionListener@69522bef, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4adbaa92, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@20234d28]
+Setting Active Player
+Setting Active Player
+Setting Active Player
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

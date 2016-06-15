@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.theironyard.LiarsDiceApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-06-15T16:33:45" hostname="Jamess-MacBook-Air.local" time="0.005">
+  <properties/>
+  <testcase name="contextLoads" classname="com.theironyard.LiarsDiceApplicationTests" time="0.005"/>
+  <system-out><![CDATA[11:33:37.878 [Test worker] DEBUG o.s.t.c.j.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.theironyard.LiarsDiceApplicationTests]
+11:33:37.885 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+11:33:37.892 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+11:33:37.905 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.theironyard.LiarsDiceApplicationTests] from class [org.springframework.test.context.web.WebTestContextBootstrapper]
+11:33:37.929 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - Found explicit ContextLoader class [org.springframework.boot.test.SpringApplicationContextLoader] for context configuration attributes [ContextConfigurationAttributes@7b9a4cf1 declaringClass = 'com.theironyard.LiarsDiceApplicationTests', classes = '{class com.theironyard.LiarsDiceApplication}', locations = '{}', inheritLocations = true, initializers = '{}', inheritInitializers = true, name = [null], contextLoaderClass = 'org.springframework.boot.test.SpringApplicationContextLoader']
+11:33:37.939 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.theironyard.LiarsDiceApplicationTests]: class path resource [com/theironyard/LiarsDiceApplicationTests-context.xml] does not exist
+11:33:37.939 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.theironyard.LiarsDiceApplicationTests]: class path resource [com/theironyard/LiarsDiceApplicationTestsContext.groovy] does not exist
+11:33:37.940 [Test worker] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [com.theironyard.LiarsDiceApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+11:33:37.943 [Test worker] DEBUG o.s.t.c.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.948 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - @TestExecutionListeners is not present for class [com.theironyard.LiarsDiceApplicationTests]: using defaults.
+11:33:37.957 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+11:33:37.981 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@9eff7c6, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@7e7a4440, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4a902a78, org.springframework.test.context.support.DirtiesContextTestExecutionListener@644d8513, org.springframework.test.context.transaction.TransactionalTestExecutionListener@12ea1f9b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e1e11c2]
+11:33:37.986 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.987 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.989 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.989 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.994 [Test worker] DEBUG o.s.t.c.s.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@7bf56f09 testClass = LiarsDiceApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@21a8410c testClass = LiarsDiceApplicationTests, locations = '{}', classes = '{class com.theironyard.LiarsDiceApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.SpringApplicationContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].
+11:33:37.995 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.theironyard.LiarsDiceApplicationTests]
+11:33:37.995 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.theironyard.LiarsDiceApplicationTests]
+11:33:38.112 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+11:33:38.114 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+11:33:38.115 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+11:33:38.117 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [integrationTest] PropertySource with search precedence immediately lower than [systemEnvironment]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v1.3.3.RELEASE)
+
+2016-06-15 11:33:38.801  INFO 23214 --- [    Test worker] c.theironyard.LiarsDiceApplicationTests  : Starting LiarsDiceApplicationTests on Jamess-MacBook-Air.local with PID 23214 (/Users/PiratePowWow/IdeaProjects/LiarsDice/build/classes/test started by PiratePowWow in /Users/PiratePowWow/IdeaProjects/LiarsDice)
+2016-06-15 11:33:38.802  INFO 23214 --- [    Test worker] c.theironyard.LiarsDiceApplicationTests  : No active profile set, falling back to default profiles: default
+2016-06-15 11:33:38.927  INFO 23214 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5b4a8408: startup date [Wed Jun 15 11:33:38 CDT 2016]; root of context hierarchy
+2016-06-15 11:33:40.170  INFO 23214 --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'beanNameViewResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter.class]]
+2016-06-15 11:33:40.911  INFO 23214 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2a09c248] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2016-06-15 11:33:41.593  INFO 23214 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2016-06-15 11:33:41.633  INFO 23214 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2016-06-15 11:33:41.750  INFO 23214 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2016-06-15 11:33:41.752  INFO 23214 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2016-06-15 11:33:41.755  INFO 23214 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2016-06-15 11:33:42.046  INFO 23214 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2016-06-15 11:33:42.395  INFO 23214 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2016-06-15 11:33:42.813  INFO 23214 --- [    Test worker] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2016-06-15 11:33:43.226  INFO 23214 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2016-06-15 11:33:43.227  INFO 23214 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000102: Fetching database metadata
+2016-06-15 11:33:43.231  INFO 23214 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000396: Updating schema
+2016-06-15 11:33:43.241  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: gamestates
+2016-06-15 11:33:43.243  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: players
+2016-06-15 11:33:43.245  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: gamestates
+2016-06-15 11:33:43.246  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: players
+2016-06-15 11:33:43.248  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: gamestates
+2016-06-15 11:33:43.250  INFO 23214 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: players
+2016-06-15 11:33:43.272  INFO 23214 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000232: Schema update complete
+2016-06-15 11:33:43.526  INFO 23214 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService  'clientInboundChannelExecutor'
+2016-06-15 11:33:43.534  INFO 23214 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService  'clientOutboundChannelExecutor'
+2016-06-15 11:33:43.954  INFO 23214 --- [    Test worker] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'messageBrokerTaskScheduler'
+2016-06-15 11:33:44.017  INFO 23214 --- [    Test worker] o.s.w.s.s.s.WebSocketHandlerMapping      : Mapped URL path [/liarsDice/**] onto handler of type [class org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler]
+2016-06-15 11:33:44.033  INFO 23214 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService  'brokerChannelExecutor'
+2016-06-15 11:33:44.282  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/JoinGame/{roomCode}],messageType=[MESSAGE]}" onto public java.util.HashMap com.theironyard.controllers.LiarsDiceController.joinGame(java.lang.String,java.lang.String)
+2016-06-15 11:33:44.282  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/{myPlayerId}],messageType=[MESSAGE]}" onto public com.theironyard.dtos.PlayerDtoSansGameState com.theironyard.controllers.LiarsDiceController.myPlayer(java.lang.String)
+2016-06-15 11:33:44.282  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/rollDice/{roomCode}],messageType=[MESSAGE]}" onto public java.util.HashMap com.theironyard.controllers.LiarsDiceController.rollDice(java.lang.String,java.lang.String)
+2016-06-15 11:33:44.283  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/setStake/{roomCode}],messageType=[MESSAGE]}" onto public java.util.HashMap com.theironyard.controllers.LiarsDiceController.setStake(java.util.HashMap<java.lang.String, java.lang.Object>,java.lang.String) throws java.lang.InterruptedException
+2016-06-15 11:33:44.283  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/resetGame/{roomCode}],messageType=[MESSAGE]}" onto public java.util.HashMap com.theironyard.controllers.LiarsDiceController.resetGame(java.lang.String,java.lang.String)
+2016-06-15 11:33:44.283  INFO 23214 --- [    Test worker] .WebSocketAnnotationMethodMessageHandler : Mapped "{[/lobby/callBluff/{roomCode}],messageType=[MESSAGE]}" onto public com.theironyard.dtos.PlayerDto com.theironyard.controllers.LiarsDiceController.callBluff(java.lang.String,java.lang.String) throws java.lang.Exception
+2016-06-15 11:33:44.745  INFO 23214 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@5b4a8408: startup date [Wed Jun 15 11:33:38 CDT 2016]; root of context hierarchy
+2016-06-15 11:33:44.835  INFO 23214 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2016-06-15 11:33:44.837  INFO 23214 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2016-06-15 11:33:44.883  INFO 23214 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-06-15 11:33:44.884  INFO 23214 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-06-15 11:33:44.942  INFO 23214 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-06-15 11:33:45.340  INFO 23214 --- [    Test worker] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2016-06-15 11:33:45.341  INFO 23214 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2016-06-15 11:33:45.341  INFO 23214 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]]
+2016-06-15 11:33:45.343  INFO 23214 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2016-06-15 11:33:45.357  INFO 23214 --- [    Test worker] c.theironyard.LiarsDiceApplicationTests  : Started LiarsDiceApplicationTests in 7.213 seconds (JVM running for 8.513)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
