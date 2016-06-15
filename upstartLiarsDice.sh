@@ -9,7 +9,7 @@ sudo initctl stop musc-smoking
 echo '**** pulling changes ****'
 
 cd ~/build/musc-smoking-cessation-api
-git pull origin dev
+git pull origin master
 
 echo '**** echo creating zip archive ****'
 
